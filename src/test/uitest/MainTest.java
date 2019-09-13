@@ -1,0 +1,5 @@
+package uitest;
+
+class MainTest {
+
+}
