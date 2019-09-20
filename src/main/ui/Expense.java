@@ -2,11 +2,11 @@ package ui;
 
 import java.util.*;
 
-public class Income {
+public class Expense {
     private double amount;
     private String desc;
 
-    public Income(double amount, String desc) {
+    public Expense(double amount, String desc) {
         this.amount = amount;
         this.desc = desc;
     }
@@ -15,7 +15,7 @@ public class Income {
         this.desc = desc;
     }
 
-    public String get_income_detail() {
+    public String get_expense_detail() {
         return ("\n|| Description: " + desc + "            Amount: " + amount + " ||\n");
 
     }
