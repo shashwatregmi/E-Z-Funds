@@ -23,4 +23,21 @@ public class Transaction {
     public Transaction getTrans() {
         return this;
     }
+
+    public double getAmount() {
+        return this.amount;
+    }
+
+    public String getDesc() {
+        return this.desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
 }
+

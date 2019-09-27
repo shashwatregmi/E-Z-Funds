@@ -1,12 +1,14 @@
 package model;
 
 import java.util.Scanner;
+// setups the program and takes user input/displays data according to user input
 
 public class Program {
     private Scanner scan = new Scanner(System.in);
     private Income incomeList = new Income();
     private Expense expenseList = new Expense();
 
+    // EFFECTS: depending on user input calls function that enters new transaction, edits it or displays report
     private void newEntry() {
         System.out.println("Press I to enter income or E to enter expense or Q to quit.");
         String choice = scan.next();
@@ -21,6 +23,9 @@ public class Program {
         }
     }
 
+    // REQUIRES: there must be a trasaction of income/expense if it is to be deleted
+    // MODIFIES: the incomelist or expenselist
+    // EFFECTS: displays report and then allows user to delete transaction
     private void delEntry() {
         System.out.println("Would you like to delete a income(I) or a expense(E)?");
         String choice = scan.next();
@@ -41,6 +46,7 @@ public class Program {
         }
     }
 
+    // EFFECTS: displays the report of the transactions by calling respective functions
     private void report() {
         incomeList.incomeReport();
         expenseList.expenseReport();
@@ -48,6 +54,8 @@ public class Program {
         String choice = scan.next();
     }
 
+    // MODIFIES: incomelist
+    // EFFECTS: sets up expense and takes user input from user. Then setups new transaction and puts in incomelist
     private void income() {
         setup("Income");
         double amount = amtEntry();
@@ -57,6 +65,8 @@ public class Program {
         System.out.println(transaction.getTransDetail());
     }
 
+    // MODIFIES: expenselist
+    // EFFECTS: sets up expense and takes user input from user. Then setups new transaction and puts in expenselist
     private void expense() {
         setup("Expense");
         double amount = amtEntry();
@@ -66,20 +76,24 @@ public class Program {
         System.out.println(transaction.getTransDetail());
     }
 
+    // EFFECTS: setup title
     private void setup(String type) {
         System.out.print("\n--" + type + " Entry Mode--\n");
     }
 
+    // EFFECTS: takes in user input and returns value
     private double amtEntry() {
         System.out.println("Please enter the amount:");
         return scan.nextDouble();
     }
 
+    // EFFECTS: takes in user input and returns value
     private String descEntry() {
         System.out.println("Please enter a description for this transaction:");
         return scan.next();
     }
 
+    // EFFECTS: some introduction outputs for program
     private void intro() {
         System.out.println("\n-----------------------------------------------------------");
         System.out.println("Would you like to:");
@@ -89,6 +103,7 @@ public class Program {
         System.out.println("Quit [4]");
     }
 
+    // EFFECTS: starts the program. Mode is chosen depending on user input and we loop until user exits/app stopped
     public void run() {
         while (true) {
             intro();
