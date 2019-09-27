@@ -9,7 +9,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class Expensetest {
+public class ExpenseTest {
+
     private Expense expenseTest;
     private Transaction trans;
     private static final int COUNT = 5;
