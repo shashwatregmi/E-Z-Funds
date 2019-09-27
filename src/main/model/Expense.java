@@ -41,4 +41,17 @@ public class Expense {
         return expenseList.contains(trans);
     }
 
+    // EFFECTS: prints out detail of every element in
+    //          income list in a formatted manner.
+    public void expenseReport() {
+        System.out.println("-- EXPENSE --");
+        detail();
+    }
+
+    // EFFECTS: prints details of every element of income list
+    private void detail() {
+        for (int i = 0; i < this.getSize(); i++) {
+            System.out.println(this.getTrans(i).getTransDetail());
+        }
+    }
 }

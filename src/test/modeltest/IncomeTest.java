@@ -100,4 +100,5 @@ public class IncomeTest {
         assertTrue(incomeTest.contains(trans));
         assertTrue(incomeTest.contains(tranNew));
     }
+
 }

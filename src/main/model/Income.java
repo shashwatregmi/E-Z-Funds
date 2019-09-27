@@ -40,4 +40,19 @@ public class Income {
     public boolean contains(Transaction trans) {
         return incomeList.contains(trans);
     }
+
+    // EFFECTS: prints out detail of every element in
+    //          income list in a formatted manner.
+    public void incomeReport() {
+        System.out.println("-- INCOME --");
+        detail();
+    }
+
+    // EFFECTS: prints details of every element of income list
+    private void detail() {
+        for (int i = 0; i < this.getSize(); i++) {
+            System.out.println(this.getTrans(i).getTransDetail());
+        }
+    }
+
 }

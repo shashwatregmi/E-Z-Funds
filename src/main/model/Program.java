@@ -25,13 +25,13 @@ public class Program {
         System.out.println("Would you like to delete a income(I) or a expense(E)?");
         String choice = scan.next();
         if (choice.equals("I") || choice.equals("i")) {
-            incomeReport();
+            incomeList.incomeReport();
             System.out.println("What row would you like to delete?");
             int row = scan.nextInt();
             incomeList.remove(row - 1);
             System.out.println("Row " + row + " has been deleted.");
         } else if (choice.equals("E") || choice.equals("e")) {
-            expenseReport();
+            expenseList.expenseReport();
             System.out.println("What row would you like to delete?");
             int row = scan.nextInt();
             expenseList.remove(row - 1);
@@ -42,24 +42,10 @@ public class Program {
     }
 
     private void report() {
-        incomeReport();
-        expenseReport();
+        incomeList.incomeReport();
+        expenseList.expenseReport();
         System.out.println("\nPress any key to return to main menu.");
         String choice = scan.next();
-    }
-
-    private void incomeReport() {
-        System.out.println("-- INCOME --");
-        for (int i = 0; i < incomeList.getSize(); i++) {
-            System.out.println(incomeList.getTrans(i).getTransDetail());
-        }
-    }
-
-    private void expenseReport() {
-        System.out.println("-- EXPENSE --\n");
-        for (int i = 0; i < expenseList.getSize(); i++) {
-            System.out.println(expenseList.getTrans(i).getTransDetail());
-        }
     }
 
     private void income() {
