@@ -1,0 +1,43 @@
+package model;
+
+import java.util.ArrayList;
+
+// Represents a array list of incomes
+
+public class Income {
+    private ArrayList<Transaction> incomeList;
+
+    //EFFECTS: income list is empty
+    public Income() {
+        incomeList = new ArrayList<>();
+    }
+
+    //MODIFIES: this
+    //EFFECTS: Transaction trans is added to the income list
+    public void insert(Transaction trans) {
+        incomeList.add(trans);
+    }
+
+    //MODIFIES: this
+    //EFFECTS: Element i is removed from  the income list
+    public void remove(Integer i) {
+        incomeList.remove(this.getTrans(i));
+    }
+
+    // EFFECTS: returns size of income list
+    public int getSize() {
+        return incomeList.size();
+    }
+
+    // REQUIRES: the int i must be a valid index of the array
+    // EFFECTS: returns the transaction at index i
+    public Transaction getTrans(int i) {
+        return incomeList.get(i);
+    }
+
+    // EFFECTS: Returns true if Transaction trans is in the Income list
+    // and false otherwise
+    public boolean contains(Transaction trans) {
+        return incomeList.contains(trans);
+    }
+}
