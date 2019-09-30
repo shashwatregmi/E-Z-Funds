@@ -1,4 +1,8 @@
-package model;
+package ui;
+
+import model.Expense;
+import model.Income;
+import model.Transaction;
 
 import java.util.Scanner;
 // setups the program and takes user input/displays data according to user input
@@ -33,13 +37,13 @@ public class Program {
             incomeList.incomeReport();
             System.out.println("What row would you like to delete?");
             int row = scan.nextInt();
-            incomeList.remove(row - 1);
+            incomeList.delete(row - 1);
             System.out.println("Row " + row + " has been deleted.");
         } else if (choice.equals("E") || choice.equals("e")) {
             expenseList.expenseReport();
             System.out.println("What row would you like to delete?");
             int row = scan.nextInt();
-            expenseList.remove(row - 1);
+            expenseList.delete(row - 1);
             System.out.println("Row " + row + " has been deleted.");
         } else {
             System.out.println("That was not a valid input.");

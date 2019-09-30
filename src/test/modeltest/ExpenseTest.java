@@ -47,8 +47,8 @@ public class ExpenseTest {
             expenseTest.insert(trans);
         }
 
-        expenseTest.remove(COUNT - 1);
-        expenseTest.remove(COUNT - 2);
+        expenseTest.delete(COUNT - 1);
+        expenseTest.delete(COUNT - 2);
 
         assertTrue(expenseTest.contains(trans));
         assertEquals(COUNT - 2, expenseTest.getSize());
@@ -62,7 +62,7 @@ public class ExpenseTest {
 
         int j = COUNT - 1;
         for (int i = j; i >= 0 ; i--) {
-            expenseTest.remove(i);
+            expenseTest.delete(i);
         }
 
         assertFalse(expenseTest.contains(trans));

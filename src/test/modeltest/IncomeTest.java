@@ -46,8 +46,8 @@ public class IncomeTest {
             incomeTest.insert(trans);
         }
 
-        incomeTest.remove(COUNT - 1);
-        incomeTest.remove(COUNT - 2);
+        incomeTest.delete(COUNT - 1);
+        incomeTest.delete(COUNT - 2);
 
         assertTrue(incomeTest.contains(trans));
         assertEquals(COUNT - 2, incomeTest.getSize());
@@ -61,7 +61,7 @@ public class IncomeTest {
 
         int j = COUNT - 1;
         for (int i = j; i >= 0 ; i--) {
-            incomeTest.remove(i);
+            incomeTest.delete(i);
         }
 
         assertFalse(incomeTest.contains(trans));
@@ -101,4 +101,7 @@ public class IncomeTest {
         assertTrue(incomeTest.contains(tranNew));
     }
 
+    @Test
+    public void testIncomeDetail(){
+    }
 }

@@ -19,8 +19,8 @@ public class Expense {
     }
 
     //MODIFIES: this
-    //EFFECTS: Element i is removed from  the income list
-    public void remove(Integer i) {
+    //EFFECTS: Element i is deleted from  the income list
+    public void delete(Integer i) {
         expenseList.remove(this.getTrans(i));
     }
 
@@ -45,11 +45,6 @@ public class Expense {
     //          income list in a formatted manner.
     public void expenseReport() {
         System.out.println("-- EXPENSE --");
-        detail();
-    }
-
-    // EFFECTS: prints details of every element of income list
-    private void detail() {
         for (int i = 0; i < this.getSize(); i++) {
             System.out.println(this.getTrans(i).getTransDetail());
         }
