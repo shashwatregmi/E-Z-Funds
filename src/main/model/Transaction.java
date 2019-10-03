@@ -24,18 +24,24 @@ public class Transaction {
         return this;
     }
 
+    //EFFECTS: returns field amount
     public double getAmount() {
         return this.amount;
     }
 
+    //EFFECTS: return field description
     public String getDesc() {
         return this.desc;
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets field to passed in variable
     public void setDesc(String desc) {
         this.desc = desc;
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets field to passed in variable
     public void setAmount(double amount) {
         this.amount = amount;
     }

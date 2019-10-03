@@ -19,7 +19,7 @@ public class TransactionTest {
 
     @Test
     public void testGetTransDetail() {
-        assertEquals(("\n|| Description: " + DESC + "            Amount: " + AMOUNT + " ||\n"),
+        assertEquals(("\n|| Description: " + DESC + "            Amount: " + AMOUNT + " ||"),
                 transaction.getTransDetail());
     }
     @Test

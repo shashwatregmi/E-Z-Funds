@@ -1,14 +1,23 @@
 package model;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 // Represents a array list of expenses
 
-public class Expense implements Category {
+public class Expense implements Savable, Loadable {
+    private List<String> expenseRead = Files.readAllLines(Paths.get("./data/Expense.txt"));
     private ArrayList<Transaction> expenseList;
 
     //EFFECTS: expense list is empty
-    public Expense() {
+    public Expense() throws IOException {
         expenseList = new ArrayList<>();
     }
 
@@ -41,12 +50,32 @@ public class Expense implements Category {
         return expenseList.contains(trans);
     }
 
-    // EFFECTS: prints out detail of every element in
-    //          income list in a formatted manner.
-    public void report() {
-        System.out.println("-- EXPENSE --");
+    // MODIFIES: expenseWriter
+    // EFFECTS: writes contents in this to expenseWriter which writes it to appropriate file
+    public void saveData() throws FileNotFoundException, UnsupportedEncodingException {
+        PrintWriter expenseWriter = new PrintWriter("./data/Expense.txt","UTF-8");
         for (int i = 0; i < this.getSize(); i++) {
-            System.out.println(this.getTrans(i).getTransDetail());
+            expenseWriter.println(this.getTrans(i).getDesc() + "~~" + this.getTrans(i).getAmount());
         }
+        expenseWriter.close();
+    }
+
+    // REQUIRES: that the file being read has description and amount seperated with ~~.
+    // MODIFIES: this and expense Read
+    // EFFECTS: loads all lines from array passed in into this for user usage.
+    public void loadData() {
+        for (String line : expenseRead) {
+            ArrayList<String> partsOfLine = splitOnChar(line);
+            String desc = partsOfLine.get(0);
+            double amount = Double.parseDouble(partsOfLine.get(1));
+            Transaction loadTransaction = new Transaction(amount, desc);
+            this.insert(loadTransaction);
+        }
+    }
+
+    // EFFECTS: returns the array list which has been split on ~~.
+    private static ArrayList<String> splitOnChar(String line) {
+        String[] splits = line.split("~~");
+        return new ArrayList<>(Arrays.asList(splits));
     }
 }

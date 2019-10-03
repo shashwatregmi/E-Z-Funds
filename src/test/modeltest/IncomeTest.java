@@ -1,9 +1,13 @@
 package modeltest;
 
 import model.Income;
+import model.Loadable;
 import model.Transaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -16,7 +20,7 @@ public class IncomeTest {
 
 
     @BeforeEach
-    public void runBefore() {
+    public void runBefore() throws IOException {
         incomeTest = new Income();
         trans = new Transaction(123, "Test");
     }
@@ -102,6 +106,31 @@ public class IncomeTest {
     }
 
     @Test
-    public void testIncomeDetail(){
+    public void testLoadData() throws IOException {
+        Income incomeLoad = new Income();
+        load(incomeLoad);
+        assertEquals(incomeLoad.getTrans(0).getAmount(), 100);
+        assertEquals(incomeLoad.getTrans(0).getDesc(), "Test1");
+        assertEquals(incomeLoad.getTrans(1).getAmount(), 200);
+        assertEquals(incomeLoad.getTrans(1).getDesc(), "Test2");
     }
+
+    @Test
+    public void testSaveData() throws IOException {
+        Income incomeSave = new Income();
+        Transaction tran = new Transaction(123, "Test1");
+        Transaction tranNew = new Transaction(456, "Test2");
+        incomeSave.insert(tran);
+        incomeSave.insert(tranNew);
+        load(incomeSave);
+        assertEquals(incomeSave.getTrans(0).getAmount(), 123);
+        assertEquals(incomeSave.getTrans(0).getDesc(), "Test1");
+        assertEquals(incomeSave.getTrans(1).getAmount(), 456);
+        assertEquals(incomeSave.getTrans(1).getDesc(), "Test2");
+    }
+
+    public void load(Loadable income){
+        income.loadData();
+    }
+
 }
