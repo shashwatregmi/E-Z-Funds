@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 // Represents a array list of expenses
 
-public class Expense {
+public class Expense implements Category {
     private ArrayList<Transaction> expenseList;
 
     //EFFECTS: expense list is empty
@@ -20,7 +20,7 @@ public class Expense {
 
     //MODIFIES: this
     //EFFECTS: Element i is deleted from  the income list
-    public void delete(Integer i) {
+    public void delete(int i) {
         expenseList.remove(this.getTrans(i));
     }
 
@@ -43,7 +43,7 @@ public class Expense {
 
     // EFFECTS: prints out detail of every element in
     //          income list in a formatted manner.
-    public void expenseReport() {
+    public void report() {
         System.out.println("-- EXPENSE --");
         for (int i = 0; i < this.getSize(); i++) {
             System.out.println(this.getTrans(i).getTransDetail());

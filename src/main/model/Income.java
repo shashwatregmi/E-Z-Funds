@@ -1,10 +1,11 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 // Represents a array list of incomes
 
-public class Income {
+public class Income implements Category {
     private ArrayList<Transaction> incomeList;
 
     //EFFECTS: income list is empty
@@ -20,7 +21,7 @@ public class Income {
 
     //MODIFIES: this
     //EFFECTS: Element i is deleted from  the income list
-    public void delete(Integer i) {
+    public void delete(int i) {
         incomeList.remove(this.getTrans(i));
     }
 
@@ -43,7 +44,7 @@ public class Income {
 
     // EFFECTS: prints out detail of every element in
     //          income list in a formatted manner.
-    public void incomeReport() {
+    public void report() {
         System.out.println("-- INCOME --");
         for (int i = 0; i < this.getSize(); i++) {
             System.out.println(this.getTrans(i).getTransDetail());

@@ -16,7 +16,7 @@ public class Transaction {
 
     //EFFECTS: returns formatted string for this
     public String getTransDetail() {
-        return ("\n|| Description: " + desc + "            Amount: " + amount + " ||\n");
+        return ("\n|| Description: " + desc + "            Amount: " + amount + " ||");
     }
 
     //EFFECTS: returns this
