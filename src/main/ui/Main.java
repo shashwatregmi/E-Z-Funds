@@ -5,7 +5,7 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        Program program = new Program();
+        Version program = new Program();
         program.loadData();
         program.run();
     }

@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 import java.util.*;
 // setups the program and takes user input/displays data according to user input
 
-public class Program {
+public class Program implements Version {
     private Scanner scan = new Scanner(System.in).useDelimiter("\\n");
     private Income incomeList = new Income();
     private Expense expenseList = new Expense();
@@ -152,7 +152,7 @@ public class Program {
     }
 
     // EFFECTS: starts the program. Mode is chosen depending on user input and we loop until user exits/app stopped
-    void run() throws FileNotFoundException, UnsupportedEncodingException {
+    public void run() throws FileNotFoundException, UnsupportedEncodingException {
         while (true) {
             intro();
             if (mode == 1) {
