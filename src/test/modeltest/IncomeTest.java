@@ -118,15 +118,16 @@ public class IncomeTest {
     @Test
     public void testSaveData() throws IOException {
         Income incomeSave = new Income();
-        Transaction tran = new Transaction(123, "Test1");
-        Transaction tranNew = new Transaction(456, "Test2");
+        Transaction tran = new Transaction(456, "Test2");
+        Transaction tranNew = new Transaction(123, "Test1");
         incomeSave.insert(tran);
         incomeSave.insert(tranNew);
+        incomeSave.saveData();
         load(incomeSave);
-        assertEquals(incomeSave.getTrans(0).getAmount(), 123);
-        assertEquals(incomeSave.getTrans(0).getDesc(), "Test1");
-        assertEquals(incomeSave.getTrans(1).getAmount(), 456);
-        assertEquals(incomeSave.getTrans(1).getDesc(), "Test2");
+        assertEquals(incomeSave.getTrans(0).getAmount(), 456);
+        assertEquals(incomeSave.getTrans(0).getDesc(), "Test2");
+        assertEquals(incomeSave.getTrans(1).getAmount(), 123);
+        assertEquals(incomeSave.getTrans(1).getDesc(), "Test1");
     }
 
     public void load(Loadable income){

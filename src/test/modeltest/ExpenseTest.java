@@ -119,15 +119,16 @@ public class ExpenseTest {
     @Test
     public void testSaveData() throws IOException {
         Expense expenseSave = new Expense();
-        Transaction tran = new Transaction(123, "Test1");
-        Transaction tranNew = new Transaction(456, "Test2");
+        Transaction tran = new Transaction(456, "Test2");
+        Transaction tranNew = new Transaction(123, "Test1");
         expenseSave.insert(tran);
         expenseSave.insert(tranNew);
+        expenseSave.saveData();
         load(expenseSave);
-        assertEquals(expenseSave.getTrans(0).getAmount(), 123);
-        assertEquals(expenseSave.getTrans(0).getDesc(), "Test1");
-        assertEquals(expenseSave.getTrans(1).getAmount(), 456);
-        assertEquals(expenseSave.getTrans(1).getDesc(), "Test2");
+        assertEquals(expenseSave.getTrans(0).getAmount(), 456);
+        assertEquals(expenseSave.getTrans(0).getDesc(), "Test2");
+        assertEquals(expenseSave.getTrans(1).getAmount(), 123);
+        assertEquals(expenseSave.getTrans(1).getDesc(), "Test1");
     }
 
     public void load(Loadable expense){
