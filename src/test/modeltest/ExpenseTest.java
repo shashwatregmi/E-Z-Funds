@@ -124,11 +124,17 @@ public class ExpenseTest {
         expenseSave.insert(tran);
         expenseSave.insert(tranNew);
         expenseSave.saveData();
+        Expense expenseLoad = new Expense();
+        load(expenseLoad);
         load(expenseSave);
         assertEquals(expenseSave.getTrans(0).getAmount(), 456);
         assertEquals(expenseSave.getTrans(0).getDesc(), "Test2");
         assertEquals(expenseSave.getTrans(1).getAmount(), 123);
         assertEquals(expenseSave.getTrans(1).getDesc(), "Test1");
+        assertEquals(expenseLoad.getTrans(0).getAmount(), 456);
+        assertEquals(expenseLoad.getTrans(0).getDesc(), "Test2");
+        assertEquals(expenseLoad.getTrans(1).getAmount(), 123);
+        assertEquals(expenseLoad.getTrans(1).getDesc(), "Test1");
     }
 
     public void load(Loadable expense){
