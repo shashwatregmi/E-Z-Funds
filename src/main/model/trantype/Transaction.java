@@ -1,10 +1,10 @@
-package model;
+package model.trantype;
 
-import java.util.*;
-
-public class Transaction {
-    private double amount;
-    private String desc;
+public abstract class Transaction {
+    protected double amount;
+    protected String desc;
+    protected int term;
+    protected double interestRate;
 
     // REQUIRES: amount must be > 0
     // MODIFIES: this

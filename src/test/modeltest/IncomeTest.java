@@ -2,7 +2,8 @@ package modeltest;
 
 import model.Income;
 import model.Loadable;
-import model.Transaction;
+import model.trantype.DayToDayTran;
+import model.trantype.Transaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +23,7 @@ public class IncomeTest {
     @BeforeEach
     public void runBefore() throws IOException {
         incomeTest = new Income();
-        trans = new Transaction(123, "Test");
+        trans = new DayToDayTran(123, "Test");
     }
 
     @Test
@@ -82,7 +83,7 @@ public class IncomeTest {
 
     @Test
     public void testGetTrans() {
-        incomeTest.insert(new Transaction(123.22,"new"));
+        incomeTest.insert(new DayToDayTran(123.22,"new"));
         incomeTest.insert(trans);
         assertEquals(trans, incomeTest.getTrans(1));
     }
@@ -97,7 +98,7 @@ public class IncomeTest {
     @Test
     public void testContainsLots(){
         assertFalse(incomeTest.contains(trans));
-        Transaction tranNew = new Transaction(333, "TT");
+        Transaction tranNew = new DayToDayTran(333, "TT");
         assertFalse(incomeTest.contains(tranNew));
         incomeTest.insert(trans);
         incomeTest.insert(tranNew);
@@ -118,8 +119,8 @@ public class IncomeTest {
     @Test
     public void testSaveData() throws IOException {
         Income incomeSave = new Income();
-        Transaction tran = new Transaction(456, "Test2");
-        Transaction tranNew = new Transaction(123, "Test1");
+        Transaction tran = new DayToDayTran(456, "Test2");
+        Transaction tranNew = new DayToDayTran(123, "Test1");
         incomeSave.insert(tran);
         incomeSave.insert(tranNew);
         incomeSave.saveData();

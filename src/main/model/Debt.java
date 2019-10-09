@@ -1,7 +1,6 @@
 package model;
 
-import model.trantype.DayToDayTran;
-import model.trantype.Transaction;
+import model.trantype.LongTermTran;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,34 +11,38 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-// Represents a array list of expenses
+public class Debt extends LongTermList {
+    private List<String> reader = Files.readAllLines(Paths.get("./data/Debt.txt"));
 
-public class Expense extends TranList implements Savable, Loadable {
-    private List<String> expenseRead = Files.readAllLines(Paths.get("./data/Expense.txt"));
 
-    public Expense() throws IOException {
+    public Debt() throws IOException {
         super();
     }
 
+    //@Override
     // MODIFIES: expenseWriter
     // EFFECTS: writes contents in this to expenseWriter which writes it to appropriate file
     public void saveData() throws FileNotFoundException, UnsupportedEncodingException {
-        PrintWriter expenseWriter = new PrintWriter("./data/Expense.txt","UTF-8");
+        PrintWriter writer = new PrintWriter("./data/Debt.txt","UTF-8");
         for (int i = 0; i < this.getSize(); i++) {
-            expenseWriter.println(this.getTrans(i).getDesc() + "~~" + this.getTrans(i).getAmount());
+            writer.println(this.getTrans(i).getDesc() + "~~~" + this.getTrans(i).getAmount()
+                    + "~~~" + this.getTrans(i).getTerm() + "~~~" + this.getTrans(i).getInterestRate());
         }
-        expenseWriter.close();
+        writer.close();
     }
 
+    //@Override
     // REQUIRES: that the file being read has description and amount seperated with ~~.
     // MODIFIES: this and expense Read
     // EFFECTS: loads all lines from array passed in into this for user usage.
     public void loadData() {
-        for (String line : expenseRead) {
+        for (String line : reader) {
             ArrayList<String> partsOfLine = splitOnChar(line);
             String desc = partsOfLine.get(0);
             double amount = Double.parseDouble(partsOfLine.get(1));
-            Transaction loadTransaction = new DayToDayTran(amount, desc);
+            int term = Integer.parseInt(partsOfLine.get(2));
+            double rate = Double.parseDouble(partsOfLine.get(3));
+            LongTermTran loadTransaction = new LongTermTran(amount, desc, term, rate);
             this.insert(loadTransaction);
         }
     }

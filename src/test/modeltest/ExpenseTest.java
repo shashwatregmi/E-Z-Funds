@@ -1,9 +1,9 @@
 package modeltest;
 
 import model.Expense;
-import model.Income;
 import model.Loadable;
-import model.Transaction;
+import model.trantype.DayToDayTran;
+import model.trantype.Transaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +23,7 @@ public class ExpenseTest {
     @BeforeEach
     public void runBefore() throws IOException {
         expenseTest = new Expense();
-        trans = new Transaction(123, "Test");
+        trans = new DayToDayTran(123, "Test");
     }
 
     @Test
@@ -83,7 +83,7 @@ public class ExpenseTest {
 
     @Test
     public void testGetTrans() {
-        expenseTest.insert(new Transaction(123.22,"new"));
+        expenseTest.insert(new DayToDayTran(123.22,"new"));
         expenseTest.insert(trans);
         assertEquals(trans, expenseTest.getTrans(1));
     }
@@ -98,7 +98,7 @@ public class ExpenseTest {
     @Test
     public void testContainsLots(){
         assertFalse(expenseTest.contains(trans));
-        Transaction tranNew = new Transaction(333, "TT");
+        Transaction tranNew = new DayToDayTran(333, "TT");
         assertFalse(expenseTest.contains(tranNew));
         expenseTest.insert(trans);
         expenseTest.insert(tranNew);
@@ -119,8 +119,8 @@ public class ExpenseTest {
     @Test
     public void testSaveData() throws IOException {
         Expense expenseSave = new Expense();
-        Transaction tran = new Transaction(456, "Test2");
-        Transaction tranNew = new Transaction(123, "Test1");
+        Transaction tran = new DayToDayTran(456, "Test2");
+        Transaction tranNew = new DayToDayTran(123, "Test1");
         expenseSave.insert(tran);
         expenseSave.insert(tranNew);
         expenseSave.saveData();
