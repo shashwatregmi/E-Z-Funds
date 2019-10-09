@@ -9,4 +9,8 @@ public class DayToDayTran extends Transaction {
         super(amount, desc);
     }
 
+    public String getTransDetail() {
+        return ("\n|| Description: " + desc + "            Amount: " + amount + " ||");
+    }
+
 }

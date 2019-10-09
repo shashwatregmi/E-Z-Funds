@@ -14,10 +14,7 @@ public abstract class Transaction {
         this.desc = desc;
     }
 
-    //EFFECTS: returns formatted string for this
-    public String getTransDetail() {
-        return ("\n|| Description: " + desc + "            Amount: " + amount + " ||");
-    }
+    public abstract String getTransDetail();
 
     //EFFECTS: returns this
     public Transaction getTrans() {

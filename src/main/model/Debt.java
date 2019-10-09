@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Debt extends LongTermList {
+public class Debt extends LongTermList implements Savable, Loadable {
     private List<String> reader = Files.readAllLines(Paths.get("./data/Debt.txt"));
 
 
