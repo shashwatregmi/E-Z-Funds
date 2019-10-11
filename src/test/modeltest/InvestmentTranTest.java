@@ -1,12 +1,16 @@
 package modeltest;
 
+import model.Debt;
+import model.Investment;
 import model.trantype.LongTermTran;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class InvestementTranTest {
+public class InvestmentTranTest {
     private LongTermTran longTermTran;
     private static final double AMOUNT = 400.23;
     private static final String DESC = "Test";
@@ -15,7 +19,7 @@ public class InvestementTranTest {
 
 
     @BeforeEach
-    public void runBefore() {
+    public void runBefore() throws IOException {
         longTermTran = new LongTermTran(AMOUNT, DESC, TERM, INTRATE);
     }
 
@@ -24,6 +28,16 @@ public class InvestementTranTest {
         assertEquals(("\n|| Description: " + DESC + "            Amount: " + AMOUNT
                         + "  Interest Rate:" + INTRATE + "  Term:" + TERM + " ||"),
                 longTermTran.getTransDetail());
+    }
+
+    @Test
+    public  void testGetAmount(){
+        assertEquals(longTermTran.getAmount(1), AMOUNT * (INTRATE/100 + 1));
+    }
+
+    @Test
+    public void testGetNegAmount() {
+        assertEquals(longTermTran.getAmount("s"), (AMOUNT * (INTRATE/100 + 1))*-1);
     }
 
     @Test

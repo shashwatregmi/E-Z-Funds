@@ -14,7 +14,7 @@ import java.util.List;
 
 // Represents a array list of incomes
 
-public class Income extends TranList implements Loadable, Savable {
+public class Income extends TranList {
     private List<String> incomeRead = Files.readAllLines(Paths.get("./data/Income.txt"));
 
     public Income() throws IOException {

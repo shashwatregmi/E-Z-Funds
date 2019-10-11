@@ -14,8 +14,6 @@ public abstract class Transaction {
         this.desc = desc;
     }
 
-    public abstract String getTransDetail();
-
     //EFFECTS: returns this
     public Transaction getTrans() {
         return this;
@@ -24,6 +22,11 @@ public abstract class Transaction {
     //EFFECTS: returns field amount
     public double getAmount() {
         return this.amount;
+    }
+
+    // EFFECTS: returns all fields  of this
+    public String getTransDetail() {
+        return (this.getDesc() + this.getAmount());
     }
 
     //EFFECTS: return field description

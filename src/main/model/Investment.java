@@ -16,15 +16,14 @@ import java.util.List;
 
 // Represents a array list of expenses
 
-public class Investment extends LongTermList implements Savable, Loadable {
+public class Investment extends LongTermList {
     private List<String> reader = Files.readAllLines(Paths.get("./data/Invest.txt"));
 
     public Investment() throws IOException {
         super();
     }
 
-    // MODIFIES: expenseWriter
-    // EFFECTS: writes contents in this to expenseWriter which writes it to appropriate file
+    // EFFECTS: writes contents in this to writer which writes it to appropriate file
     public void saveData() throws FileNotFoundException, UnsupportedEncodingException {
         PrintWriter writer = new PrintWriter("./data/Invest.txt","UTF-8");
         for (int i = 0; i < this.getSize(); i++) {
@@ -34,8 +33,8 @@ public class Investment extends LongTermList implements Savable, Loadable {
         writer.close();
     }
 
-    // REQUIRES: that the file being read has description and amount seperated with ~~.
-    // MODIFIES: this and expense Read
+    // REQUIRES: that the file being read has description and amount seperated with ~~~.
+    // MODIFIES: this and reader
     // EFFECTS: loads all lines from array passed in into this for user usage.
     public void loadData() {
         for (String line : reader) {
@@ -49,10 +48,4 @@ public class Investment extends LongTermList implements Savable, Loadable {
         }
     }
 
-    @Override
-    // EFFECTS: returns the array list which has been split on ~~.
-    public ArrayList<String> splitOnChar(String line) {
-        String[] splits = line.split("~~~");
-        return new ArrayList<>(Arrays.asList(splits));
-    }
 }

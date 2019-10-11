@@ -7,6 +7,8 @@ public interface Version {
 
     public void loadData();
 
+    public void saveData() throws FileNotFoundException, UnsupportedEncodingException;
+
     public void run() throws FileNotFoundException, UnsupportedEncodingException;
 
 }

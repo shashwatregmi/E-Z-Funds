@@ -14,7 +14,7 @@ import java.util.List;
 
 // Represents a array list of expenses
 
-public class Expense extends TranList implements Savable, Loadable {
+public class Expense extends TranList {
     private List<String> expenseRead = Files.readAllLines(Paths.get("./data/Expense.txt"));
 
     public Expense() throws IOException {

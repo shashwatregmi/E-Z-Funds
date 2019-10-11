@@ -9,6 +9,8 @@ public class DayToDayTran extends Transaction {
         super(amount, desc);
     }
 
+    @Override
+    //EFFECTS: returns formatted string for this
     public String getTransDetail() {
         return ("\n|| Description: " + desc + "            Amount: " + amount + " ||");
     }

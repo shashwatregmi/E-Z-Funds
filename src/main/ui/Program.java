@@ -9,17 +9,15 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
-// setups the program and takes user input/displays data according to user input
 
+// setups the program and takes user input/displays data according to user input
 public class Program implements Version {
     private Scanner scan = new Scanner(System.in).useDelimiter("\\n");
-    private Income incomeList = new Income();
-    private Expense expenseList = new Expense();
-    private Investment investmentList = new Investment();
-    private Debt debtList = new Debt();
-    int systemChoice = 0;
-
-
+    private TranList incomeList = new Income();
+    private TranList expenseList = new Expense();
+    private LongTermList investmentList = new Investment();
+    private LongTermList debtList = new Debt();
+    private int systemChoice = 0;
     private int mode;
 
     // EFFECTS: constructs program object and prints welcome message
@@ -27,7 +25,7 @@ public class Program implements Version {
         System.out.println("|| Personal Finance Manager ||");
     }
 
-    // EFFECTS: depending on user input calls function that enters new transaction, edits it or displays report
+    // EFFECTS: depending on user input calls function that enters new DaytoDay Transaction, edits it or displays report
     private void newEntry() throws FileNotFoundException {
         System.out.println("Press I to enter income or E to enter expense or Q to quit.");
         String choice = scan.next();
@@ -42,7 +40,7 @@ public class Program implements Version {
         }
     }
 
-    // EFFECTS: depending on user input calls function that enters new transaction, edits it or displays report
+    // EFFECTS:depending on user input calls function that enters new Long term transaction, edits it or displays report
     private void ltNewEntry() throws FileNotFoundException {
         System.out.println("Press I to enter Investments or D to enter Debts or Q to quit.");
         String choice = scan.next();
@@ -80,9 +78,9 @@ public class Program implements Version {
         }
     }
 
-    // REQUIRES: there must be a trasaction of income/expense if it is to be deleted
-    // MODIFIES: the incomelist or expenselist
-    // EFFECTS: displays report and then allows user to delete transaction
+    // REQUIRES: there must be a trasaction of investment/debt if it is to be deleted
+    // MODIFIES: the investmentList or debtList
+    // EFFECTS: displays report and then allows user to delete transactions
     private void ltDelEntry() {
         System.out.println("Would you like to delete a investment(I) or a debt(D)?");
         String choice = scan.next();
@@ -103,7 +101,7 @@ public class Program implements Version {
         }
     }
 
-    // EFFECTS: displays the report of the transactions by calling respective functions
+    // EFFECTS: displays the report of the DaytoDay transactions by calling respective functions
     private void dayReport() {
         incomeReport();
         expenseReport();
@@ -111,7 +109,7 @@ public class Program implements Version {
         String choice = scan.next();
     }
 
-    // EFFECTS: displays the report of the transactions by calling respective functions
+    // EFFECTS: displays the report of the LongTerm transactions by calling respective functions
     private void ltReport() {
         investReport();
         debtReport();
@@ -135,7 +133,7 @@ public class Program implements Version {
         }
     }
 
-    //EFFECTS: prints all transactions in expenselist in a reportable fashion
+    //EFFECTS: prints all transactions in investmentlist in a reportable fashion
     private void investReport() {
         System.out.println("\n-- INVESTMENT --");
         for (int i = 0; i < investmentList.getSize(); i++) {
@@ -143,7 +141,7 @@ public class Program implements Version {
         }
     }
 
-    //EFFECTS: prints all transactions in expenselist in a reportable fashion
+    //EFFECTS: prints all transactions in debtlist in a reportable fashion
     private void debtReport() {
         System.out.println("\n-- DEBT --");
         for (int i = 0; i < debtList.getSize(); i++) {
@@ -152,7 +150,7 @@ public class Program implements Version {
     }
 
     // MODIFIES: incomelist
-    // EFFECTS: sets up expense and takes user input from user. Then setups new transaction and puts in incomelist
+    // EFFECTS: sets up income and takes user input from user. Then setups new transaction and puts in incomelist
     private void income() {
         setup("Income");
         double amount = amtEntry();
@@ -162,8 +160,8 @@ public class Program implements Version {
         System.out.println(transaction.getTransDetail());
     }
 
-    // MODIFIES: incomelist
-    // EFFECTS: sets up expense and takes user input from user. Then setups new transaction and puts in incomelist
+    // MODIFIES:investmentlist
+    // EFFECTS:sets up investment and takes user input from user. Then setups new transaction and puts in investmentlist
     private void invest() {
         setup("Investments");
         double amount = amtEntry();
@@ -186,8 +184,8 @@ public class Program implements Version {
         System.out.println(transaction.getTransDetail());
     }
 
-    // MODIFIES: incomelist
-    // EFFECTS: sets up expense and takes user input from user. Then setups new transaction and puts in incomelist
+    // MODIFIES: debtList
+    // EFFECTS: sets up debt and takes user input from user. Then setups new transaction and puts in debtlist
     private void debt() {
         setup("Debt");
         double amount = amtEntry();
@@ -240,10 +238,10 @@ public class Program implements Version {
     }
 
 
-    // REQUIRES: that the file being read has description and amount seperated with ~~.
-    // MODIFIES: incomeList, expenseList, incomeRead and expenseRead
-    // EFFECTS: loads all lines from input file "Income.txt" and "Expense.txt" into our incomeList
-    //          and expenseList array for user usage.
+    // REQUIRES: that the file being read has data values seperated with proper characters.
+    // MODIFIES: incomeList, expenseList, incomeRead, expenseRead, investmentList, investmentRead, debtList, debtRead
+    // EFFECTS: loads all lines from input file "Income.txt", "Expense.txt", "Investment.txt", "Debt.txt" into our
+    // incomeList, expenseList, investmentList and debtList arrays for user usage.
     public void loadData() {
         incomeList.loadData();
         expenseList.loadData();
@@ -252,8 +250,8 @@ public class Program implements Version {
 
     }
 
-    // EFFECTS: loads data from incomeList and expenseList array into our incomeWriter and expeseWriter writers which
-    //          write to file
+    // EFFECTS: loads data from incomeList, expenseList, investmentList and debtList
+    // array into our incomeWriter, expeseWriter, investmentWriter and debtWriter writers which  write to proper file
     public void saveData() throws FileNotFoundException, UnsupportedEncodingException {
         incomeList.saveData();
         expenseList.saveData();
@@ -261,7 +259,9 @@ public class Program implements Version {
         debtList.saveData();
     }
 
-    // EFFECTS: starts the program. Mode is chosen depending on user input and we loop until user exits/app stopped
+    // MODIFIES: systemChoice
+    // EFFECTS: starts the program. SystemChoice is chosen depending on user input and we loop until
+    // user exits/app stopped
     public void run() throws FileNotFoundException, UnsupportedEncodingException {
         while (true) {
             modeSelection();
@@ -276,6 +276,7 @@ public class Program implements Version {
         }
     }
 
+    // EFFECTS: enters daytoday mode. Users allowed to work with DaytoDay Transactions
     public void dayToDay() throws FileNotFoundException, UnsupportedEncodingException {
         if (mode == 1) {
             newEntry();
@@ -290,6 +291,7 @@ public class Program implements Version {
         }
     }
 
+    // EFFECTS: enters longTerm mode. Users allowed to work with LongTerm Transactions
     public void longTerm() throws FileNotFoundException, UnsupportedEncodingException {
         if (mode == 1) {
             ltNewEntry();
@@ -304,6 +306,7 @@ public class Program implements Version {
         }
     }
 
+    // EFFECTS: Allows users to choose between 2 program modes and calls functions to invoke them
     public void modeSelection() {
         System.out.println("\n-----------------------------------------------------------");
         System.out.println("Would you like to:");

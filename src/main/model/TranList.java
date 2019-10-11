@@ -8,27 +8,27 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public abstract class TranList {
+public abstract class TranList implements Savable, Loadable {
     private ArrayList<Transaction> tranList;
 
-    //EFFECTS: income list is empty
+    //EFFECTS: list is empty
     public TranList() throws IOException {
         tranList = new ArrayList<>();
     }
 
     //MODIFIES: this
-    //EFFECTS: Transaction trans is added to the income list
+    //EFFECTS: Transaction trans is added to the list
     public void insert(Transaction trans) {
         tranList.add(trans);
     }
 
     //MODIFIES: this
-    //EFFECTS: Element i is deleted from  the income list
+    //EFFECTS: Element i is deleted from  the list
     public void delete(int i) {
         tranList.remove(this.getTrans(i));
     }
 
-    // EFFECTS: returns size of income list
+    // EFFECTS: returns size of list
     public int getSize() {
         return tranList.size();
     }
@@ -39,14 +39,16 @@ public abstract class TranList {
         return tranList.get(i);
     }
 
-    // EFFECTS: Returns true if Transaction trans is in the Income list
+    // EFFECTS: Returns true if Transaction trans is in the list
     // and false otherwise
     public boolean contains(Transaction trans) {
         return tranList.contains(trans);
     }
 
+    @Override
     public abstract void saveData() throws FileNotFoundException, UnsupportedEncodingException;
 
+    @Override
     public abstract void loadData();
 
     // EFFECTS: returns the array list which has been split on ~~.

@@ -9,7 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public abstract class LongTermList {
+public abstract class LongTermList implements Savable, Loadable {
     private ArrayList<LongTermTran> tranList;
 
     //EFFECTS: income list is empty
@@ -46,11 +46,13 @@ public abstract class LongTermList {
         return tranList.contains(trans);
     }
 
-    //public abstract void saveData() throws FileNotFoundException, UnsupportedEncodingException;
+    @Override
+    public abstract void saveData() throws FileNotFoundException, UnsupportedEncodingException;
 
-    //public abstract void loadData();
+    @Override
+    public abstract void loadData();
 
-    // EFFECTS: returns the array list which has been split on ~~.
+    // EFFECTS: returns the array list of Strings which has been split on ~~~.
     public ArrayList<String> splitOnChar(String line) {
         String[] splits = line.split("~~~");
         return new ArrayList<>(Arrays.asList(splits));
