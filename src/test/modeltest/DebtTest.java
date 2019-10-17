@@ -3,6 +3,7 @@ import model.Debt;
 import model.Expense;
 import model.Loadable;
 import model.LongTermList;
+import model.exceptions.NegativeAmt;
 import model.trantype.DayToDayTran;
 import model.trantype.LongTermTran;
 import model.trantype.Transaction;
@@ -108,7 +109,7 @@ public class DebtTest {
     }
 
     @Test
-    public void testLoadData() throws IOException {
+    public void testLoadData() throws IOException, NegativeAmt {
         Debt debtLoad = new Debt();
         load(debtLoad);
         assertEquals(debtLoad.getTrans(0).getAmount(), 100);
@@ -122,7 +123,7 @@ public class DebtTest {
     }
 
     @Test
-    public void testSaveData() throws IOException {
+    public void testSaveData() throws IOException, NegativeAmt {
         Debt debtSave = new Debt();
         LongTermTran tran = new LongTermTran(456, "Test2", 12, 0.99);
         LongTermTran tranNew = new LongTermTran(123, "Test1", 60, 3.15);
@@ -151,7 +152,7 @@ public class DebtTest {
         assertEquals(debtLoad.getTrans(1).getInterestRate(), 3.15);
     }
 
-    public void load(Loadable debt){
+    public void load(Loadable debt) throws NegativeAmt {
         debt.loadData();
     }
 }

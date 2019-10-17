@@ -1,5 +1,6 @@
 package model;
 
+import model.exceptions.NegativeAmt;
 import model.trantype.Transaction;
 
 import java.io.FileNotFoundException;
@@ -49,7 +50,7 @@ public abstract class TranList implements Savable, Loadable {
     public abstract void saveData() throws FileNotFoundException, UnsupportedEncodingException;
 
     @Override
-    public abstract void loadData();
+    public abstract void loadData() throws NegativeAmt;
 
     // EFFECTS: returns the array list which has been split on ~~.
     public ArrayList<String> splitOnChar(String line) {

@@ -1,5 +1,6 @@
 package model;
 
+import model.exceptions.NegativeAmt;
 import model.trantype.LongTermTran;
 import model.trantype.Transaction;
 
@@ -50,7 +51,7 @@ public abstract class LongTermList implements Savable, Loadable {
     public abstract void saveData() throws FileNotFoundException, UnsupportedEncodingException;
 
     @Override
-    public abstract void loadData();
+    public abstract void loadData() throws NegativeAmt;
 
     // EFFECTS: returns the array list of Strings which has been split on ~~~.
     public ArrayList<String> splitOnChar(String line) {

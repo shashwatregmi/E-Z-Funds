@@ -3,6 +3,7 @@ import model.Debt;
 import model.Investment;
 import model.Loadable;
 import model.LongTermList;
+import model.exceptions.NegativeAmt;
 import model.trantype.LongTermTran;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ public class InvestTest {
     private LongTermTran trans;
 
     @Test
-    public void testLoadData() throws IOException {
+    public void testLoadData() throws IOException, NegativeAmt {
         Investment investLoad = new Investment();
         load(investLoad);
         assertEquals(investLoad.getTrans(0).getAmount(), 100);
@@ -33,7 +34,7 @@ public class InvestTest {
     }
 
     @Test
-    public void testSaveData() throws IOException {
+    public void testSaveData() throws IOException, NegativeAmt {
         Investment investSave = new Investment();
         LongTermTran tran = new LongTermTran(456, "Test2", 12, 0.99);
         LongTermTran tranNew = new LongTermTran(123, "Test1", 60, 3.15);
@@ -62,7 +63,7 @@ public class InvestTest {
         assertEquals(investLoad.getTrans(1).getInterestRate(), 3.15);
     }
 
-    public void load(Loadable debt){
-        debt.loadData();
+    public void load(Loadable invest) throws NegativeAmt {
+        invest.loadData();
     }
 }

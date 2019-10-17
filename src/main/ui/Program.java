@@ -4,6 +4,8 @@ import model.*;
 import model.trantype.DayToDayTran;
 import model.trantype.LongTermTran;
 import model.trantype.Transaction;
+import model.exceptions.NegativeAmt;
+import ui.exceptions.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,6 +14,7 @@ import java.util.*;
 
 // setups the program and takes user input/displays data according to user input
 public class Program implements Version {
+
     private Scanner scan = new Scanner(System.in).useDelimiter("\\n");
     private TranList incomeList = new Income();
     private TranList expenseList = new Expense();
@@ -26,7 +29,7 @@ public class Program implements Version {
     }
 
     // EFFECTS: depending on user input calls function that enters new DaytoDay Transaction, edits it or displays report
-    private void newEntry() throws FileNotFoundException {
+    private void newEntry() throws FileNotFoundException, NegativeAmt {
         System.out.println("Press I to enter income or E to enter expense or Q to quit.");
         String choice = scan.next();
         if (choice.equals("I") || choice.equals("i")) {
@@ -41,7 +44,7 @@ public class Program implements Version {
     }
 
     // EFFECTS:depending on user input calls function that enters new Long term transaction, edits it or displays report
-    private void ltNewEntry() throws FileNotFoundException {
+    private void ltNewEntry() throws FileNotFoundException, NegativeAmt {
         System.out.println("Press I to enter Investments or D to enter Debts or Q to quit.");
         String choice = scan.next();
         if (choice.equals("I") || choice.equals("i")) {
@@ -58,47 +61,95 @@ public class Program implements Version {
     // REQUIRES: there must be a trasaction of income/expense if it is to be deleted
     // MODIFIES: the incomelist or expenselist
     // EFFECTS: displays report and then allows user to delete transaction
-    private void delEntry() {
+    private void delEntry() throws OutOfBounds {
         System.out.println("Would you like to delete a income(I) or a expense(E)?");
         String choice = scan.next();
-        if (choice.equals("I") || choice.equals("i")) {
-            incomeReport();
-            System.out.println("What row would you like to delete?");
-            int row = scan.nextInt();
-            incomeList.delete(row - 1);
-            System.out.println("Row " + row + " has been deleted.");
-        } else if (choice.equals("E") || choice.equals("e")) {
-            expenseReport();
-            System.out.println("What row would you like to delete?");
-            int row = scan.nextInt();
-            expenseList.delete(row - 1);
-            System.out.println("Row " + row + " has been deleted.");
-        } else {
-            System.out.println("That was not a valid input.");
+        try {
+            if (choice.equals("I") || choice.equals("i")) {
+                incomeDel();
+            } else if (choice.equals("E") || choice.equals("e")) {
+                expenseDel();
+            } else {
+                System.out.println("That was not a valid input.");
+            }
+        } catch (OutOfBounds outBounds) {
+            System.out.println("That is not a valid row!");
         }
+    }
+
+    // REQUIRES: there must be a trasaction of income if it is to be deleted
+    // MODIFIES: the incomelist
+    // EFFECTS: allows user to delete transaction
+    public void incomeDel() throws OutOfBounds {
+        incomeReport();
+        System.out.println("What row would you like to delete?");
+        int row = scan.nextInt();
+        if (row > incomeList.getSize()) {
+            throw new OutOfBounds();
+        }
+        incomeList.delete(row - 1);
+        System.out.println("Row " + row + " has been deleted.");
+    }
+
+    // REQUIRES: there must be a trasaction of expense if it is to be deleted
+    // MODIFIES: the expenselist
+    // EFFECTS: allows user to delete transaction
+    public void expenseDel() throws OutOfBounds {
+        expenseReport();
+        System.out.println("What row would you like to delete?");
+        int row = scan.nextInt();
+        if (row > incomeList.getSize()) {
+            throw new OutOfBounds();
+        }
+        expenseList.delete(row - 1);
+        System.out.println("Row " + row + " has been deleted.");
     }
 
     // REQUIRES: there must be a trasaction of investment/debt if it is to be deleted
     // MODIFIES: the investmentList or debtList
     // EFFECTS: displays report and then allows user to delete transactions
-    private void ltDelEntry() {
+    private void ltDelEntry() throws OutOfBounds {
         System.out.println("Would you like to delete a investment(I) or a debt(D)?");
         String choice = scan.next();
-        if (choice.equals("I") || choice.equals("i")) {
-            investReport();
-            System.out.println("What row would you like to delete?");
-            int row = scan.nextInt();
-            investmentList.delete(row - 1);
-            System.out.println("Row " + row + " has been deleted.");
-        } else if (choice.equals("D") || choice.equals("d")) {
-            debtReport();
-            System.out.println("What row would you like to delete?");
-            int row = scan.nextInt();
-            debtList.delete(row - 1);
-            System.out.println("Row " + row + " has been deleted.");
-        } else {
-            System.out.println("That was not a valid input.");
+        try {
+            if (choice.equals("I") || choice.equals("i")) {
+                investDel();
+            } else if (choice.equals("D") || choice.equals("d")) {
+                debtDel();
+            } else {
+                System.out.println("That was not a valid input.");
+            }
+        } catch (OutOfBounds outBounds) {
+            System.out.println("That is not a valid row!");
         }
+    }
+
+    // REQUIRES: there must be a trasaction of investment if it is to be deleted
+    // MODIFIES: the investmentlist
+    // EFFECTS: allows user to delete transaction
+    public void investDel() throws OutOfBounds {
+        investReport();
+        System.out.println("What row would you like to delete?");
+        int row = scan.nextInt();
+        if (row > incomeList.getSize()) {
+            throw new OutOfBounds();
+        }
+        investmentList.delete(row - 1);
+        System.out.println("Row " + row + " has been deleted.");
+    }
+
+    // REQUIRES: there must be a trasaction of debt if it is to be deleted
+    // MODIFIES: the debtlist
+    // EFFECTS: allows user to delete transaction
+    public void debtDel() throws OutOfBounds {
+        debtReport();
+        System.out.println("What row would you like to delete?");
+        int row = scan.nextInt();
+        if (row > incomeList.getSize()) {
+            throw new OutOfBounds();
+        }
+        debtList.delete(row - 1);
+        System.out.println("Row " + row + " has been deleted.");
     }
 
     // EFFECTS: displays the report of the DaytoDay transactions by calling respective functions
@@ -151,7 +202,7 @@ public class Program implements Version {
 
     // MODIFIES: incomelist
     // EFFECTS: sets up income and takes user input from user. Then setups new transaction and puts in incomelist
-    private void income() {
+    private void income() throws NegativeAmt {
         setup("Income");
         double amount = amtEntry();
         String desc = descEntry();
@@ -162,7 +213,7 @@ public class Program implements Version {
 
     // MODIFIES:investmentlist
     // EFFECTS:sets up investment and takes user input from user. Then setups new transaction and puts in investmentlist
-    private void invest() {
+    private void invest() throws NegativeAmt {
         setup("Investments");
         double amount = amtEntry();
         String desc = descEntry();
@@ -175,7 +226,7 @@ public class Program implements Version {
 
     // MODIFIES: expenselist
     // EFFECTS: sets up expense and takes user input from user. Then setups new transaction and puts in expenselist
-    private void expense() {
+    private void expense() throws NegativeAmt {
         setup("Expense");
         double amount = amtEntry();
         String desc = descEntry();
@@ -186,7 +237,7 @@ public class Program implements Version {
 
     // MODIFIES: debtList
     // EFFECTS: sets up debt and takes user input from user. Then setups new transaction and puts in debtlist
-    private void debt() {
+    private void debt() throws NegativeAmt {
         setup("Debt");
         double amount = amtEntry();
         String desc = descEntry();
@@ -203,9 +254,14 @@ public class Program implements Version {
     }
 
     // EFFECTS: takes in user input and returns value
-    private double amtEntry() {
+    private double amtEntry() throws NegativeAmt {
+        double amount = 0;
         System.out.println("Please enter the amount:");
-        return scan.nextDouble();
+        amount = scan.nextDouble();
+        if (amount < 0) {
+            throw new NegativeAmt();
+        }
+        return amount;
     }
 
     // EFFECTS: takes in user input and returns value
@@ -215,15 +271,25 @@ public class Program implements Version {
     }
 
     // EFFECTS: takes in user input and returns value
-    private Integer termEntry() {
+    private Integer termEntry() throws NegativeAmt {
+        int term = 0;
         System.out.println("Please enter the term for this transaction:");
-        return scan.nextInt();
+        term = scan.nextInt();
+        if (term < 0) {
+            throw new NegativeAmt();
+        }
+        return term;
     }
 
     // EFFECTS: takes in user input and returns value
-    private Double rateEntry() {
+    private Double rateEntry() throws NegativeAmt {
+        double rate = 0;
         System.out.println("Please enter the Interest Rate for this transaction:");
-        return scan.nextDouble();
+        rate = scan.nextDouble();
+        if (rate < 0) {
+            throw new NegativeAmt();
+        }
+        return rate;
     }
 
     // EFFECTS: some introduction outputs for program
@@ -242,7 +308,7 @@ public class Program implements Version {
     // MODIFIES: incomeList, expenseList, incomeRead, expenseRead, investmentList, investmentRead, debtList, debtRead
     // EFFECTS: loads all lines from input file "Income.txt", "Expense.txt", "Investment.txt", "Debt.txt" into our
     // incomeList, expenseList, investmentList and debtList arrays for user usage.
-    public void loadData() {
+    public void loadData() throws NegativeAmt {
         incomeList.loadData();
         expenseList.loadData();
         investmentList.loadData();
@@ -262,22 +328,36 @@ public class Program implements Version {
     // MODIFIES: systemChoice
     // EFFECTS: starts the program. SystemChoice is chosen depending on user input and we loop until
     // user exits/app stopped
-    public void run() throws FileNotFoundException, UnsupportedEncodingException {
+    public void run() throws FileNotFoundException, UnsupportedEncodingException, NegativeAmt {
         while (true) {
-            modeSelection();
+            try {
+                modeSelection();
+            } catch (Exit exit) {
+                saveData();
+                System.out.println("Your data has been saved. Thank you!");
+                break;
+            }
+            runSelection();
+        }
+    }
+
+    // EFFECTS: appropriate function is called depending on what choice user inputs.
+    public void runSelection() {
+        try {
             if (systemChoice == 1) {
                 dayToDay();
             } else if (systemChoice == 2) {
                 longTerm();
-            } else if (systemChoice == 3) {
-                saveData();
-                return;
             }
+        } catch (NegativeAmt | FileNotFoundException | UnsupportedEncodingException | OutOfBounds negativeAmt) {
+            System.out.println("\nError! Negative Amount cannot be entered.");
+        } finally {
+            System.out.println("\n\nPlease choose what type of transaction type to manage next:");
         }
     }
 
     // EFFECTS: enters daytoday mode. Users allowed to work with DaytoDay Transactions
-    public void dayToDay() throws FileNotFoundException, UnsupportedEncodingException {
+    public void dayToDay() throws FileNotFoundException, UnsupportedEncodingException, NegativeAmt, OutOfBounds {
         if (mode == 1) {
             newEntry();
         } else if (mode == 2) {
@@ -292,7 +372,7 @@ public class Program implements Version {
     }
 
     // EFFECTS: enters longTerm mode. Users allowed to work with LongTerm Transactions
-    public void longTerm() throws FileNotFoundException, UnsupportedEncodingException {
+    public void longTerm() throws FileNotFoundException, UnsupportedEncodingException, NegativeAmt, OutOfBounds {
         if (mode == 1) {
             ltNewEntry();
         } else if (mode == 2) {
@@ -307,7 +387,7 @@ public class Program implements Version {
     }
 
     // EFFECTS: Allows users to choose between 2 program modes and calls functions to invoke them
-    public void modeSelection() {
+    public void modeSelection() throws Exit {
         System.out.println("\n-----------------------------------------------------------");
         System.out.println("Would you like to:");
         System.out.println("Manage Day to Day Finances [1]");
@@ -319,8 +399,7 @@ public class Program implements Version {
         } else if (systemChoice == 2) {
             intro();
         } else if (systemChoice == 3) {
-            mode = 4;
-            return;
+            throw new Exit();
         }
     }
 }

@@ -2,6 +2,7 @@ package modeltest;
 
 import model.Expense;
 import model.Loadable;
+import model.exceptions.NegativeAmt;
 import model.trantype.DayToDayTran;
 import model.trantype.Transaction;
 import org.junit.jupiter.api.BeforeEach;
@@ -107,7 +108,7 @@ public class ExpenseTest {
     }
 
     @Test
-    public void testLoadData() throws IOException {
+    public void testLoadData() throws IOException, NegativeAmt {
         Expense expenseLoad = new Expense();
         load(expenseLoad);
         assertEquals(expenseLoad.getTrans(0).getAmount(), 100);
@@ -117,7 +118,7 @@ public class ExpenseTest {
     }
 
     @Test
-    public void testSaveData() throws IOException {
+    public void testSaveData() throws IOException, NegativeAmt {
         Expense expenseSave = new Expense();
         Transaction tran = new DayToDayTran(456, "Test2");
         Transaction tranNew = new DayToDayTran(123, "Test1");
@@ -137,7 +138,7 @@ public class ExpenseTest {
         assertEquals(expenseLoad.getTrans(1).getDesc(), "Test1");
     }
 
-    public void load(Loadable expense){
+    public void load(Loadable expense) throws NegativeAmt {
         expense.loadData();
     }
 }

@@ -2,6 +2,7 @@ package model;
 
 import model.trantype.DayToDayTran;
 import model.trantype.Transaction;
+import model.exceptions.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.util.List;
 
 public class Expense extends TranList {
     private List<String> expenseRead = Files.readAllLines(Paths.get("./data/Expense.txt"));
+
 
     public Expense() throws IOException {
         super();
@@ -34,13 +36,17 @@ public class Expense extends TranList {
     // REQUIRES: that the file being read has description and amount seperated with ~~.
     // MODIFIES: this and expense Read
     // EFFECTS: loads all lines from array passed in into this for user usage.
-    public void loadData() {
+    public void loadData() throws NegativeAmt {
         for (String line : expenseRead) {
             ArrayList<String> partsOfLine = splitOnChar(line);
             String desc = partsOfLine.get(0);
             double amount = Double.parseDouble(partsOfLine.get(1));
+            if (amount < 0) {
+                throw new NegativeAmt();
+            }
             Transaction loadTransaction = new DayToDayTran(amount, desc);
             this.insert(loadTransaction);
+
         }
     }
 }

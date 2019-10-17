@@ -1,6 +1,7 @@
 package modeltest;
 
 import model.trantype.DayToDayTran;
+import model.trantype.Transaction;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,6 +12,7 @@ public class TransactionTest {
     private DayToDayTran transaction;
     private static final double AMOUNT = 400.23;
     private static final String DESC = "Test";
+    private Transaction tran2;
 
     @BeforeEach
     public void runBefore() {

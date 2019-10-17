@@ -1,5 +1,6 @@
 package model;
 
+import model.exceptions.NegativeAmt;
 import model.trantype.DayToDayTran;
 import model.trantype.LongTermTran;
 import model.trantype.Transaction;
@@ -36,13 +37,16 @@ public class Investment extends LongTermList {
     // REQUIRES: that the file being read has description and amount seperated with ~~~.
     // MODIFIES: this and reader
     // EFFECTS: loads all lines from array passed in into this for user usage.
-    public void loadData() {
+    public void loadData() throws NegativeAmt {
         for (String line : reader) {
             ArrayList<String> partsOfLine = splitOnChar(line);
             String desc = partsOfLine.get(0);
             double amount = Double.parseDouble(partsOfLine.get(1));
             int term = Integer.parseInt(partsOfLine.get(2));
             double rate = Double.parseDouble(partsOfLine.get(3));
+            if (amount < 0 || term < 0 || rate < 0) {
+                throw new NegativeAmt();
+            }
             LongTermTran loadTransaction = new LongTermTran(amount, desc, term, rate);
             this.insert(loadTransaction);
         }
