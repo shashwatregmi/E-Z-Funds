@@ -29,6 +29,7 @@ public class DataLoadTest {
         Debt debtLoad = new Debt();
         try {
             load(debtLoad);
+            fail("exception should have been thrown");
         } catch (NegativeAmt neg) {
             System.out.println("good");
         }
