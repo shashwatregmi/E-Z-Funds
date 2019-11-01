@@ -4,11 +4,14 @@ import model.Debt;
 import model.Expense;
 import model.Loadable;
 
+import java.util.Objects;
+
 public abstract class Transaction {
     protected double amount;
     protected String desc;
     protected int term;
     protected double interestRate;
+    protected String source;
 
     // REQUIRES: amount must be > 0
     // MODIFIES: this

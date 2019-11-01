@@ -22,11 +22,21 @@ public class Program implements Version {
     private LongTermList debtList = new Debt();
     private int systemChoice = 0;
     private int mode;
+    private Map<String, TranList> dayTran = new HashMap<>();
+    private Map<LongTermTran, LongTermList> longTran = new HashMap<>();
+    private LongTermTran ltTestInvest = new LongTermTran(123, "aa", 123,123);
+    private LongTermTran ltTestDebt = new LongTermTran(123, "aa", 123,123);
+
 
     // EFFECTS: constructs program object and prints welcome message
-    Program() throws IOException {
+    public Program() throws IOException {
         System.out.println("|| Personal Finance Manager ||");
+        dayTran.put("Expense", expenseList);
+        dayTran.put("Income", incomeList);
+        longTran.put(ltTestInvest, investmentList);
+        longTran.put(ltTestDebt, debtList);
     }
+
 
     // EFFECTS: depending on user input calls function that enters new DaytoDay Transaction, edits it or displays report
     private void newEntry() throws FileNotFoundException, NegativeAmt {
@@ -131,7 +141,7 @@ public class Program implements Version {
         investReport();
         System.out.println("What row would you like to delete?");
         int row = scan.nextInt();
-        if (row > incomeList.getSize()) {
+        if (row > investmentList.getSize()) {
             throw new OutOfBounds();
         }
         investmentList.delete(row - 1);
@@ -171,24 +181,29 @@ public class Program implements Version {
     //EFFECTS: prints all transactions in incomelist in a reportable fashion
     private void incomeReport() {
         System.out.println("-- INCOME --");
-        for (int i = 0; i < incomeList.getSize(); i++) {
-            System.out.println(incomeList.getTrans(i).getTransDetail());
+        TranList incomeRep;
+        incomeRep = dayTran.get("Income");
+        for (int i = 0; i < incomeRep.getSize(); i++) {
+            System.out.println(incomeRep.getTrans(i).getTransDetail());
         }
     }
 
     //EFFECTS: prints all transactions in expenselist in a reportable fashion
     private void expenseReport() {
         System.out.println("\n-- EXPENSE --");
-        for (int i = 0; i < expenseList.getSize(); i++) {
-            System.out.println(expenseList.getTrans(i).getTransDetail());
+        TranList expenseRep;
+        expenseRep = dayTran.get("Expense");
+        for (int i = 0; i < expenseRep.getSize(); i++) {
+            System.out.println(expenseRep.getTrans(i).getTransDetail());
         }
     }
 
     //EFFECTS: prints all transactions in investmentlist in a reportable fashion
     private void investReport() {
         System.out.println("\n-- INVESTMENT --");
-        for (int i = 0; i < investmentList.getSize(); i++) {
-            System.out.println(investmentList.getTrans(i).getTransDetail());
+        LongTermList lt = longTran.get(ltTestInvest);
+        for (int i = 0; i < lt.getSize(); i++) {
+            System.out.println(lt.getTrans(i).getTransDetail());
         }
     }
 
@@ -221,6 +236,7 @@ public class Program implements Version {
         double rate = rateEntry();
         LongTermTran transaction = new LongTermTran(amount, desc, term, rate);
         investmentList.insert(transaction);
+        longTran.put(ltTestInvest, investmentList);
         System.out.println(transaction.getTransDetail());
     }
 
@@ -245,8 +261,10 @@ public class Program implements Version {
         double rate = rateEntry();
         LongTermTran transaction = new LongTermTran(amount, desc, term, rate);
         debtList.insert(transaction);
+        longTran.put(ltTestDebt, debtList);
         System.out.println(transaction.getTransDetail());
     }
+
 
     // EFFECTS: setup title
     private void setup(String type) {
@@ -313,7 +331,6 @@ public class Program implements Version {
         expenseList.loadData();
         investmentList.loadData();
         debtList.loadData();
-
     }
 
     // EFFECTS: loads data from incomeList, expenseList, investmentList and debtList
