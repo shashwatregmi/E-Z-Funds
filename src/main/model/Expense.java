@@ -36,14 +36,11 @@ public class Expense extends TranList {
     // REQUIRES: that the file being read has description and amount seperated with ~~.
     // MODIFIES: this and expense Read
     // EFFECTS: loads all lines from array passed in into this for user usage.
-    public void loadData() throws NegativeAmt {
+    public void loadData() {
         for (String line : expenseRead) {
             ArrayList<String> partsOfLine = splitOnChar(line);
             String desc = partsOfLine.get(0);
             double amount = Double.parseDouble(partsOfLine.get(1));
-            if (amount < 0) {
-                throw new NegativeAmt();
-            }
             Transaction loadTransaction = new DayToDayTran(amount, desc);
             this.insert(loadTransaction);
 

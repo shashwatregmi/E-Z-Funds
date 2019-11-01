@@ -42,9 +42,6 @@ public class Debt extends LongTermList {
             double amount = Double.parseDouble(partsOfLine.get(1));
             int term = Integer.parseInt(partsOfLine.get(2));
             double rate = Double.parseDouble(partsOfLine.get(3));
-            if (amount < 0 || term < 0 || rate < 0) {
-                throw new NegativeAmt();
-            }
             LongTermTran loadTransaction = new LongTermTran(amount, desc, term, rate);
             this.insert(loadTransaction);
         }

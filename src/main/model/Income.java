@@ -40,9 +40,6 @@ public class Income extends TranList {
             ArrayList<String> partsOfLine = splitOnChar(line);
             String desc = partsOfLine.get(0);
             double amount = Double.parseDouble(partsOfLine.get(1));
-            if (amount < 0) {
-                throw new NegativeAmt();
-            }
             Transaction loadTransaction = new DayToDayTran(amount, desc);
             this.insert(loadTransaction);
         }
