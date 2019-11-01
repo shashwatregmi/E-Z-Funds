@@ -32,9 +32,7 @@ public abstract class Transaction {
     }
 
     // EFFECTS: returns all fields  of this
-    public String getTransDetail() {
-        return (this.getDesc() + this.getAmount());
-    }
+    public abstract String getTransDetail();
 
     //EFFECTS: return field description
     public String getDesc() {

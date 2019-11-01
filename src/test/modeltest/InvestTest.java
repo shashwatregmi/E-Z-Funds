@@ -1,11 +1,9 @@
 package modeltest;
-import model.Debt;
 import model.Investment;
 import model.Loadable;
 import model.LongTermList;
 import model.exceptions.NegativeAmt;
 import model.trantype.LongTermTran;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

@@ -1,11 +1,9 @@
 package modeltest;
 
-import com.sun.org.apache.xpath.internal.operations.Neg;
 import model.Debt;
 import model.Investment;
 import model.LongTermList;
 import model.exceptions.NegativeAmt;
-import model.trantype.LongTermTran;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

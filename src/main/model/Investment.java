@@ -1,9 +1,6 @@
 package model;
 
-import model.exceptions.NegativeAmt;
-import model.trantype.DayToDayTran;
 import model.trantype.LongTermTran;
-import model.trantype.Transaction;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,7 +9,6 @@ import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 // Represents a array list of expenses

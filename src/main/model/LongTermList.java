@@ -2,14 +2,12 @@ package model;
 
 import model.exceptions.NegativeAmt;
 import model.trantype.LongTermTran;
-import model.trantype.Transaction;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 
 public abstract class LongTermList implements Savable, Loadable {
     private ArrayList<LongTermTran> tranList;
