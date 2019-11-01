@@ -58,5 +58,4 @@ public abstract class LongTermList implements Savable, Loadable {
         String[] splits = line.split("~~~");
         return new ArrayList<>(Arrays.asList(splits));
     }
-
 }

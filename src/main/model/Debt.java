@@ -1,7 +1,9 @@
 package model;
 
 import model.exceptions.NegativeAmt;
+import model.trantype.DayToDayTran;
 import model.trantype.LongTermTran;
+import model.trantype.Transaction;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -11,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.LoggingMXBean;
 
 public class Debt extends LongTermList {
     private List<String> reader = Files.readAllLines(Paths.get("./data/Debt.txt"));

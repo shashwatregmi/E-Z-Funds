@@ -1,5 +1,9 @@
 package model.trantype;
 
+import model.Debt;
+import model.Expense;
+import model.Loadable;
+
 public abstract class Transaction {
     protected double amount;
     protected String desc;
