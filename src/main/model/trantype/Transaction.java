@@ -1,5 +1,9 @@
 package model.trantype;
 
+import model.exceptions.NegativeAmt;
+
+import java.util.Objects;
+
 public abstract class Transaction {
     protected double amount;
     protected String desc;
@@ -7,12 +11,15 @@ public abstract class Transaction {
     protected double interestRate;
     protected String source;
 
-    // REQUIRES: amount must be > 0
     // MODIFIES: this
     // EFFECTS: creates new Transaction
-    public Transaction(double amount, String desc) {
-        this.amount = amount;
-        this.desc = desc;
+    public Transaction(double amount, String desc) throws NegativeAmt {
+        if (amount > 0) {
+            this.amount = amount;
+            this.desc = desc;
+        } else {
+            throw new NegativeAmt();
+        }
     }
 
     //EFFECTS: returns this
@@ -44,5 +51,6 @@ public abstract class Transaction {
     public void setAmount(double amount) {
         this.amount = amount;
     }
+
 }
 

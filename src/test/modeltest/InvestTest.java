@@ -15,6 +15,8 @@ public class InvestTest {
 
     private LongTermList investList;
     private LongTermTran trans;
+    private static final int COUNT = 5;
+
 
     @Test
     public void testLoadData() throws IOException, NegativeAmt {
@@ -62,5 +64,37 @@ public class InvestTest {
 
     public void load(Loadable invest) throws NegativeAmt, IOException {
         invest.loadData("./data/Expense.txt");
+    }
+
+    @Test
+    public void testRemove() throws NegativeAmt, IOException {
+        investList = new LongTermList();
+        trans = new LongTermTran(123,"123",123,123);
+        for (int i = 0; i < COUNT; i++) {
+            investList.insert(trans);
+        }
+
+        investList.delete(COUNT - 1);
+        investList.delete(COUNT - 2);
+
+        assertTrue(investList.contains(trans));
+        assertEquals(COUNT - 2, investList.getSize());
+    }
+
+    @Test
+    public void testRemoveLots() throws NegativeAmt, IOException {
+        investList = new LongTermList();
+        trans = new LongTermTran(123,"123",123,123);
+        for (int i = 0; i < COUNT; i++) {
+            investList.insert(trans);
+        }
+
+        int j = COUNT - 1;
+        for (int i = j; i >= 0 ; i--) {
+            investList.delete(i);
+        }
+
+        assertFalse(investList.contains(trans));
+        assertEquals(0, investList.getSize());
     }
 }

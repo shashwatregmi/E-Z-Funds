@@ -4,6 +4,7 @@ import model.Loadable;
 import model.DayTranList;
 import model.exceptions.NegativeAmt;
 import model.trantype.DayToDayTran;
+import model.trantype.LongTermTran;
 import model.trantype.Transaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,14 +23,15 @@ public class IncomeTest {
 
 
     @BeforeEach
-    public void runBefore() throws IOException {
+    public void runBefore() throws IOException, NegativeAmt {
         incomeTest = new DayTranList();
         trans = new DayToDayTran(123, "Test");
     }
 
     @Test
-    public void testInsert() {
+    public void testInsert() throws NegativeAmt {
         incomeTest.insert(trans);
+        incomeTest.insert(new LongTermTran(123,"123",13,123));
         assertTrue(incomeTest.contains(trans));
         assertEquals(1, incomeTest.getSize());
     }
@@ -83,7 +85,7 @@ public class IncomeTest {
     }
 
     @Test
-    public void testGetTrans() {
+    public void testGetTrans() throws NegativeAmt {
         incomeTest.insert(new DayToDayTran(123.22,"new"));
         incomeTest.insert(trans);
         assertEquals(trans, incomeTest.getTrans(1));
@@ -97,7 +99,7 @@ public class IncomeTest {
     }
 
     @Test
-    public void testContainsLots(){
+    public void testContainsLots() throws NegativeAmt {
         assertFalse(incomeTest.contains(trans));
         Transaction tranNew = new DayToDayTran(333, "TT");
         assertFalse(incomeTest.contains(tranNew));

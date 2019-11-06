@@ -1,15 +1,16 @@
 package modeltest;
 
+import model.exceptions.NegativeAmt;
 import model.trantype.DayToDayTran;
 import model.trantype.Transaction;
 import model.trantype.UnexpectedStream;
 import org.junit.jupiter.api.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TransactionTest {
     private DayToDayTran transaction;
@@ -17,11 +18,20 @@ public class TransactionTest {
     private static final double AMOUNT = 400.23;
     private static final String DESC = "Test";
     private static final String SOURCE = "idk";
+    private List<DayToDayTran> tran = new ArrayList<>();
+
 
     @BeforeEach
-    public void runBefore() throws IOException {
+    public void runBefore() throws IOException, NegativeAmt {
         transaction = new DayToDayTran (AMOUNT, DESC);
         transaction2 = new UnexpectedStream(AMOUNT, DESC, "idk");
+
+        try {
+            Transaction tran = new DayToDayTran(-123, "test");
+            fail("Exception should be thrown");
+        } catch (NegativeAmt negativeAmt) {
+
+        }
     }
 
     @Test
@@ -64,5 +74,11 @@ public class TransactionTest {
     public void testSetDesc() {
         transaction.setDesc("NEW");
         assertEquals(transaction.getDesc(), "NEW");
+    }
+
+    @Test
+    public void addUnexcepTran() {
+        transaction2.addUnexcepTran(123, "123", transaction);
+        assertEquals(transaction, transaction2.getTrans());
     }
 }

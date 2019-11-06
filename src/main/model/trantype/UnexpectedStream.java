@@ -1,5 +1,7 @@
 package model.trantype;
 
+import model.exceptions.NegativeAmt;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +11,7 @@ public class UnexpectedStream extends Transaction {
 
     private List<DayToDayTran> tran = new ArrayList<>();
 
-    public UnexpectedStream(double amount, String desc, String source) throws IOException {
+    public UnexpectedStream(double amount, String desc, String source) throws IOException, NegativeAmt {
         super(amount, desc);
         this.source = source;
     }
@@ -56,5 +58,9 @@ public class UnexpectedStream extends Transaction {
             dtran.removeUnexpected(this);
         }
 
+    }
+
+    public List<DayToDayTran> getList() {
+        return tran;
     }
 }

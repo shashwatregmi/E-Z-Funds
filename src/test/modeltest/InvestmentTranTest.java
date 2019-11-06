@@ -1,5 +1,6 @@
 package modeltest;
 
+import model.exceptions.NegativeAmt;
 import model.trantype.LongTermTran;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,7 @@ public class InvestmentTranTest {
 
 
     @BeforeEach
-    public void runBefore() throws IOException {
+    public void runBefore() throws IOException, NegativeAmt {
         longTermTran = new LongTermTran(AMOUNT, DESC, TERM, INTRATE);
     }
 
@@ -52,5 +53,7 @@ public class InvestmentTranTest {
     public void testGetTrans() {
         assertEquals(longTermTran, longTermTran.getTrans());
     }
+
+
 
 }

@@ -1,5 +1,7 @@
 package model.trantype;
 
+import model.exceptions.NegativeAmt;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -11,7 +13,7 @@ public class DayToDayTran extends Transaction {
     // REQUIRES: amount must be > 0
     // MODIFIES: this
     // EFFECTS: creates new Transaction
-    public DayToDayTran(double amount, String desc) {
+    public DayToDayTran(double amount, String desc) throws NegativeAmt {
         super(amount, desc);
     }
 
