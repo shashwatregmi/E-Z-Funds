@@ -1,8 +1,5 @@
 package model.trantype;
 
-import model.Debt;
-import model.Investment;
-
 public class LongTermTran extends Transaction {
 
     // REQUIRES: amount, term, interestRate must be > 0

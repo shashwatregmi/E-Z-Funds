@@ -16,27 +16,18 @@ import java.util.*;
 public class Program implements Version {
 
     private Scanner scan = new Scanner(System.in).useDelimiter("\\n");
-    private TranList incomeList = new Income();
-    private TranList expenseList = new Expense();
-    private LongTermList investmentList = new Investment();
-    private LongTermList debtList = new Debt();
     private int systemChoice = 0;
     private int mode;
-    private Map<String, TranList> dayTran = new HashMap<>();
-    private Map<LongTermTran, LongTermList> longTran = new HashMap<>();
-    private LongTermTran ltTestInvest = new LongTermTran(123, "aa", 123,123);
-    private LongTermTran ltTestDebt = new LongTermTran(123, "aa", 123,123);
-
+    private Map<String, TranList> transactions = new HashMap<>();
 
     // EFFECTS: constructs program object and prints welcome message
     public Program() throws IOException {
         System.out.println("|| Personal Finance Manager ||");
-        dayTran.put("Expense", expenseList);
-        dayTran.put("Income", incomeList);
-        longTran.put(ltTestInvest, investmentList);
-        longTran.put(ltTestDebt, debtList);
+        transactions.put("Expense", new DayTranList());
+        transactions.put("Income", new DayTranList());
+        transactions.put("Investment", new LongTermList());
+        transactions.put("Debt", new LongTermList());
     }
-
 
     // EFFECTS: depending on user input calls function that enters new DaytoDay Transaction, edits it or displays report
     private void newEntry() throws FileNotFoundException, NegativeAmt {
@@ -87,13 +78,14 @@ public class Program implements Version {
         }
     }
 
-    // REQUIRES: there must be a trasaction of income if it is to be deleted
+    // REQUIRES: there must be a transaction of income if it is to be deleted
     // MODIFIES: the incomelist
     // EFFECTS: allows user to delete transaction
     public void incomeDel() throws OutOfBounds {
         incomeReport();
         System.out.println("What row would you like to delete?");
         int row = scan.nextInt();
+        TranList incomeList = transactions.get("Income");
         if (row > incomeList.getSize()) {
             throw new OutOfBounds();
         }
@@ -108,7 +100,8 @@ public class Program implements Version {
         expenseReport();
         System.out.println("What row would you like to delete?");
         int row = scan.nextInt();
-        if (row > incomeList.getSize()) {
+        TranList expenseList = transactions.get("Expense");
+        if (row > expenseList.getSize()) {
             throw new OutOfBounds();
         }
         expenseList.delete(row - 1);
@@ -141,6 +134,7 @@ public class Program implements Version {
         investReport();
         System.out.println("What row would you like to delete?");
         int row = scan.nextInt();
+        TranList investmentList = transactions.get("Investment");
         if (row > investmentList.getSize()) {
             throw new OutOfBounds();
         }
@@ -155,7 +149,8 @@ public class Program implements Version {
         debtReport();
         System.out.println("What row would you like to delete?");
         int row = scan.nextInt();
-        if (row > incomeList.getSize()) {
+        TranList debtList = transactions.get("Debt");
+        if (row > debtList.getSize()) {
             throw new OutOfBounds();
         }
         debtList.delete(row - 1);
@@ -181,8 +176,7 @@ public class Program implements Version {
     //EFFECTS: prints all transactions in incomelist in a reportable fashion
     private void incomeReport() {
         System.out.println("-- INCOME --");
-        TranList incomeRep;
-        incomeRep = dayTran.get("Income");
+        TranList incomeRep = transactions.get("Income");
         for (int i = 0; i < incomeRep.getSize(); i++) {
             System.out.println(incomeRep.getTrans(i).getTransDetail());
         }
@@ -191,8 +185,7 @@ public class Program implements Version {
     //EFFECTS: prints all transactions in expenselist in a reportable fashion
     private void expenseReport() {
         System.out.println("\n-- EXPENSE --");
-        TranList expenseRep;
-        expenseRep = dayTran.get("Expense");
+        TranList expenseRep = transactions.get("Expense");
         for (int i = 0; i < expenseRep.getSize(); i++) {
             System.out.println(expenseRep.getTrans(i).getTransDetail());
         }
@@ -201,15 +194,16 @@ public class Program implements Version {
     //EFFECTS: prints all transactions in investmentlist in a reportable fashion
     private void investReport() {
         System.out.println("\n-- INVESTMENT --");
-        LongTermList lt = longTran.get(ltTestInvest);
-        for (int i = 0; i < lt.getSize(); i++) {
-            System.out.println(lt.getTrans(i).getTransDetail());
+        TranList investmentList = transactions.get("Investment");
+        for (int i = 0; i < investmentList.getSize(); i++) {
+            System.out.println(investmentList.getTrans(i).getTransDetail());
         }
     }
 
     //EFFECTS: prints all transactions in debtlist in a reportable fashion
     private void debtReport() {
         System.out.println("\n-- DEBT --");
+        TranList debtList = transactions.get("Debt");
         for (int i = 0; i < debtList.getSize(); i++) {
             System.out.println(debtList.getTrans(i).getTransDetail());
         }
@@ -222,6 +216,7 @@ public class Program implements Version {
         double amount = amtEntry();
         String desc = descEntry();
         Transaction transaction = new DayToDayTran(amount, desc);
+        TranList incomeList = transactions.get("Income");
         incomeList.insert(transaction);
         System.out.println(transaction.getTransDetail());
     }
@@ -235,8 +230,8 @@ public class Program implements Version {
         int term = termEntry();
         double rate = rateEntry();
         LongTermTran transaction = new LongTermTran(amount, desc, term, rate);
+        TranList investmentList = transactions.get("Investment");
         investmentList.insert(transaction);
-        longTran.put(ltTestInvest, investmentList);
         System.out.println(transaction.getTransDetail());
     }
 
@@ -247,6 +242,7 @@ public class Program implements Version {
         double amount = amtEntry();
         String desc = descEntry();
         Transaction transaction = new DayToDayTran(amount, desc);
+        TranList expenseList = transactions.get("Expense");
         expenseList.insert(transaction);
         System.out.println(transaction.getTransDetail());
     }
@@ -260,8 +256,8 @@ public class Program implements Version {
         int term = termEntry();
         double rate = rateEntry();
         LongTermTran transaction = new LongTermTran(amount, desc, term, rate);
+        TranList debtList = transactions.get("Investment");
         debtList.insert(transaction);
-        longTran.put(ltTestDebt, debtList);
         System.out.println(transaction.getTransDetail());
     }
 
@@ -323,23 +319,33 @@ public class Program implements Version {
 
 
     // REQUIRES: that the file being read has data values seperated with proper characters.
-    // MODIFIES: incomeList, expenseList, incomeRead, expenseRead, investmentList, investmentRead, debtList, debtRead
+    // MODIFIES: transactions
     // EFFECTS: loads all lines from input file "Income.txt", "Expense.txt", "Investment.txt", "Debt.txt" into our
-    // incomeList, expenseList, investmentList and debtList arrays for user usage.
-    public void loadData() throws NegativeAmt {
-        incomeList.loadData();
-        expenseList.loadData();
-        investmentList.loadData();
-        debtList.loadData();
+    // transactions map for user usage.
+    public void loadData() throws NegativeAmt, IOException {
+        TranList incomeList = transactions.get("Income");
+        TranList expenseList = transactions.get("Expense");
+        TranList debtList = transactions.get("Debt");
+        TranList investList = transactions.get("Investment");
+
+        incomeList.loadData("./data/Income.txt");
+        expenseList.loadData("./data/Expense.txt");
+        investList.loadData("./data/Invest.txt");
+        debtList.loadData("./data/Debt.txt");
     }
 
     // EFFECTS: loads data from incomeList, expenseList, investmentList and debtList
     // array into our incomeWriter, expeseWriter, investmentWriter and debtWriter writers which  write to proper file
     public void saveData() throws FileNotFoundException, UnsupportedEncodingException {
-        incomeList.saveData();
-        expenseList.saveData();
-        investmentList.saveData();
-        debtList.saveData();
+        TranList incomeList = transactions.get("Income");
+        TranList expenseList = transactions.get("Expense");
+        TranList debtList = transactions.get("Debt");
+        TranList investList = transactions.get("Investment");
+
+        incomeList.saveData("./data/Income.txt");
+        expenseList.saveData("./data/Expense.txt");
+        investList.saveData("./data/Invest.txt");
+        debtList.saveData("./data/Debt.txt");
     }
 
     // MODIFIES: systemChoice

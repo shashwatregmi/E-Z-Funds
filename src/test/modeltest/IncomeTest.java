@@ -1,7 +1,7 @@
 package modeltest;
 
-import model.Income;
 import model.Loadable;
+import model.DayTranList;
 import model.exceptions.NegativeAmt;
 import model.trantype.DayToDayTran;
 import model.trantype.Transaction;
@@ -16,14 +16,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class IncomeTest {
 
-    private Income incomeTest;
+    private DayTranList incomeTest;
     private Transaction trans;
     private static final int COUNT = 5;
 
 
     @BeforeEach
     public void runBefore() throws IOException {
-        incomeTest = new Income();
+        incomeTest = new DayTranList();
         trans = new DayToDayTran(123, "Test");
     }
 
@@ -109,7 +109,7 @@ public class IncomeTest {
 
     @Test
     public void testLoadData() throws IOException, NegativeAmt {
-        Income incomeLoad = new Income();
+        DayTranList incomeLoad = new DayTranList();
         load(incomeLoad);
         assertEquals(incomeLoad.getTrans(0).getAmount(), 100);
         assertEquals(incomeLoad.getTrans(0).getDesc(), "Test1");
@@ -119,14 +119,14 @@ public class IncomeTest {
 
     @Test
     public void testSaveData() throws IOException, NegativeAmt {
-        Income incomeSave = new Income();
+        DayTranList incomeSave = new DayTranList();
         Transaction tran = new DayToDayTran(456, "Test2");
         Transaction tranNew = new DayToDayTran(123, "Test1");
         incomeSave.insert(tran);
         incomeSave.insert(tranNew);
-        incomeSave.saveData();
+        incomeSave.saveData("./data/Expense.txt");
         load(incomeSave);
-        Income incomeLoad = new Income();
+        DayTranList incomeLoad = new DayTranList();
         load(incomeSave);
         assertEquals(incomeSave.getTrans(0).getAmount(), 456);
         assertEquals(incomeSave.getTrans(0).getDesc(), "Test2");
@@ -139,8 +139,8 @@ public class IncomeTest {
         assertEquals(incomeLoad.getTrans(1).getDesc(), "Test1");
     }
 
-    public void load(Loadable income) throws NegativeAmt {
-        income.loadData();
+    public void load(Loadable income) throws NegativeAmt, IOException {
+        income.loadData("./data/Expense.txt");
     }
 
 }

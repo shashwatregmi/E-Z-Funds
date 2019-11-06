@@ -1,5 +1,4 @@
 package modeltest;
-import model.Investment;
 import model.Loadable;
 import model.LongTermList;
 import model.exceptions.NegativeAmt;
@@ -19,7 +18,7 @@ public class InvestTest {
 
     @Test
     public void testLoadData() throws IOException, NegativeAmt {
-        Investment investLoad = new Investment();
+        LongTermList investLoad = new LongTermList();
         load(investLoad);
         assertEquals(investLoad.getTrans(0).getAmount(), 100);
         assertEquals(investLoad.getTrans(0).getDesc(), "Test1");
@@ -33,13 +32,13 @@ public class InvestTest {
 
     @Test
     public void testSaveData() throws IOException, NegativeAmt {
-        Investment investSave = new Investment();
+        LongTermList investSave = new LongTermList();
         LongTermTran tran = new LongTermTran(456, "Test2", 12, 0.99);
         LongTermTran tranNew = new LongTermTran(123, "Test1", 60, 3.15);
         investSave.insert(tran);
         investSave.insert(tranNew);
-        investSave.saveData();
-        Investment investLoad = new Investment();
+        investSave.saveData("./data/Expense.txt");
+        LongTermList investLoad = new LongTermList();
         load(investLoad);
         load(investSave);
         assertEquals(investSave.getTrans(0).getAmount(), 456);
@@ -61,7 +60,7 @@ public class InvestTest {
         assertEquals(investLoad.getTrans(1).getInterestRate(), 3.15);
     }
 
-    public void load(Loadable invest) throws NegativeAmt {
-        invest.loadData();
+    public void load(Loadable invest) throws NegativeAmt, IOException {
+        invest.loadData("./data/Expense.txt");
     }
 }

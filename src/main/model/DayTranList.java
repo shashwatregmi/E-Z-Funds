@@ -14,79 +14,73 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
-public class LongTermList extends TranList implements Savable, Loadable {
-    private ArrayList<LongTermTran> tranList;
+public class DayTranList extends TranList implements Savable, Loadable {
+    private ArrayList<Transaction> tranList;
 
-    //EFFECTS: income list is empty
-    public LongTermList() throws IOException {
-        tranList = new ArrayList<LongTermTran>();
+    //EFFECTS: list is empty
+    public DayTranList() throws IOException {
+        tranList = new ArrayList<>();
     }
 
     //MODIFIES: this
-    //EFFECTS: Transaction trans is added to the income list
-    public void insert(LongTermTran trans) {
+    //EFFECTS: Transaction trans is added to the list
+    public  void insert(Transaction trans) {
         tranList.add(trans);
     }
 
     @Override
-    public void insert(Transaction trans) {
+    public void insert(LongTermTran trans) {
         return;
     }
 
     //MODIFIES: this
-    //EFFECTS: Element i is deleted from  the income list
+    //EFFECTS: Element i is deleted from  the list
     public void delete(int i) {
         tranList.remove(this.getTrans(i));
     }
 
-    // EFFECTS: returns size of income list
+    // EFFECTS: returns size of list
     public int getSize() {
         return tranList.size();
     }
 
     // REQUIRES: the int i must be a valid index of the array
     // EFFECTS: returns the transaction at index i
-    public LongTermTran getTrans(int i) {
+    public Transaction getTrans(int i) {
         return tranList.get(i);
     }
 
-    // EFFECTS: Returns true if Transaction trans is in the Income list
+    // EFFECTS: Returns true if Transaction trans is in the list
     // and false otherwise
-    public boolean contains(LongTermTran trans) {
+    public boolean contains(Transaction trans) {
         return tranList.contains(trans);
     }
 
-    //@Override
+    @Override
     public void saveData(String path) throws FileNotFoundException, UnsupportedEncodingException {
         PrintWriter writer = new PrintWriter(path);
         for (int i = 0; i < this.getSize(); i++) {
-            writer.println(this.getTrans(i).getDesc() + "~~~" + this.getTrans(i).getAmount()
-                    + "~~~" + this.getTrans(i).getTerm() + "~~~" + this.getTrans(i).getInterestRate());
+            writer.println(this.getTrans(i).getDesc() + "~~" + this.getTrans(i).getAmount());
         }
         writer.close();
     }
 
-    //@Override
+    @Override
     public void loadData(String path) throws NegativeAmt, IOException {
         List<String> read = Files.readAllLines(Paths.get(path));
         for (String line : read) {
             ArrayList<String> partsOfLine = splitOnChar(line);
             String desc = partsOfLine.get(0);
             double amount = Double.parseDouble(partsOfLine.get(1));
-            int term = Integer.parseInt(partsOfLine.get(2));
-            double rate = Double.parseDouble(partsOfLine.get(3));
-            LongTermTran loadTransaction = new LongTermTran(amount, desc, term, rate);
+            Transaction loadTransaction = new DayToDayTran(amount, desc);
             this.insert(loadTransaction);
         }
     }
 
-
-
-    // EFFECTS: returns the array list of Strings which has been split on ~~~.
+    // EFFECTS: returns the array list which has been split on ~~.
     public ArrayList<String> splitOnChar(String line) {
-        String[] splits = line.split("~~~");
+        String[] splits = line.split("~~");
         return new ArrayList<>(Arrays.asList(splits));
     }
 

@@ -1,7 +1,5 @@
 package modeltest;
 
-import model.Debt;
-import model.Investment;
 import model.trantype.LongTermTran;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

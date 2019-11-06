@@ -1,7 +1,5 @@
 package modeltest;
 
-import model.Debt;
-import model.Investment;
 import model.LongTermList;
 import model.exceptions.NegativeAmt;
 import org.junit.jupiter.api.Test;
@@ -14,7 +12,7 @@ public class DataLoadTest {
 
     @Test
     public void testPositive() throws IOException, NegativeAmt {
-        Investment investLoad = new Investment();
+        LongTermList investLoad = new LongTermList();
         try {
             load(investLoad);
         } catch (NegativeAmt neg) {
@@ -24,7 +22,7 @@ public class DataLoadTest {
 
     @Test
     public void testNegative() throws IOException, NegativeAmt {
-        Debt debtLoad = new Debt();
+        LongTermList debtLoad = new LongTermList();
         try {
             load(debtLoad);
             fail("exception should have been thrown");
@@ -33,7 +31,7 @@ public class DataLoadTest {
         }
     }
 
-    private void load(LongTermList load) throws NegativeAmt {
-        load.loadData();
+    private void load(LongTermList load) throws NegativeAmt, IOException {
+        load.loadData("./data/Expense.txt");
     }
 }

@@ -5,6 +5,6 @@ import java.io.UnsupportedEncodingException;
 
 public interface Savable {
 
-    void saveData() throws FileNotFoundException, UnsupportedEncodingException;
+    void saveData(String path) throws FileNotFoundException, UnsupportedEncodingException;
 
 }

@@ -3,11 +3,12 @@ package ui;
 import model.exceptions.NegativeAmt;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 public interface Version {
 
-    public void loadData() throws NegativeAmt;
+    public void loadData() throws NegativeAmt, IOException;
 
     public void saveData() throws FileNotFoundException, UnsupportedEncodingException;
 
