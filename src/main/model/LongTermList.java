@@ -58,15 +58,20 @@ public class LongTermList extends TranList implements Savable, Loadable {
         return tranList.contains(trans);
     }
 
-    //@Override
+    @Override
     public void saveData(String path) throws FileNotFoundException, UnsupportedEncodingException {
         PrintWriter writer = new PrintWriter(path);
         for (int i = 0; i < this.getSize(); i++) {
-            writer.println(this.getTrans(i).getDesc() + "~~~" + this.getTrans(i).getAmount()
-                    + "~~~" + this.getTrans(i).getTerm() + "~~~" + this.getTrans(i).getInterestRate());
+            print(writer, i);
         }
         writer.close();
     }
+
+    private void print(PrintWriter writer, int i) {
+        writer.println(this.getTrans(i).getDesc() + "~~~" + this.getTrans(i).getAmount()
+                + "~~~" + this.getTrans(i).getTerm() + "~~~" + this.getTrans(i).getInterestRate());
+    }
+
 
     //@Override
     public void loadData(String path) throws NegativeAmt, IOException {

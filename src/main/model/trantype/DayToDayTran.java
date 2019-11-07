@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class DayToDayTran extends Transaction {
 
-    public List<UnexpectedStream> unexpected = new ArrayList<>();
+    public List<UnexpectedStreamTransaction> unexpected = new ArrayList<>();
 
     // REQUIRES: amount must be > 0
     // MODIFIES: this
@@ -23,7 +23,7 @@ public class DayToDayTran extends Transaction {
         return ("\n|| Description: " + desc + "            Amount: " + amount + " ||");
     }
 
-    public void addUnexpected(UnexpectedStream us) {
+    public void addUnexpected(UnexpectedStreamTransaction us) {
         if (!unexpected.contains(us)) {
             unexpected.add(us);
             us.addUnexcepTran(us.getAmount(), us.getTransDetail(), this);
@@ -47,7 +47,7 @@ public class DayToDayTran extends Transaction {
         return Objects.hash(unexpected);
     }
 
-    public void removeUnexpected(UnexpectedStream us) {
+    public void removeUnexpected(UnexpectedStreamTransaction us) {
         if (!unexpected.contains(us)) {
             unexpected.add(us);
             us.removeUnexcepTran(us.getAmount(), us.getTransDetail(), this);

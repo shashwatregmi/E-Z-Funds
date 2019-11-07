@@ -7,8 +7,10 @@ import model.trantype.Transaction;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 public abstract class TranList {
+    protected ArrayList<Transaction> tranList;
 
     public abstract void saveData(String path) throws FileNotFoundException, UnsupportedEncodingException;
 
@@ -18,7 +20,6 @@ public abstract class TranList {
     public abstract void insert(Transaction trans);
 
     public abstract void insert(LongTermTran trans);
-
 
     public abstract int getSize();
 

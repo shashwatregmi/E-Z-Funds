@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class UnexpectedStream extends Transaction {
+public class UnexpectedStreamTransaction extends Transaction {
 
     private List<DayToDayTran> tran = new ArrayList<>();
 
-    public UnexpectedStream(double amount, String desc, String source) throws IOException, NegativeAmt {
+    public UnexpectedStreamTransaction(double amount, String desc, String source) throws IOException, NegativeAmt {
         super(amount, desc);
         this.source = source;
     }
@@ -40,10 +40,10 @@ public class UnexpectedStream extends Transaction {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof UnexpectedStream)) {
+        if (!(o instanceof UnexpectedStreamTransaction)) {
             return false;
         }
-        UnexpectedStream that = (UnexpectedStream) o;
+        UnexpectedStreamTransaction that = (UnexpectedStreamTransaction) o;
         return Objects.equals(tran, that.tran);
     }
 

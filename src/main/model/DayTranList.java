@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DayTranList extends TranList implements Savable, Loadable {
-    private ArrayList<Transaction> tranList;
 
     //EFFECTS: list is empty
     public DayTranList() throws IOException {
@@ -37,17 +36,20 @@ public class DayTranList extends TranList implements Savable, Loadable {
     //MODIFIES: this
     //EFFECTS: Element i is deleted from  the list
     public void delete(int i) {
+
         tranList.remove(this.getTrans(i));
     }
 
     // EFFECTS: returns size of list
     public int getSize() {
+
         return tranList.size();
     }
 
     // REQUIRES: the int i must be a valid index of the array
     // EFFECTS: returns the transaction at index i
     public Transaction getTrans(int i) {
+
         return tranList.get(i);
     }
 

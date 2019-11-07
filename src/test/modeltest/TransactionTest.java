@@ -3,7 +3,7 @@ package modeltest;
 import model.exceptions.NegativeAmt;
 import model.trantype.DayToDayTran;
 import model.trantype.Transaction;
-import model.trantype.UnexpectedStream;
+import model.trantype.UnexpectedStreamTransaction;
 import org.junit.jupiter.api.*;
 
 import java.io.IOException;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TransactionTest {
     private DayToDayTran transaction;
-    private UnexpectedStream transaction2;
+    private UnexpectedStreamTransaction transaction2;
     private static final double AMOUNT = 400.23;
     private static final String DESC = "Test";
     private static final String SOURCE = "idk";
@@ -24,7 +24,7 @@ public class TransactionTest {
     @BeforeEach
     public void runBefore() throws IOException, NegativeAmt {
         transaction = new DayToDayTran (AMOUNT, DESC);
-        transaction2 = new UnexpectedStream(AMOUNT, DESC, "idk");
+        transaction2 = new UnexpectedStreamTransaction(AMOUNT, DESC, "idk");
 
         try {
             Transaction tran = new DayToDayTran(-123, "test");
