@@ -1,12 +1,15 @@
 package network;
 
 import jdk.nashorn.internal.parser.JSONParser;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+
 
 public class PullWelcomeMsg {
 
@@ -27,11 +30,23 @@ public class PullWelcomeMsg {
                 builder.append(line);
                 builder.append(System.lineSeparator());
             }
+            /////////////////////// Snipped enclosed by brackets taken from https://www.youtube.com/watch?v=umZ_KdcXRAQ
+            JSONObject myResponse = new JSONObject(builder.toString());
 
-            System.out.println(builder);
+            String city = myResponse.getString("name");
+            JSONObject mainObject = new JSONObject(myResponse.getJSONObject("main").toString());
+            ////////////////////////////////////////////////////////////////////
 
 
+            double temp = mainObject.getDouble("temp");
+            double minTemp = mainObject.getDouble("temp_min");
+            double maxTemp = mainObject.getDouble("temp_max");
 
+
+            System.out.println("It is " + temp + " degrees C in " + city  + ". Max/Min is " + minTemp + "/" + maxTemp);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         } finally {
             if (reader != null) {
                 reader.close();

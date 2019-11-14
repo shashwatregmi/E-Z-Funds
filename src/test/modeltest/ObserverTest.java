@@ -17,6 +17,7 @@ public class ObserverTest {
     public void testAdd(){
         subject.addObserver(devices);
         assertTrue(subject.contains(devices));
+        subject.addObserver(devices);
     }
 
     @Test
@@ -25,5 +26,7 @@ public class ObserverTest {
         subject.addObserver(dev2);
         Transaction t = new DayToDayTran(123, "new");
         subject.notifyObservers(t);
+        Transaction t1 = new DayToDayTran(123123, "new");
+        subject.notifyObservers(t1);
     }
 }
