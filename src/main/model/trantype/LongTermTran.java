@@ -16,13 +16,9 @@ public class LongTermTran extends Transaction {
     //EFFECTS: returns formatted string for this
     @Override
     public String getTransDetail() {
+        notifyObservers(this);
         return ("\n|| Description: " + desc + "            Amount: " + amount
                 + "  Interest Rate:" + interestRate + "  Term:" + term + " ||");
-    }
-
-    //EFFECTS: returns term
-    public int getTerm() {
-        return this.term;
     }
 
     // EFFECTS: returns amount with interest
@@ -35,9 +31,5 @@ public class LongTermTran extends Transaction {
         return (super.getAmount() * ((this.getInterestRate() / 100) + 1)) * -1;
     }
 
-    //EFFECTS: return interestRate
-    public double getInterestRate() {
-        return this.interestRate;
-    }
 
 }

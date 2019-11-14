@@ -18,14 +18,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class IncomeTest {
 
     private DayTranList incomeTest;
-    private Transaction trans;
+    private LongTermTran trans;
     private static final int COUNT = 5;
 
 
     @BeforeEach
     public void runBefore() throws IOException, NegativeAmt {
         incomeTest = new DayTranList();
-        trans = new DayToDayTran(123, "Test");
+        trans = new LongTermTran(123, "Test", 123, 123);
     }
 
     @Test

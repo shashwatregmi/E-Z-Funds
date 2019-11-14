@@ -57,6 +57,8 @@ public class DayToDayMode extends TransactionEntry {
         double amount = amtEntry();
         String desc = descEntry();
         Transaction transaction = new DayToDayTran(amount, desc);
+        transaction.addDevice("Phone");
+        transaction.addDevice("Laptop");
         TranList list = transactions.get(name);
         list.insert(transaction);
         System.out.println(transaction.getTransDetail());

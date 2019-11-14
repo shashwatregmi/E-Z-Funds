@@ -17,45 +17,11 @@ import java.util.List;
 import java.util.Objects;
 
 public class LongTermList extends TranList implements Savable, Loadable {
-    private ArrayList<LongTermTran> tranList;
+    //private ArrayList<LongTermTran> tranList;
 
     //EFFECTS: income list is empty
     public LongTermList() throws IOException {
-        tranList = new ArrayList<LongTermTran>();
-    }
-
-    //MODIFIES: this
-    //EFFECTS: Transaction trans is added to the income list
-    public void insert(LongTermTran trans) {
-        tranList.add(trans);
-    }
-
-    @Override
-    public void insert(Transaction trans) {
-        return;
-    }
-
-    //MODIFIES: this
-    //EFFECTS: Element i is deleted from  the income list
-    public void delete(int i) {
-        tranList.remove(this.getTrans(i));
-    }
-
-    // EFFECTS: returns size of income list
-    public int getSize() {
-        return tranList.size();
-    }
-
-    // REQUIRES: the int i must be a valid index of the array
-    // EFFECTS: returns the transaction at index i
-    public LongTermTran getTrans(int i) {
-        return tranList.get(i);
-    }
-
-    // EFFECTS: Returns true if Transaction trans is in the Income list
-    // and false otherwise
-    public boolean contains(LongTermTran trans) {
-        return tranList.contains(trans);
+        super();
     }
 
     @Override

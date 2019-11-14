@@ -20,8 +20,10 @@ public class DayToDayTran extends Transaction {
     @Override
     //EFFECTS: returns formatted string for this
     public String getTransDetail() {
+        notifyObservers(this);
         return ("\n|| Description: " + desc + "            Amount: " + amount + " ||");
     }
+
 
     public void addUnexpected(UnexpectedStreamTransaction us) {
         if (!unexpected.contains(us)) {

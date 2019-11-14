@@ -1,10 +1,12 @@
 package model.trantype;
 
+import model.Devices;
 import model.exceptions.NegativeAmt;
+import model.observer.Subject;
 
 import java.util.Objects;
 
-public abstract class Transaction {
+public abstract class Transaction extends Subject {
     protected double amount;
     protected String desc;
     protected int term;
@@ -20,6 +22,8 @@ public abstract class Transaction {
         } else {
             throw new NegativeAmt();
         }
+
+        notifyObservers(this);
     }
 
     //EFFECTS: returns this
@@ -52,5 +56,19 @@ public abstract class Transaction {
         this.amount = amount;
     }
 
+    //EFFECTS: returns term
+    public int getTerm() {
+        return this.term;
+    }
+
+    //EFFECTS: return interestRate
+    public double getInterestRate() {
+        return this.interestRate;
+    }
+
+    public void addDevice(String s) {
+        Devices device = new Devices(s);
+        addObserver(device);
+    }
 }
 

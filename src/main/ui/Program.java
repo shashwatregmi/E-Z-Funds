@@ -1,6 +1,7 @@
 package ui;
 
 import model.exceptions.NegativeAmt;
+import network.PullWelcomeMsg;
 import ui.exceptions.*;
 
 import java.io.FileNotFoundException;
@@ -22,6 +23,7 @@ public class Program implements Version {
         System.out.println("|| Personal Finance Manager ||");
         dailyMode = new DayToDayMode();
         longTermMode = new LongTermMode();
+        PullWelcomeMsg pull = new PullWelcomeMsg();
     }
 
 

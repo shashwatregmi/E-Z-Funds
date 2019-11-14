@@ -19,45 +19,9 @@ public class DayTranList extends TranList implements Savable, Loadable {
 
     //EFFECTS: list is empty
     public DayTranList() throws IOException {
-        tranList = new ArrayList<>();
+        super();
     }
 
-    //MODIFIES: this
-    //EFFECTS: Transaction trans is added to the list
-    public  void insert(Transaction trans) {
-        tranList.add(trans);
-    }
-
-    @Override
-    public void insert(LongTermTran trans) {
-        return;
-    }
-
-    //MODIFIES: this
-    //EFFECTS: Element i is deleted from  the list
-    public void delete(int i) {
-
-        tranList.remove(this.getTrans(i));
-    }
-
-    // EFFECTS: returns size of list
-    public int getSize() {
-
-        return tranList.size();
-    }
-
-    // REQUIRES: the int i must be a valid index of the array
-    // EFFECTS: returns the transaction at index i
-    public Transaction getTrans(int i) {
-
-        return tranList.get(i);
-    }
-
-    // EFFECTS: Returns true if Transaction trans is in the list
-    // and false otherwise
-    public boolean contains(Transaction trans) {
-        return tranList.contains(trans);
-    }
 
     @Override
     public void saveData(String path) throws FileNotFoundException, UnsupportedEncodingException {
