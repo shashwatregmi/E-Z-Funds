@@ -43,6 +43,7 @@ public abstract class TranList {
     public void delete(int i) {
         tranList.remove(this.getTrans(i));
     }
+
     // REQUIRES: the int i must be a valid index of the array
     // EFFECTS: returns the transaction at index i
     public Transaction getTrans(int i) {
