@@ -19,4 +19,8 @@ public class Subject {
             observer.update(t);
         }
     }
+
+    public boolean contains(MessageNotification msg) {
+        return observers.contains(msg);
+    }
 }

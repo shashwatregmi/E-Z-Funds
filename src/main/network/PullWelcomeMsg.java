@@ -1,5 +1,7 @@
 package network;
 
+import jdk.nashorn.internal.parser.JSONParser;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,8 +14,11 @@ public class PullWelcomeMsg {
         BufferedReader reader = null;
 
         try {
-            String theURL = "https://www.students.cs.ubc.ca/~cs-210/2018w1/welcomemsg.html";
+            String apiKey = "8868d57aeca1209a618a88073c82cd43";
+            String weather = "https://api.openweathermap.org/data/2.5/weather?q=Vancouver,CAN&units=metric&&APPID=";
+            String theURL = weather + apiKey;
             URL url = new URL(theURL);
+
             reader = new BufferedReader(new InputStreamReader(url.openStream()));
             String line;
             StringBuilder builder = new StringBuilder();
@@ -24,6 +29,8 @@ public class PullWelcomeMsg {
             }
 
             System.out.println(builder);
+
+
 
         } finally {
             if (reader != null) {

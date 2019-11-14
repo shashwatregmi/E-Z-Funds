@@ -1,5 +1,6 @@
 package modeltest;
 
+import model.Devices;
 import model.exceptions.NegativeAmt;
 import model.trantype.DayToDayTran;
 import model.trantype.Transaction;
@@ -80,5 +81,10 @@ public class TransactionTest {
     public void addUnexcepTran() {
         transaction2.addUnexcepTran(123, "123", transaction);
         assertEquals(transaction, transaction2.getTrans());
+    }
+
+    @Test
+    public void addDevice() {
+        transaction2.addDevice("phone");
     }
 }
