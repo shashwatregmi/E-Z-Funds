@@ -13,8 +13,8 @@ import java.util.*;
 public class Program implements Version {
 
     private Scanner scan = new Scanner(System.in).useDelimiter("\\n");
-    private int systemChoice = 0;
-    private int mode;
+    public int systemChoice = 0;
+    public int mode;
     DayToDayMode dailyMode;
     LongTermMode longTermMode;
 
@@ -24,6 +24,14 @@ public class Program implements Version {
         dailyMode = new DayToDayMode();
         longTermMode = new LongTermMode();
         PullWelcomeMsg pull = new PullWelcomeMsg();
+    }
+
+    public void setSysChoice(int sys) {
+        systemChoice = sys;
+    }
+
+    public void setMode(int mode) {
+        this.mode = mode;
     }
 
 
