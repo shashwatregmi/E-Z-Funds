@@ -27,21 +27,26 @@ public class Main extends JFrame implements ActionListener {
     private JButton delete;
     private JButton report;
     private JComboBox comboBox = new JComboBox();
-
-
     private Program program;
 
-    public Main() throws IOException, NegativeAmt {
-        super("Personal Finance Manager");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(400, 400));
-        ((JPanel) getContentPane()).setBorder(new EmptyBorder(13, 13, 13, 13));
-        setLayout(new FlowLayout());
+    //CITATION for gridbaglayout reference:
+    // https://examples.javacodegeeks.com/desktop-java/swing/java-swing-layout-example/
 
+    public Main() throws IOException, NegativeAmt {
+        JFrame window = new JFrame("Personal Finance Manager");
+        window.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        window.setSize(600, 400);
+        JPanel main = new JPanel();
+        JPanel top = new JPanel();
+        JPanel bottom = new JPanel();
+
+        label = new JLabel("Transaction Type: ");
         comboBox.addItem("Day to Day Transactions");
         comboBox.addItem("Long Term Transactions");
         comboBox.setSelectedIndex(-1);
         comboBox.addActionListener(this);
+        top.add(label);
+        top.add(comboBox);
 
         newEnt = new JButton("New Entry");
         newEnt.setActionCommand("newClick");
@@ -53,15 +58,16 @@ public class Main extends JFrame implements ActionListener {
         report.setActionCommand("repClick");
         report.addActionListener(this);
 
-        label = new JLabel("Transaction Type: ");
+        bottom.add(newEnt);
+        bottom.add(delete);
+        bottom.add(report);
 
-        add(label);
-        add(comboBox);
-
-        pack();
-        setLocationRelativeTo(null);
-        setVisible(true);
-        setResizable(false);
+        window.setContentPane(main);
+        main.add(top);
+        main.add(bottom);
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
+        window.setResizable(false);
 
         ///////// Load the program here
         program = new Program();
@@ -75,7 +81,6 @@ public class Main extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-
 
         comboBoxAction(e);
 
