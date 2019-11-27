@@ -2,10 +2,14 @@ package ui;
 
 import model.TranList;
 import model.exceptions.NegativeAmt;
+import ui.exceptions.OutOfBounds;
 
+import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,33 +20,38 @@ import java.awt.event.ActionListener;
 
 public class Main extends JFrame implements ActionListener {
 
-    private JLabel label;
     private JTextField field;
-    private JButton dayBtn;
-    private JButton ltBtn;
     private JButton newEnt;
     private JButton delete;
     private JButton report;
     private JComboBox comboBox = new JComboBox();
-    private DefaultListModel<String> listModel = new DefaultListModel<>();
-    private JList incomeList = new JList<>(listModel);
+    private DefaultListModel<String> incomeListModel = new DefaultListModel<>();
+    private DefaultListModel<String> expenseListModel = new DefaultListModel<>();
+    private DefaultListModel<String> investListModel = new DefaultListModel<>();
+    private DefaultListModel<String> debtListModel = new DefaultListModel<>();
+    private JList incomeList = new JList<>(incomeListModel);
+    private JList expenseList = new JList<>(expenseListModel);
+    private JList investList = new JList<>(investListModel);
+    private JList debtList = new JList<>(debtListModel);
     private Program program;
-    private JPanel main = new JPanel();
-    private JPanel top = new JPanel();
-    private JPanel middle = new JPanel();
-    private JPanel bottom = new JPanel();
-
-    //CITATION for gridbaglayout reference:
-    // https://examples.javacodegeeks.com/desktop-java/swing/java-swing-layout-example/
+    private boolean incomeFlag = false;
+    private boolean expenseFlag = false;
+    private boolean investFlag = false;
+    private boolean debtFlag = false;
+    private int incomeIndex;
 
     private Main() throws IOException, NegativeAmt {
         JFrame window = new JFrame("Personal Finance Manager");
         window.setDefaultCloseOperation(EXIT_ON_CLOSE);
         window.setSize(600, 400);
-
+        JPanel main = new JPanel();
+        JPanel top = new JPanel();
+        JPanel middleTop = new JPanel();
+        JPanel middleBottom = new JPanel();
+        JPanel bottom = new JPanel();
 
         ////////////////////// TOP PANEL
-        label = new JLabel("Transaction Type: ");
+        JLabel label = new JLabel("Transaction Type: ");
         comboBox.addItem("Day to Day Transactions");
         comboBox.addItem("Long Term Transactions");
         comboBox.setSelectedIndex(-1);
@@ -50,6 +59,19 @@ public class Main extends JFrame implements ActionListener {
         top.add(label);
         top.add(comboBox);
 
+
+        //////MIDDLE PANEL
+        middleTop.add(incomeList);
+        middleTop.add(investList);
+        middleBottom.add(debtList);
+        middleBottom.add(expenseList);
+
+        incomeList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                incomeIndex = incomeList.getSelectedIndex();
+            }
+        });
 
         //////////////// BOTTOM PANEL
         newEnt = new JButton("New Entry");
@@ -61,21 +83,16 @@ public class Main extends JFrame implements ActionListener {
         report = new JButton("View Report");
         report.setActionCommand("repClick");
         report.addActionListener(this);
-
         bottom.add(newEnt);
         bottom.add(delete);
         bottom.add(report);
 
 
-
-        //////MIDDLE PANEL
-        middle.add(incomeList);
-
-
         //////// WINDOW VISIBILITY STUFF
         window.setContentPane(main);
         main.add(top);
-        main.add(middle);
+        main.add(middleTop);
+        main.add(middleBottom);
         main.add(bottom);
         window.setLocationRelativeTo(null);
         window.setVisible(true);
@@ -93,17 +110,19 @@ public class Main extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-
-        comboBoxAction(e);
-
-        if (e.getActionCommand().equals("newClick")) {
+        if (e.getActionCommand().equals("delClick")) {
             try {
-                program.dailyMode.newEntry();
-            } catch (FileNotFoundException | NegativeAmt ex) {
-                ex.printStackTrace();
+                program.dailyMode.delete("Income", incomeIndex);
+                incomeFlag = false;
+                incomeListModel.clear();
+                loadIncome();
+            } finally {
+                return;
             }
         }
+        comboBoxAction(e);
     }
+
 
     private void comboBoxAction(ActionEvent e) {
         // CITED: https://www.youtube.com/watch?v=iOV_oaJhABQ
@@ -114,10 +133,12 @@ public class Main extends JFrame implements ActionListener {
             switch (tranType) {
                 case "Day to Day Transactions":
                     loadIncome();
+                    loadExpense();
                     break;
                 case "Long Term Transactions":
                     program.setSysChoice(2);
-                    label.setText("lt");
+                    loadInvest();
+                    loadDebt();
                     break;
                 default:
                     throw new IllegalStateException("Unexpected value: " + tranType);
@@ -128,12 +149,67 @@ public class Main extends JFrame implements ActionListener {
     private void loadIncome() {
         program.setSysChoice(1);
         TranList rep = program.dailyMode.transactions.get("Income");
-        for (int i = 0; i < rep.getSize(); i++) {
-            listModel.addElement(rep.getTrans(i).getTransDetail());
+        if (!incomeFlag) {
+            for (int i = 0; i < rep.getSize(); i++) {
+                incomeListModel.addElement(rep.getTrans(i).getTransDetail());
+            }
+            investList.setVisible(false);
+            incomeList.setVisible(false);
+            incomeList.setVisible(true);
+            incomeFlag = true;
+            investFlag = false;
+            investListModel.clear();
         }
-        middle.setVisible(false);
-        middle.setVisible(true);
     }
+
+    private void loadExpense() {
+        program.setSysChoice(1);
+        TranList rep = program.dailyMode.transactions.get("Expense");
+        if (!expenseFlag) {
+            for (int i = 0; i < rep.getSize(); i++) {
+                expenseListModel.addElement(rep.getTrans(i).getTransDetail());
+            }
+            debtList.setVisible(false);
+            expenseList.setVisible(false);
+            expenseList.setVisible(true);
+            expenseFlag = true;
+            debtFlag = false;
+            debtListModel.clear();
+        }
+    }
+
+    private void loadInvest() {
+        program.setSysChoice(1);
+        TranList rep = program.longTermMode.transactions.get("Investment");
+        if (!investFlag) {
+            for (int i = 0; i < rep.getSize(); i++) {
+                investListModel.addElement(rep.getTrans(i).getTransDetail());
+            }
+            incomeList.setVisible(false);
+            investList.setVisible(false);
+            investList.setVisible(true);
+            investFlag = true;
+            incomeFlag = false;
+            incomeListModel.clear();
+        }
+    }
+
+    private void loadDebt() {
+        program.setSysChoice(1);
+        TranList rep = program.longTermMode.transactions.get("Debt");
+        if (!debtFlag) {
+            for (int i = 0; i < rep.getSize(); i++) {
+                debtListModel.addElement(rep.getTrans(i).getTransDetail());
+            }
+            expenseList.setVisible(false);
+            debtList.setVisible(false);
+            debtList.setVisible(true);
+            debtFlag = true;
+            expenseFlag = false;
+            expenseListModel.clear();
+        }
+    }
+
 
     public static void main(String[] args) throws IOException, NegativeAmt {
         new Main();

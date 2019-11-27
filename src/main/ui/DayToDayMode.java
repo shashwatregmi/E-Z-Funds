@@ -70,32 +70,25 @@ public class DayToDayMode extends TransactionEntry {
     void delEntry() throws OutOfBounds {
         System.out.println("Would you like to delete a income(I) or a expense(E)?");
         String choice = scan.next();
-        try {
-            if (choice.equals("I") || choice.equals("i")) {
-                delete("Income");
-            } else if (choice.equals("E") || choice.equals("e")) {
-                delete("Expense");
-            } else {
-                System.out.println("That was not a valid input.");
-            }
-        } catch (OutOfBounds outBounds) {
-            System.out.println("That is not a valid row!");
+        if (choice.equals("I") || choice.equals("i")) {
+            //delete("Income");
+        } else if (choice.equals("E") || choice.equals("e")) {
+            //delete("Expense");
+        } else {
+            System.out.println("That was not a valid input.");
         }
     }
 
     // REQUIRES: there must be a transaction of income if it is to be deleted
     // MODIFIES: the incomelist
     // EFFECTS: allows user to delete transaction
-    private void delete(String name) throws OutOfBounds {
-        specificReport(name);
-        System.out.println("What row would you like to delete?");
-        int row = scan.nextInt();
+    public void delete(String name, int row) throws OutOfBounds {
+        //specificReport(name);
+        //System.out.println("What row would you like to delete?");
+        //int row = scan.nextInt();
         TranList list = transactions.get(name);
-        if (row > list.getSize()) {
-            throw new OutOfBounds();
-        }
-        list.delete(row - 1);
-        System.out.println("Row " + row + " has been deleted.");
+        list.delete(row);
+        //System.out.println("Row " + row + " has been deleted.");
     }
 
     //EFFECTS: prints all transactions from transactions based on input in a reportable fashion

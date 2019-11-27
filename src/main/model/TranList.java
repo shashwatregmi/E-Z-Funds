@@ -41,7 +41,8 @@ public abstract class TranList {
     //MODIFIES: this
     //EFFECTS: Element i is deleted from  the list
     public void delete(int i) {
-        tranList.remove(this.getTrans(i));
+        //tranList.remove(this.getTrans(i));
+        tranList.remove(i);
     }
 
     // REQUIRES: the int i must be a valid index of the array
