@@ -2,6 +2,7 @@ package ui;
 
 import model.TranList;
 import model.exceptions.NegativeAmt;
+import network.PullWelcomeMsg;
 import ui.exceptions.OutOfBounds;
 
 import java.awt.*;
@@ -20,7 +21,6 @@ import java.awt.event.ActionListener;
 
 public class Main extends JFrame implements ActionListener {
 
-    private JTextField field;
     private JButton newEnt;
     private JButton delete;
     private JComboBox comboBox = new JComboBox();
@@ -41,23 +41,36 @@ public class Main extends JFrame implements ActionListener {
     private int expenseIndex = -1;
     private int investIndex = -1;
     private int debtIndex = -1;
+    private JPanel middleTop = new JPanel();
+    private JPanel middleBottom = new JPanel();
+    private JTextField descField;
+    private JTextField amtField;
+    private JTextField rateField;
+    private JTextField termField;
 
 
     private Main() throws IOException, NegativeAmt {
         JFrame window = new JFrame("Personal Finance Manager");
         window.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        window.setSize(600, 400);
+        window.setSize(800, 600);
         JPanel main = new JPanel();
         JPanel top = new JPanel();
-        JPanel middleTop = new JPanel();
-        JPanel middleBottom = new JPanel();
         JPanel bottom = new JPanel();
+        JPanel superBottom = new JPanel();
+        JPanel entryBottom = new JPanel();
+
+        GridBagLayout layout = new GridBagLayout();
+        main.setLayout(layout);
+        GridBagConstraints gbc = new GridBagConstraints();
+        entryBottom.setLayout(new GridLayout(2, 4));
 
         main.setBackground(Color.white);
         top.setBackground(Color.white);
         middleTop.setBackground(Color.white);
         middleBottom.setBackground(Color.white);
         bottom.setBackground(Color.white);
+        superBottom.setBackground(Color.white);
+        entryBottom.setBackground(Color.white);
         ////////////////////// TOP PANEL
         JLabel label = new JLabel("Transaction Type: ");
         comboBox.addItem("Day to Day Transactions");
@@ -66,7 +79,6 @@ public class Main extends JFrame implements ActionListener {
         comboBox.addActionListener(this);
         top.add(label);
         top.add(comboBox);
-
 
         //////MIDDLE PANEL
         middleTop.add(incomeList);
@@ -79,6 +91,10 @@ public class Main extends JFrame implements ActionListener {
             public void valueChanged(ListSelectionEvent e) {
                 incomeIndex = incomeList.getSelectedIndex();
                 delete.setEnabled(true);
+                if (incomeFlag) {
+                    descField.setText(program.dailyMode.incomeList.getTrans(incomeIndex).getDesc());
+                    amtField.setText(program.dailyMode.incomeList.getTrans(incomeIndex).getAmount().toString());
+                }
             }
         });
 
@@ -87,6 +103,10 @@ public class Main extends JFrame implements ActionListener {
             public void valueChanged(ListSelectionEvent e) {
                 expenseIndex = expenseList.getSelectedIndex();
                 delete.setEnabled(true);
+                if (expenseFlag) {
+                    descField.setText(program.dailyMode.expenseList.getTrans(expenseIndex).getDesc());
+                    amtField.setText(program.dailyMode.expenseList.getTrans(expenseIndex).getAmount().toString());
+                }
             }
         });
 
@@ -95,6 +115,13 @@ public class Main extends JFrame implements ActionListener {
             public void valueChanged(ListSelectionEvent e) {
                 investIndex = investList.getSelectedIndex();
                 delete.setEnabled(true);
+                if (investFlag) {
+                    descField.setText(program.longTermMode.investList.getTrans(investIndex).getDesc());
+                    amtField.setText(program.longTermMode.investList.getTrans(investIndex).getAmount().toString());
+                    rateField.setText(
+                            program.longTermMode.investList.getTrans(investIndex).getInterestRate().toString());
+                    termField.setText((program.longTermMode.investList.getTrans(investIndex).getTerm()).toString());
+                }
             }
         });
 
@@ -103,14 +130,47 @@ public class Main extends JFrame implements ActionListener {
             public void valueChanged(ListSelectionEvent e) {
                 debtIndex = debtList.getSelectedIndex();
                 delete.setEnabled(true);
+                if (debtFlag) {
+                    descField.setText(program.longTermMode.debtList.getTrans(debtIndex).getDesc());
+                    amtField.setText(program.longTermMode.debtList.getTrans(debtIndex).getAmount().toString());
+                    rateField.setText(program.longTermMode.debtList.getTrans(debtIndex).getInterestRate().toString());
+                    termField.setText((program.longTermMode.debtList.getTrans(debtIndex).getTerm()).toString());
+                }
             }
         });
 
+        ///Text Bottom
+
+        JLabel desc = new JLabel("Description:");
+        JLabel amt = new JLabel("Amount:");
+        JLabel rate = new JLabel("Interest Rate:");
+        JLabel term = new JLabel("Term:");
+        descField = new JTextField();
+        amtField = new JTextField();
+        rateField = new JTextField();
+        termField = new JTextField();
+
+        entryBottom.add(desc);
+        entryBottom.add(descField);
+        entryBottom.add(amt);
+        entryBottom.add(amtField);
+        entryBottom.add(rate);
+        entryBottom.add(rateField);
+        entryBottom.add(term);
+        entryBottom.add(termField);
+        descField.setEnabled(false);
+        amtField.setEnabled(false);
+        termField.setEnabled(false);
+        rateField.setEnabled(false);
+        entryBottom.setBorder(BorderFactory.createTitledBorder("New Entry: "));
+        gbc.weighty = 1;
+
+
         //////////////// BOTTOM PANEL
-        // NEW ENTRY Image: Icon made by Flaticon Basic License from www.flaticon.com
+        // NEW ENTRY Image: Icon made by Smashicons from www.flaticon.com
         // https://www.flaticon.com/free-icon/envelope_134975?term=open&page=1&position=22
 
-        // Delete Image: Icon made by Flaticon Basic License from www.flaticon.com
+        // Delete Image: Icon made by Freepik from www.flaticon.com
         // https://www.flaticon.com/free-icon/file_2246626?term=delete&page=1&position=32
         newEnt = new JButton("New Entry", new ImageIcon("./data/new.png"));
         newEnt.setActionCommand("newClick");
@@ -122,13 +182,43 @@ public class Main extends JFrame implements ActionListener {
         bottom.add(newEnt);
         delete.setEnabled(false);
 
+        // ICON CITE (weather.png): Icon made by Freepik from www.flaticon.com
+        // https://www.flaticon.com/free-icon/hot_1684375?term=weather&page=1&position=9
+        // ICON CITE (cold.png): Icon made by Freepik from www.flaticon.com
+        // https://www.flaticon.com/free-icon/cold_1684425
+        JLabel weather = new JLabel();
+        PullWelcomeMsg pull = new PullWelcomeMsg();
+        weather.setText(pull.finalWeather);
+        if (pull.getTemp() > 8) {
+            weather.setIcon(new ImageIcon("./data/weather.png"));
+        } else {
+            weather.setIcon(new ImageIcon("./data/cold.png"));
+        }
+
+
+        superBottom.add(weather);
 
         //////// WINDOW VISIBILITY STUFF
         window.setContentPane(main);
-        main.add(top);
-        main.add(middleTop);
-        main.add(middleBottom);
-        main.add(bottom);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        main.add(top, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        main.add(middleTop,gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        main.add(middleBottom,gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        main.add(entryBottom,gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        main.add(bottom,gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        main.add(superBottom,gbc);
         window.setLocationRelativeTo(null);
         window.setVisible(true);
         window.setResizable(false);
@@ -170,6 +260,7 @@ public class Main extends JFrame implements ActionListener {
         incomeListModel.clear();
         loadIncome();
         incomeIndex = -1;
+        program.saveData();
     }
 
     private void deleteExpense() throws Exception {
@@ -178,6 +269,8 @@ public class Main extends JFrame implements ActionListener {
         expenseListModel.clear();
         loadExpense();
         expenseIndex = -1;
+        program.saveData();
+
     }
 
     private void deleteInvest() throws Exception {
@@ -186,6 +279,8 @@ public class Main extends JFrame implements ActionListener {
         investListModel.clear();
         loadInvest();
         investIndex = -1;
+        program.saveData();
+
     }
 
     private void deleteDebt() throws Exception {
@@ -194,6 +289,7 @@ public class Main extends JFrame implements ActionListener {
         debtListModel.clear();
         loadDebt();
         debtIndex = -1;
+        program.saveData();
     }
 
     private void comboBoxAction(ActionEvent e) {
@@ -231,6 +327,7 @@ public class Main extends JFrame implements ActionListener {
             incomeFlag = true;
             investFlag = false;
             investListModel.clear();
+            middleTop.setBorder(BorderFactory.createTitledBorder("Income Entries: "));
         }
     }
 
@@ -247,6 +344,7 @@ public class Main extends JFrame implements ActionListener {
             expenseFlag = true;
             debtFlag = false;
             debtListModel.clear();
+            middleBottom.setBorder(BorderFactory.createTitledBorder("Expense Entries: "));
         }
     }
 
@@ -262,7 +360,11 @@ public class Main extends JFrame implements ActionListener {
             investList.setVisible(true);
             investFlag = true;
             incomeFlag = false;
+            descField.setText("");
+            amtField.setText("");
             incomeListModel.clear();
+            middleTop.setBorder(BorderFactory.createTitledBorder("Investment Entries: "));
+
         }
     }
 
@@ -279,6 +381,7 @@ public class Main extends JFrame implements ActionListener {
             debtFlag = true;
             expenseFlag = false;
             expenseListModel.clear();
+            middleBottom.setBorder(BorderFactory.createTitledBorder("Debt Entries: "));
         }
     }
 

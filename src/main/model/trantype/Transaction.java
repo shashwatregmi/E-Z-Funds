@@ -32,7 +32,7 @@ public abstract class Transaction extends Subject {
     }
 
     //EFFECTS: returns field amount
-    public double getAmount() {
+    public Double getAmount() {
         return this.amount;
     }
 
@@ -57,12 +57,12 @@ public abstract class Transaction extends Subject {
     }
 
     //EFFECTS: returns term
-    public int getTerm() {
+    public Integer getTerm() {
         return this.term;
     }
 
     //EFFECTS: return interestRate
-    public double getInterestRate() {
+    public Double getInterestRate() {
         return this.interestRate;
     }
 

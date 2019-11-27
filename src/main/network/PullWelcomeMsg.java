@@ -12,6 +12,8 @@ import java.net.URL;
 
 
 public class PullWelcomeMsg {
+    public String finalWeather;
+    double temp;
 
     public PullWelcomeMsg() throws IOException {
         BufferedReader reader = null;
@@ -38,11 +40,11 @@ public class PullWelcomeMsg {
             ////////////////////////////////////////////////////////////////////
 
 
-            double temp = mainObject.getDouble("temp");
+            temp = mainObject.getDouble("temp");
             double minTemp = mainObject.getDouble("temp_min");
             double maxTemp = mainObject.getDouble("temp_max");
 
-
+            finalWeather = "It is " + temp + " degrees C in " + city  + ". Max/Min are " + minTemp + "/" + maxTemp;
             System.out.println("It is " + temp + " degrees C in " + city  + ". Max/Min is " + minTemp + "/" + maxTemp);
 
         } catch (JSONException e) {
@@ -52,5 +54,9 @@ public class PullWelcomeMsg {
                 reader.close();
             }
         }
+    }
+
+    public double getTemp() {
+        return temp;
     }
 }
