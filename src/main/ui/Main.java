@@ -5,14 +5,18 @@ import model.exceptions.NegativeAmt;
 import network.PullWelcomeMsg;
 
 import java.awt.*;
+import java.io.File;
+import com.apple.eawt.Application;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 
 // Citation: The basic GUI example from the edX D11 website
 // <https://edge.edx.org/courses/course-v1:UBC+CPSC210+all/courseware/f636f4e1dd5348ed8f6dc7c3defed983/cba8ffaf475e4b9f
@@ -65,6 +69,13 @@ public class Main extends JFrame implements ActionListener {
         JPanel bottom = new JPanel();
         JPanel superBottom = new JPanel();
         JPanel entryBottom = new JPanel();
+        // NEW ENTRY Image: Icon made by Kiranshastry from www.flaticon.com
+        // hhttps://www.flaticon.com/free-icon/money_845753
+        // CITE for icon reference:
+        // https://stackoverflow.com/questions/11253772/setting-the-default-application-icon-image-in-
+        // java-swing-on-os-x/11279556#11279556
+        Image image =  ImageIO.read(new File("./data/icon.png"));
+        Application.getApplication().setDockIconImage(image);
 
         GridBagLayout layout = new GridBagLayout();
         main.setLayout(layout);
@@ -355,6 +366,11 @@ public class Main extends JFrame implements ActionListener {
     private void deleteChooser() {
         try {
             deleteChoice();
+            // "UI Confirmation Alert, A3.wav" by InspectorJ (www.jshaw.co.uk) of Freesound.org
+            // https://freesound.org/people/InspectorJ/sounds/403006/
+            URL sound = new File("./data/delete.wav").toURI().toURL();
+            java.applet.AudioClip clip = java.applet.Applet.newAudioClip(sound);
+            clip.play();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
