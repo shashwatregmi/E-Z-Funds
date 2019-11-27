@@ -23,6 +23,7 @@ public class Main extends JFrame implements ActionListener {
 
     private JButton newEnt;
     private JButton delete;
+    private JButton save;
     private JComboBox comboBox = new JComboBox();
     private DefaultListModel<String> incomeListModel = new DefaultListModel<>();
     private DefaultListModel<String> expenseListModel = new DefaultListModel<>();
@@ -47,6 +48,7 @@ public class Main extends JFrame implements ActionListener {
     private JTextField amtField;
     private JTextField rateField;
     private JTextField termField;
+    private int sysChoice;
 
 
     private Main() throws IOException, NegativeAmt {
@@ -91,6 +93,7 @@ public class Main extends JFrame implements ActionListener {
             public void valueChanged(ListSelectionEvent e) {
                 incomeIndex = incomeList.getSelectedIndex();
                 delete.setEnabled(true);
+                newEnt.setEnabled(false);
                 if (incomeFlag) {
                     descField.setText(program.dailyMode.incomeList.getTrans(incomeIndex).getDesc());
                     amtField.setText(program.dailyMode.incomeList.getTrans(incomeIndex).getAmount().toString());
@@ -103,6 +106,7 @@ public class Main extends JFrame implements ActionListener {
             public void valueChanged(ListSelectionEvent e) {
                 expenseIndex = expenseList.getSelectedIndex();
                 delete.setEnabled(true);
+                newEnt.setEnabled(false);
                 if (expenseFlag) {
                     descField.setText(program.dailyMode.expenseList.getTrans(expenseIndex).getDesc());
                     amtField.setText(program.dailyMode.expenseList.getTrans(expenseIndex).getAmount().toString());
@@ -115,6 +119,7 @@ public class Main extends JFrame implements ActionListener {
             public void valueChanged(ListSelectionEvent e) {
                 investIndex = investList.getSelectedIndex();
                 delete.setEnabled(true);
+                newEnt.setEnabled(false);
                 if (investFlag) {
                     descField.setText(program.longTermMode.investList.getTrans(investIndex).getDesc());
                     amtField.setText(program.longTermMode.investList.getTrans(investIndex).getAmount().toString());
@@ -130,6 +135,7 @@ public class Main extends JFrame implements ActionListener {
             public void valueChanged(ListSelectionEvent e) {
                 debtIndex = debtList.getSelectedIndex();
                 delete.setEnabled(true);
+                newEnt.setEnabled(false);
                 if (debtFlag) {
                     descField.setText(program.longTermMode.debtList.getTrans(debtIndex).getDesc());
                     amtField.setText(program.longTermMode.debtList.getTrans(debtIndex).getAmount().toString());
@@ -172,15 +178,24 @@ public class Main extends JFrame implements ActionListener {
 
         // Delete Image: Icon made by Freepik from www.flaticon.com
         // https://www.flaticon.com/free-icon/file_2246626?term=delete&page=1&position=32
+
+        // Save Image: Icon made by Smashicons from www.flaticon.com
+        //https://www.flaticon.com/free-icon/save_148730?term=save&page=1&position=1
         newEnt = new JButton("New Entry", new ImageIcon("./data/new.png"));
         newEnt.setActionCommand("newClick");
         newEnt.addActionListener(this);
         delete = new JButton("Delete Entry", new ImageIcon("./data/delete.png"));
         delete.setActionCommand("delClick");
         delete.addActionListener(this);
+        save = new JButton("Save Entry", new ImageIcon("./data/save.png"));
+        save.setActionCommand("delClick");
+        save.addActionListener(this);
         bottom.add(delete);
         bottom.add(newEnt);
+        bottom.add(save);
         delete.setEnabled(false);
+        save.setEnabled(false);
+        newEnt.setEnabled(false);
 
         // ICON CITE (weather.png): Icon made by Freepik from www.flaticon.com
         // https://www.flaticon.com/free-icon/hot_1684375?term=weather&page=1&position=9
@@ -188,7 +203,7 @@ public class Main extends JFrame implements ActionListener {
         // https://www.flaticon.com/free-icon/cold_1684425
         JLabel weather = new JLabel();
         PullWelcomeMsg pull = new PullWelcomeMsg();
-        weather.setText(pull.finalWeather);
+        weather.setText("NOTE: " + pull.finalWeather);
         if (pull.getTemp() > 8) {
             weather.setIcon(new ImageIcon("./data/weather.png"));
         } else {
@@ -230,7 +245,6 @@ public class Main extends JFrame implements ActionListener {
         } catch (NegativeAmt negativeamt) {
             System.out.println("Error. Negative Amount in file.");
         }
-
         program.run();
     }
 
@@ -249,9 +263,28 @@ public class Main extends JFrame implements ActionListener {
             } finally {
                 return;
             }
+        } else if (e.getActionCommand().equals("newClick")) {
+            newClick();
         }
 
         comboBoxAction(e);
+    }
+
+    private void newClick() {
+        descField.setText("");
+        amtField.setText("");
+        rateField.setText("");
+        termField.setText("");
+        save.setEnabled(true);
+        if (sysChoice == 1) {
+            descField.setEnabled(true);
+            amtField.setEnabled(true);
+        } else {
+            descField.setEnabled(true);
+            amtField.setEnabled(true);
+            rateField.setEnabled(true);
+            termField.setEnabled(true);
+        }
     }
 
     private void deleteIncome() throws Exception {
@@ -300,18 +333,38 @@ public class Main extends JFrame implements ActionListener {
             assert tranType != null;
             switch (tranType) {
                 case "Day to Day Transactions":
-                    loadIncome();
-                    loadExpense();
+                    preLoadDay();
                     break;
                 case "Long Term Transactions":
-                    loadInvest();
-                    loadDebt();
+                    preLoadLong();
                     break;
                 default:
                     throw new IllegalStateException("Unexpected value: " + tranType);
             }
+            newEnt.setEnabled(true);
             delete.setEnabled(false);
+            save.setEnabled(false);
         }
+    }
+
+    private void preLoadDay() {
+        sysChoice = 1;
+        loadIncome();
+        loadExpense();
+        descField.setEnabled(false);
+        amtField.setEnabled(false);
+        rateField.setEnabled(false);
+        termField.setEnabled(false);
+    }
+
+    private void preLoadLong() {
+        loadInvest();
+        loadDebt();
+        sysChoice = 2;
+        descField.setEnabled(false);
+        amtField.setEnabled(false);
+        rateField.setEnabled(false);
+        termField.setEnabled(false);
     }
 
     private void loadIncome() {
