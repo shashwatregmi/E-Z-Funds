@@ -39,9 +39,9 @@ public class DayToDayMode extends TransactionEntry {
         System.out.println("Press I to enter income or E to enter expense or Q to quit.");
         String choice = scan.next();
         if (choice.equals("I") || choice.equals("i")) {
-            entry("Income");
+            //entry("Income");
         } else if (choice.equals("E") || choice.equals("e")) {
-            entry("Expense");
+            //entry("Expense");
         } else if (choice.equals("Q") || choice.equals("q")) {
             return;
         } else {
@@ -52,10 +52,10 @@ public class DayToDayMode extends TransactionEntry {
     // MODIFIES: incomelist/expenselist
     // EFFECTS: sets up income/expense and takes user input from user. Then setups new transaction and puts in proper
     // list
-    private void entry(String name) throws NegativeAmt {
-        setup(name);
-        double amount = amtEntry();
-        String desc = descEntry();
+    public void entry(String name, String desc, Double amount) throws NegativeAmt {
+        //setup(name);
+        //double amount = amtEntry();
+        //String desc = descEntry();
         Transaction transaction = new DayToDayTran(amount, desc);
         transaction.addDevice("Phone");
         transaction.addDevice("Laptop");

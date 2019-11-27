@@ -3,7 +3,6 @@ package ui;
 import model.TranList;
 import model.exceptions.NegativeAmt;
 import network.PullWelcomeMsg;
-import ui.exceptions.OutOfBounds;
 
 import java.awt.*;
 import java.io.FileNotFoundException;
@@ -13,6 +12,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.UnsupportedEncodingException;
 
 // Citation: The basic GUI example from the edX D11 website
 // <https://edge.edx.org/courses/course-v1:UBC+CPSC210+all/courseware/f636f4e1dd5348ed8f6dc7c3defed983/cba8ffaf475e4b9f
@@ -49,6 +49,11 @@ public class Main extends JFrame implements ActionListener {
     private JTextField rateField;
     private JTextField termField;
     private int sysChoice;
+    private JRadioButton income;
+    private JRadioButton expense;
+    private JRadioButton invest;
+    private JRadioButton debt;
+    private int radioIndex;
 
 
     private Main() throws IOException, NegativeAmt {
@@ -64,7 +69,7 @@ public class Main extends JFrame implements ActionListener {
         GridBagLayout layout = new GridBagLayout();
         main.setLayout(layout);
         GridBagConstraints gbc = new GridBagConstraints();
-        entryBottom.setLayout(new GridLayout(2, 4));
+        entryBottom.setLayout(new GridLayout(3, 4));
 
         main.setBackground(Color.white);
         top.setBackground(Color.white);
@@ -147,6 +152,19 @@ public class Main extends JFrame implements ActionListener {
 
         ///Text Bottom
 
+        income = new JRadioButton();
+        expense = new JRadioButton();
+        invest = new JRadioButton();
+        debt = new JRadioButton();
+        income.setEnabled(false);
+        expense.setEnabled(false);
+        invest.setEnabled(false);
+        debt.setEnabled(false);
+        income.setText("Income");
+        expense.setText("Expense");
+        invest.setText("Investment");
+        debt.setText("Debt");
+
         JLabel desc = new JLabel("Description:");
         JLabel amt = new JLabel("Amount:");
         JLabel rate = new JLabel("Interest Rate:");
@@ -156,6 +174,15 @@ public class Main extends JFrame implements ActionListener {
         rateField = new JTextField();
         termField = new JTextField();
 
+
+        entryBottom.add(income);
+        entryBottom.add(expense);
+        entryBottom.add(invest);
+        entryBottom.add(debt);
+        income.addActionListener(this);
+        expense.addActionListener(this);
+        invest.addActionListener(this);
+        debt.addActionListener(this);
         entryBottom.add(desc);
         entryBottom.add(descField);
         entryBottom.add(amt);
@@ -172,7 +199,7 @@ public class Main extends JFrame implements ActionListener {
         gbc.weighty = 1;
 
 
-        //////////////// BOTTOM PANEL
+                //////////////// BOTTOM PANEL
         // NEW ENTRY Image: Icon made by Smashicons from www.flaticon.com
         // https://www.flaticon.com/free-icon/envelope_134975?term=open&page=1&position=22
 
@@ -188,7 +215,7 @@ public class Main extends JFrame implements ActionListener {
         delete.setActionCommand("delClick");
         delete.addActionListener(this);
         save = new JButton("Save Entry", new ImageIcon("./data/save.png"));
-        save.setActionCommand("delClick");
+        save.setActionCommand("saveClick");
         save.addActionListener(this);
         bottom.add(delete);
         bottom.add(newEnt);
@@ -250,24 +277,92 @@ public class Main extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("delClick")) {
-            try {
-                if (incomeIndex >= 0) {
-                    deleteIncome();
-                } else if (expenseIndex >= 0) {
-                    deleteExpense();
-                } else if (investIndex >= 0) {
-                    deleteInvest();
-                } else if (debtIndex >= 0) {
-                    deleteDebt();
-                }
-            } finally {
-                return;
-            }
+            deleteChooser();
         } else if (e.getActionCommand().equals("newClick")) {
             newClick();
+        } else if (e.getActionCommand().equals("saveClick")) {
+            callSave();
         }
-
+        if (income.isSelected()) {
+            radioIndex = 1;
+        } else if (expense.isSelected()) {
+            radioIndex = 2;
+        } else if (invest.isSelected()) {
+            radioIndex = 3;
+        } else if (debt.isSelected()) {
+            radioIndex = 4;
+        }
         comboBoxAction(e);
+    }
+
+    private void callSave() {
+        try {
+            saveButton();
+        } catch (Exception p) {
+            p.printStackTrace();
+        }
+    }
+
+    private void deleteChooser() {
+        try {
+            deleteChoice();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void deleteChoice() throws Exception {
+        if (incomeIndex >= 0) {
+            deleteIncome();
+        } else if (expenseIndex >= 0) {
+            deleteExpense();
+        } else if (investIndex >= 0) {
+            deleteInvest();
+        } else if (debtIndex >= 0) {
+            deleteDebt();
+        }
+    }
+
+    private void saveButton() throws NegativeAmt, FileNotFoundException, UnsupportedEncodingException {
+        income.setEnabled(false);
+        expense.setEnabled(false);
+        invest.setEnabled(false);
+        debt.setEnabled(false);
+        delete.setEnabled(false);
+        if (radioIndex == 1) {
+            incomeSave();
+        } else if (radioIndex == 2) {
+            expenseSave();
+        } else if (radioIndex == 3) {
+            investSave();
+        } else if (radioIndex == 4) {
+            debtSave();
+        }
+        save.setEnabled(false);
+    }
+
+    private void incomeSave() throws NegativeAmt, FileNotFoundException, UnsupportedEncodingException {
+        String desc = descField.getText();
+        Double amount = Double.valueOf(amtField.getText());
+        program.dailyMode.entry("Income", desc, amount);
+        incomeListModel.clear();
+        incomeFlag = false;
+        loadIncome();
+        incomeIndex = -1;
+        program.saveData();
+    }
+
+    private void expenseSave() {
+
+    }
+
+    private void investSave() {
+
+    }
+
+    private void debtSave() {
+
+
     }
 
     private void newClick() {
@@ -277,14 +372,26 @@ public class Main extends JFrame implements ActionListener {
         termField.setText("");
         save.setEnabled(true);
         if (sysChoice == 1) {
-            descField.setEnabled(true);
-            amtField.setEnabled(true);
+            sysChoiceDay();
         } else {
             descField.setEnabled(true);
             amtField.setEnabled(true);
             rateField.setEnabled(true);
             termField.setEnabled(true);
+            income.setEnabled(false);
+            expense.setEnabled(false);
+            invest.setEnabled(true);
+            debt.setEnabled(true);
         }
+    }
+
+    private void sysChoiceDay() {
+        descField.setEnabled(true);
+        amtField.setEnabled(true);
+        income.setEnabled(true);
+        expense.setEnabled(true);
+        invest.setEnabled(false);
+        debt.setEnabled(false);
     }
 
     private void deleteIncome() throws Exception {
