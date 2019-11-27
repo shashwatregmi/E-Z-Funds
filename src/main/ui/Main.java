@@ -23,7 +23,6 @@ public class Main extends JFrame implements ActionListener {
     private JTextField field;
     private JButton newEnt;
     private JButton delete;
-    private JButton report;
     private JComboBox comboBox = new JComboBox();
     private DefaultListModel<String> incomeListModel = new DefaultListModel<>();
     private DefaultListModel<String> expenseListModel = new DefaultListModel<>();
@@ -54,6 +53,11 @@ public class Main extends JFrame implements ActionListener {
         JPanel middleBottom = new JPanel();
         JPanel bottom = new JPanel();
 
+        main.setBackground(Color.white);
+        top.setBackground(Color.white);
+        middleTop.setBackground(Color.white);
+        middleBottom.setBackground(Color.white);
+        bottom.setBackground(Color.white);
         ////////////////////// TOP PANEL
         JLabel label = new JLabel("Transaction Type: ");
         comboBox.addItem("Day to Day Transactions");
@@ -74,6 +78,7 @@ public class Main extends JFrame implements ActionListener {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 incomeIndex = incomeList.getSelectedIndex();
+                delete.setEnabled(true);
             }
         });
 
@@ -81,6 +86,7 @@ public class Main extends JFrame implements ActionListener {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 expenseIndex = expenseList.getSelectedIndex();
+                delete.setEnabled(true);
             }
         });
 
@@ -88,6 +94,7 @@ public class Main extends JFrame implements ActionListener {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 investIndex = investList.getSelectedIndex();
+                delete.setEnabled(true);
             }
         });
 
@@ -95,22 +102,25 @@ public class Main extends JFrame implements ActionListener {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 debtIndex = debtList.getSelectedIndex();
+                delete.setEnabled(true);
             }
         });
 
         //////////////// BOTTOM PANEL
-        newEnt = new JButton("New Entry");
+        // NEW ENTRY Image: Icon made by Flaticon Basic License from www.flaticon.com
+        // https://www.flaticon.com/free-icon/envelope_134975?term=open&page=1&position=22
+
+        // Delete Image: Icon made by Flaticon Basic License from www.flaticon.com
+        // https://www.flaticon.com/free-icon/file_2246626?term=delete&page=1&position=32
+        newEnt = new JButton("New Entry", new ImageIcon("./data/new.png"));
         newEnt.setActionCommand("newClick");
         newEnt.addActionListener(this);
-        delete = new JButton("Delete Entry");
+        delete = new JButton("Delete Entry", new ImageIcon("./data/delete.png"));
         delete.setActionCommand("delClick");
         delete.addActionListener(this);
-        report = new JButton("View Report");
-        report.setActionCommand("repClick");
-        report.addActionListener(this);
-        bottom.add(newEnt);
         bottom.add(delete);
-        bottom.add(report);
+        bottom.add(newEnt);
+        delete.setEnabled(false);
 
 
         //////// WINDOW VISIBILITY STUFF
@@ -198,13 +208,13 @@ public class Main extends JFrame implements ActionListener {
                     loadExpense();
                     break;
                 case "Long Term Transactions":
-                    program.setSysChoice(2);
                     loadInvest();
                     loadDebt();
                     break;
                 default:
                     throw new IllegalStateException("Unexpected value: " + tranType);
             }
+            delete.setEnabled(false);
         }
     }
 
