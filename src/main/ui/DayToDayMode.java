@@ -61,7 +61,7 @@ public class DayToDayMode extends TransactionEntry {
         transaction.addDevice("Laptop");
         TranList list = transactions.get(name);
         list.insert(transaction);
-        System.out.println(transaction.getTransDetail());
+        //System.out.println(transaction.getTransDetail());
     }
 
     // REQUIRES: there must be a trasaction of income/expense if it is to be deleted

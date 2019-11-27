@@ -59,7 +59,7 @@ public class Main extends JFrame implements ActionListener {
     private Main() throws IOException, NegativeAmt {
         JFrame window = new JFrame("Personal Finance Manager");
         window.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        window.setSize(800, 600);
+        window.setSize(1200, 900);
         JPanel main = new JPanel();
         JPanel top = new JPanel();
         JPanel bottom = new JPanel();
@@ -86,12 +86,20 @@ public class Main extends JFrame implements ActionListener {
         comboBox.addActionListener(this);
         top.add(label);
         top.add(comboBox);
+        label.setFont(new Font("News Gothic MT", Font.BOLD, 12));
+        comboBox.setFont(new Font("News Gothic MT", Font.ITALIC, 12));
 
         //////MIDDLE PANEL
         middleTop.add(incomeList);
         middleTop.add(investList);
-        middleBottom.add(debtList);
         middleBottom.add(expenseList);
+        middleBottom.add(debtList);
+
+        incomeList.setFont(new Font("News Gothic MT", Font.PLAIN, 12));
+        expenseList.setFont(new Font("News Gothic MT", Font.PLAIN, 12));
+        investList.setFont(new Font("News Gothic MT", Font.PLAIN, 12));
+        debtList.setFont(new Font("News Gothic MT", Font.PLAIN, 12));
+
 
         incomeList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -156,6 +164,10 @@ public class Main extends JFrame implements ActionListener {
         expense = new JRadioButton();
         invest = new JRadioButton();
         debt = new JRadioButton();
+        income.setFont(new Font("News Gothic MT", Font.ITALIC, 12));
+        expense.setFont(new Font("News Gothic MT", Font.ITALIC, 12));
+        debt.setFont(new Font("News Gothic MT", Font.ITALIC, 12));
+        invest.setFont(new Font("News Gothic MT", Font.ITALIC, 12));
         income.setEnabled(false);
         expense.setEnabled(false);
         invest.setEnabled(false);
@@ -173,6 +185,14 @@ public class Main extends JFrame implements ActionListener {
         amtField = new JTextField();
         rateField = new JTextField();
         termField = new JTextField();
+        descField.setFont(new Font("News Gothic MT", Font.PLAIN, 12));
+        amtField.setFont(new Font("News Gothic MT", Font.PLAIN, 12));
+        rateField.setFont(new Font("News Gothic MT", Font.PLAIN, 12));
+        termField.setFont(new Font("News Gothic MT", Font.PLAIN, 12));
+        desc.setFont(new Font("News Gothic MT", Font.BOLD, 12));
+        amt.setFont(new Font("News Gothic MT", Font.BOLD, 12));
+        rate.setFont(new Font("News Gothic MT", Font.BOLD, 12));
+        term.setFont(new Font("News Gothic MT", Font.BOLD, 12));
 
 
         entryBottom.add(income);
@@ -196,10 +216,11 @@ public class Main extends JFrame implements ActionListener {
         termField.setEnabled(false);
         rateField.setEnabled(false);
         entryBottom.setBorder(BorderFactory.createTitledBorder("New Entry: "));
+        entryBottom.setFont(new Font("News Gothic MT", Font.BOLD, 12));
         gbc.weighty = 1;
 
 
-                //////////////// BOTTOM PANEL
+        //////////////// BOTTOM PANEL
         // NEW ENTRY Image: Icon made by Smashicons from www.flaticon.com
         // https://www.flaticon.com/free-icon/envelope_134975?term=open&page=1&position=22
 
@@ -284,15 +305,43 @@ public class Main extends JFrame implements ActionListener {
             callSave();
         }
         if (income.isSelected()) {
-            radioIndex = 1;
+            clearIncome();
         } else if (expense.isSelected()) {
-            radioIndex = 2;
+            clearExpense();
         } else if (invest.isSelected()) {
-            radioIndex = 3;
+            clearInvest();
         } else if (debt.isSelected()) {
-            radioIndex = 4;
+            clearDebt();
         }
         comboBoxAction(e);
+    }
+
+    private void clearIncome() {
+        radioIndex = 1;
+        expense.setSelected(false);
+        debt.setSelected(false);
+        invest.setSelected(false);
+    }
+
+    private void clearExpense() {
+        radioIndex = 2;
+        income.setSelected(false);
+        debt.setSelected(false);
+        invest.setSelected(false);
+    }
+
+    private void clearInvest() {
+        radioIndex = 3;
+        expense.setSelected(false);
+        income.setSelected(false);
+        invest.setSelected(false);
+    }
+
+    private void clearDebt() {
+        radioIndex = 4;
+        expense.setSelected(false);
+        debt.setSelected(false);
+        income.setSelected(false);
     }
 
     private void callSave() {
@@ -321,6 +370,10 @@ public class Main extends JFrame implements ActionListener {
         } else if (debtIndex >= 0) {
             deleteDebt();
         }
+        descField.setText("");
+        amtField.setText("");
+        rateField.setText("");
+        termField.setText("");
     }
 
     private void saveButton() throws NegativeAmt, FileNotFoundException, UnsupportedEncodingException {
@@ -352,17 +405,41 @@ public class Main extends JFrame implements ActionListener {
         program.saveData();
     }
 
-    private void expenseSave() {
-
+    private void expenseSave() throws NegativeAmt, FileNotFoundException, UnsupportedEncodingException {
+        String desc = descField.getText();
+        Double amount = Double.valueOf(amtField.getText());
+        program.dailyMode.entry("Expense", desc, amount);
+        expenseListModel.clear();
+        expenseFlag = false;
+        loadExpense();
+        expenseIndex = -1;
+        program.saveData();
     }
 
-    private void investSave() {
-
+    private void investSave() throws NegativeAmt, FileNotFoundException, UnsupportedEncodingException {
+        String desc = descField.getText();
+        Double amount = Double.valueOf(amtField.getText());
+        Double rate = Double.valueOf(rateField.getText());
+        int term = Integer.parseInt(termField.getText());
+        program.longTermMode.entry("Investment", desc, amount, rate, term);
+        investListModel.clear();
+        investFlag = false;
+        loadInvest();
+        investIndex = -1;
+        program.saveData();
     }
 
-    private void debtSave() {
-
-
+    private void debtSave() throws NegativeAmt, FileNotFoundException, UnsupportedEncodingException {
+        String desc = descField.getText();
+        Double amount = Double.valueOf(amtField.getText());
+        Double rate = Double.valueOf(rateField.getText());
+        int term = Integer.parseInt(termField.getText());
+        program.longTermMode.entry("Debt", desc, amount, rate, term);
+        debtListModel.clear();
+        debtFlag = false;
+        loadDebt();
+        debtIndex = -1;
+        program.saveData();
     }
 
     private void newClick() {
@@ -462,6 +539,14 @@ public class Main extends JFrame implements ActionListener {
         amtField.setEnabled(false);
         rateField.setEnabled(false);
         termField.setEnabled(false);
+        income.setSelected(false);
+        expense.setSelected(false);
+        debt.setSelected(false);
+        invest.setSelected(false);
+        descField.setText("");
+        amtField.setText("");
+        rateField.setText("");
+        termField.setText("");
     }
 
     private void preLoadLong() {
@@ -472,6 +557,14 @@ public class Main extends JFrame implements ActionListener {
         amtField.setEnabled(false);
         rateField.setEnabled(false);
         termField.setEnabled(false);
+        income.setSelected(false);
+        expense.setSelected(false);
+        debt.setSelected(false);
+        invest.setSelected(false);
+        descField.setText("");
+        amtField.setText("");
+        rateField.setText("");
+        termField.setText("");
     }
 
     private void loadIncome() {
@@ -488,6 +581,7 @@ public class Main extends JFrame implements ActionListener {
             investFlag = false;
             investListModel.clear();
             middleTop.setBorder(BorderFactory.createTitledBorder("Income Entries: "));
+            middleTop.setFont(new Font("News Gothic MT", Font.BOLD, 12));
         }
     }
 
@@ -505,6 +599,7 @@ public class Main extends JFrame implements ActionListener {
             debtFlag = false;
             debtListModel.clear();
             middleBottom.setBorder(BorderFactory.createTitledBorder("Expense Entries: "));
+            middleBottom.setFont(new Font("News Gothic MT", Font.BOLD, 12));
         }
     }
 
@@ -520,11 +615,9 @@ public class Main extends JFrame implements ActionListener {
             investList.setVisible(true);
             investFlag = true;
             incomeFlag = false;
-            descField.setText("");
-            amtField.setText("");
             incomeListModel.clear();
             middleTop.setBorder(BorderFactory.createTitledBorder("Investment Entries: "));
-
+            middleTop.setFont(new Font("News Gothic MT", Font.BOLD, 12));
         }
     }
 
@@ -542,6 +635,7 @@ public class Main extends JFrame implements ActionListener {
             expenseFlag = false;
             expenseListModel.clear();
             middleBottom.setBorder(BorderFactory.createTitledBorder("Debt Entries: "));
+            middleBottom.setFont(new Font("News Gothic MT", Font.BOLD, 12));
         }
     }
 

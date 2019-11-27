@@ -55,9 +55,9 @@ public class LongTermMode extends TransactionEntry {
         System.out.println("Press I to enter Investments or D to enter Debts or Q to quit.");
         String choice = scan.next();
         if (choice.equals("I") || choice.equals("i")) {
-            entry("Investment");
+            //entry("Investment");
         } else if (choice.equals("D") || choice.equals("d")) {
-            entry("Debt");
+            //entry("Debt");
         } else if (choice.equals("Q") || choice.equals("q")) {
             return;
         } else {
@@ -67,16 +67,16 @@ public class LongTermMode extends TransactionEntry {
 
     // MODIFIES:investmentlist
     // EFFECTS:sets up investment and takes user input from user. Then setups new transaction and puts in investmentlist
-    private void entry(String name) throws NegativeAmt {
-        setup(name);
-        double amount = amtEntry();
-        String desc = descEntry();
-        int term = termEntry();
-        double rate = rateEntry();
+    public void entry(String name, String desc, Double amount, Double rate, int term) throws NegativeAmt {
+        //setup(name);
+        //double amount = amtEntry();
+        //String desc = descEntry();
+        //int term = termEntry();
+        //double rate = rateEntry();
         LongTermTran transaction = new LongTermTran(amount, desc, term, rate);
         TranList list = transactions.get(name);
         list.insert(transaction);
-        System.out.println(transaction.getTransDetail());
+        //System.out.println(transaction.getTransDetail());
     }
 
     // EFFECTS: takes in user input and returns value
