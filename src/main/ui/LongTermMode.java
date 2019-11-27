@@ -107,32 +107,28 @@ public class LongTermMode extends TransactionEntry {
     void ltDelEntry() throws OutOfBounds {
         System.out.println("Would you like to delete a investment(I) or a debt(D)?");
         String choice = scan.next();
-        try {
-            if (choice.equals("I") || choice.equals("i")) {
-                delete("Investment");
-            } else if (choice.equals("D") || choice.equals("d")) {
-                delete("Debt");
-            } else {
-                System.out.println("That was not a valid input.");
-            }
-        } catch (OutOfBounds outBounds) {
-            System.out.println("That is not a valid row!");
+        if (choice.equals("I") || choice.equals("i")) {
+           //delete("Investment");
+        } else if (choice.equals("D") || choice.equals("d")) {
+            //delete("Debt");
+        } else {
+            System.out.println("That was not a valid input.");
         }
     }
 
     // REQUIRES: there must be a trasaction of investment if it is to be deleted
     // MODIFIES: the investmentlist
     // EFFECTS: allows user to delete transaction
-    private void delete(String name) throws OutOfBounds {
-        specificReport(name);
-        System.out.println("What row would you like to delete?");
-        int row = scan.nextInt();
+    public void delete(String name, int row) throws OutOfBounds {
+        //specificReport(name);
+        //System.out.println("What row would you like to delete?");
+        //int row = scan.nextInt();
         TranList list = transactions.get(name);
         if (row > list.getSize()) {
             throw new OutOfBounds();
         }
-        list.delete(row - 1);
-        System.out.println("Row " + row + " has been deleted.");
+        list.delete(row);
+        //System.out.println("Row " + row + " has been deleted.");
     }
 
     public void save() throws FileNotFoundException, UnsupportedEncodingException {

@@ -38,7 +38,11 @@ public class Main extends JFrame implements ActionListener {
     private boolean expenseFlag = false;
     private boolean investFlag = false;
     private boolean debtFlag = false;
-    private int incomeIndex;
+    private int incomeIndex = -1;
+    private int expenseIndex = -1;
+    private int investIndex = -1;
+    private int debtIndex = -1;
+
 
     private Main() throws IOException, NegativeAmt {
         JFrame window = new JFrame("Personal Finance Manager");
@@ -70,6 +74,27 @@ public class Main extends JFrame implements ActionListener {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 incomeIndex = incomeList.getSelectedIndex();
+            }
+        });
+
+        expenseList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                expenseIndex = expenseList.getSelectedIndex();
+            }
+        });
+
+        investList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                investIndex = investList.getSelectedIndex();
+            }
+        });
+
+        debtList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                debtIndex = debtList.getSelectedIndex();
             }
         });
 
@@ -112,17 +137,54 @@ public class Main extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("delClick")) {
             try {
-                program.dailyMode.delete("Income", incomeIndex);
-                incomeFlag = false;
-                incomeListModel.clear();
-                loadIncome();
+                if (incomeIndex >= 0) {
+                    deleteIncome();
+                } else if (expenseIndex >= 0) {
+                    deleteExpense();
+                } else if (investIndex >= 0) {
+                    deleteInvest();
+                } else if (debtIndex >= 0) {
+                    deleteDebt();
+                }
             } finally {
                 return;
             }
         }
+
         comboBoxAction(e);
     }
 
+    private void deleteIncome() throws Exception {
+        program.dailyMode.delete("Income", incomeIndex);
+        incomeFlag = false;
+        incomeListModel.clear();
+        loadIncome();
+        incomeIndex = -1;
+    }
+
+    private void deleteExpense() throws Exception {
+        program.dailyMode.delete("Expense", expenseIndex);
+        expenseFlag = false;
+        expenseListModel.clear();
+        loadExpense();
+        expenseIndex = -1;
+    }
+
+    private void deleteInvest() throws Exception {
+        program.longTermMode.delete("Investment", investIndex);
+        investFlag = false;
+        investListModel.clear();
+        loadInvest();
+        investIndex = -1;
+    }
+
+    private void deleteDebt() throws Exception {
+        program.longTermMode.delete("Debt", debtIndex);
+        debtFlag = false;
+        debtListModel.clear();
+        loadDebt();
+        debtIndex = -1;
+    }
 
     private void comboBoxAction(ActionEvent e) {
         // CITED: https://www.youtube.com/watch?v=iOV_oaJhABQ
