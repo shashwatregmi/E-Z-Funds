@@ -13,7 +13,7 @@ public class LongTermTran extends Transaction {
         this.interestRate = interestRate;
     }
 
-    //EFFECTS: returns formatted string for this
+    //EFFECTS: returns formatted string for this and notify all observers.
     @Override
     public String getTransDetail() {
         notifyObservers(this);

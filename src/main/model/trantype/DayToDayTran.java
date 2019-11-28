@@ -18,14 +18,14 @@ public class DayToDayTran extends Transaction {
     }
 
     @Override
-    //EFFECTS: returns formatted string for this
+    //EFFECTS: returns formatted string for this and calls notify observer to notify all observers.
     public String getTransDetail() {
         notifyObservers(this);
         return ("\n|| Description: " + desc + "            Amount: " + amount + " ||");
     }
 
 
-    public void addUnexpected(UnexpectedStreamTransaction us) {
+    protected void addUnexpected(UnexpectedStreamTransaction us) {
         if (!unexpected.contains(us)) {
             unexpected.add(us);
             us.addUnexcepTran(us.getAmount(), us.getTransDetail(), this);
@@ -49,7 +49,7 @@ public class DayToDayTran extends Transaction {
         return Objects.hash(unexpected);
     }
 
-    public void removeUnexpected(UnexpectedStreamTransaction us) {
+    protected void removeUnexpected(UnexpectedStreamTransaction us) {
         if (!unexpected.contains(us)) {
             unexpected.add(us);
             us.removeUnexcepTran(us.getAmount(), us.getTransDetail(), this);

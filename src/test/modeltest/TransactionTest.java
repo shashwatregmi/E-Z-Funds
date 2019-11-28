@@ -23,7 +23,7 @@ public class TransactionTest {
 
 
     @BeforeEach
-    public void runBefore() throws IOException, NegativeAmt {
+    void runBefore() throws IOException, NegativeAmt {
         transaction = new DayToDayTran (AMOUNT, DESC);
         transaction2 = new UnexpectedStreamTransaction(AMOUNT, DESC, "idk");
 
@@ -36,7 +36,7 @@ public class TransactionTest {
     }
 
     @Test
-    public void testGetTransDetail() {
+    void testGetTransDetail() {
         assertEquals(("\n|| Description: " + DESC + "            Amount: " + AMOUNT + " ||"),
                 transaction.getTransDetail());
         assertEquals(("\n|| Description: " + DESC + "            Amount: " + AMOUNT
@@ -45,46 +45,46 @@ public class TransactionTest {
     }
 
     @Test
-    public void testGetSource(){
+    void testGetSource(){
         assertEquals(SOURCE, transaction2.getSource());
     }
 
     @Test
-    public void testGetTrans() {
+    void testGetTrans() {
         assertEquals(transaction, transaction.getTrans());
     }
 
 
     @Test
-    public void testGetAmount() {
+    void testGetAmount() {
         assertEquals(transaction.getAmount(), AMOUNT);
     }
 
     @Test
-    public void testGetDesc() {
+    void testGetDesc() {
         assertEquals(transaction.getDesc(), DESC);
     }
 
     @Test
-    public void testSetAmount() {
+    void testSetAmount() {
         transaction.setAmount(550);
         assertEquals(transaction.getAmount(), 550);
     }
 
     @Test
-    public void testSetDesc() {
+    void testSetDesc() {
         transaction.setDesc("NEW");
         assertEquals(transaction.getDesc(), "NEW");
     }
 
     @Test
-    public void addUnexcepTran() {
+    void addUnexcepTran() {
         transaction2.addUnexcepTran(123, "123", transaction);
         assertEquals(transaction, transaction2.getTrans());
     }
 
     @Test
-    public void addDevice() {
+    void addDevice() {
         transaction2.addDevice("phone");
     }
 }

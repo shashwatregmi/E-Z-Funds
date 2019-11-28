@@ -9,9 +9,9 @@ import java.util.Objects;
 public abstract class Transaction extends Subject {
     protected double amount;
     protected String desc;
-    protected int term;
-    protected double interestRate;
-    protected String source;
+    int term;
+    double interestRate;
+    String source;
 
     // MODIFIES: this
     // EFFECTS: creates new Transaction
@@ -66,6 +66,8 @@ public abstract class Transaction extends Subject {
         return this.interestRate;
     }
 
+    // MODIFIES: device and this
+    // EFFECTS: creates new device with name s and calls addobserver to add it to observers list.
     public void addDevice(String s) {
         Devices device = new Devices(s);
         addObserver(device);

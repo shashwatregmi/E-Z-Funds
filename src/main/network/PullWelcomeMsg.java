@@ -13,7 +13,7 @@ import java.net.URL;
 
 public class PullWelcomeMsg {
     public String finalWeather;
-    double temp;
+    private double temp;
 
     public PullWelcomeMsg() throws IOException {
         BufferedReader reader = null;
@@ -56,6 +56,7 @@ public class PullWelcomeMsg {
         }
     }
 
+    // EFFECTS: return temp value
     public double getTemp() {
         return temp;
     }

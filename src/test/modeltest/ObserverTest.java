@@ -10,18 +10,18 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class ObserverTest {
-    Subject subject = new Subject();
-    Devices devices = new Devices("Phone");
+    private Subject subject = new Subject();
+    private Devices devices = new Devices("Phone");
 
     @Test
-    public void testAdd(){
+    void testAdd(){
         subject.addObserver(devices);
         assertTrue(subject.contains(devices));
         subject.addObserver(devices);
     }
 
     @Test
-    public void update() throws NegativeAmt {
+    void update() throws NegativeAmt {
         Devices dev2 = new Devices("new");
         subject.addObserver(dev2);
         Transaction t = new DayToDayTran(123, "new");

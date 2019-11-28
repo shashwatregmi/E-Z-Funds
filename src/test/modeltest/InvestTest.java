@@ -19,7 +19,7 @@ public class InvestTest {
 
 
     @Test
-    public void testLoadData() throws IOException, NegativeAmt {
+    void testLoadData() throws IOException, NegativeAmt {
         LongTermList investLoad = new LongTermList();
         load(investLoad);
         assertEquals(investLoad.getTrans(0).getAmount(), 100);
@@ -33,7 +33,7 @@ public class InvestTest {
     }
 
     @Test
-    public void testSaveData() throws IOException, NegativeAmt {
+    void testSaveData() throws IOException, NegativeAmt {
         LongTermList investSave = new LongTermList();
         LongTermTran tran = new LongTermTran(456, "Test2", 12, 0.99);
         LongTermTran tranNew = new LongTermTran(123, "Test1", 60, 3.15);
@@ -62,12 +62,12 @@ public class InvestTest {
         assertEquals(investLoad.getTrans(1).getInterestRate(), 3.15);
     }
 
-    public void load(Loadable invest) throws NegativeAmt, IOException {
+    void load(Loadable invest) throws NegativeAmt, IOException {
         invest.loadData("./data/Expense.txt");
     }
 
     @Test
-    public void testRemove() throws NegativeAmt, IOException {
+    void testRemove() throws NegativeAmt, IOException {
         investList = new LongTermList();
         trans = new LongTermTran(123,"123",123,123);
         for (int i = 0; i < COUNT; i++) {
@@ -82,7 +82,7 @@ public class InvestTest {
     }
 
     @Test
-    public void testRemoveLots() throws NegativeAmt, IOException {
+    void testRemoveLots() throws NegativeAmt, IOException {
         investList = new LongTermList();
         trans = new LongTermTran(123,"123",123,123);
         for (int i = 0; i < COUNT; i++) {

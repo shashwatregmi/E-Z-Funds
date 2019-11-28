@@ -23,13 +23,13 @@ public class IncomeTest {
 
 
     @BeforeEach
-    public void runBefore() throws IOException, NegativeAmt {
+    void runBefore() throws IOException, NegativeAmt {
         incomeTest = new DayTranList();
         trans = new LongTermTran(123, "Test", 123, 123);
     }
 
     @Test
-    public void testInsert() throws NegativeAmt {
+    void testInsert() throws NegativeAmt {
         incomeTest.insert(trans);
         incomeTest.insert(new LongTermTran(123,"123",13,123));
         assertTrue(incomeTest.contains(trans));
@@ -37,7 +37,7 @@ public class IncomeTest {
     }
 
     @Test
-    public void testInsertLots() {
+    void testInsertLots() {
         for (int i = 0; i < COUNT; i++) {
             incomeTest.insert(trans);
         }
@@ -49,7 +49,7 @@ public class IncomeTest {
     }
 
     @Test
-    public void testRemove() {
+    void testRemove() {
         for (int i = 0; i < COUNT; i++) {
             incomeTest.insert(trans);
         }
@@ -62,7 +62,7 @@ public class IncomeTest {
     }
 
     @Test
-    public void testRemoveLots() {
+    void testRemoveLots() {
         for (int i = 0; i < COUNT; i++) {
             incomeTest.insert(trans);
         }
@@ -77,7 +77,7 @@ public class IncomeTest {
     }
 
     @Test
-    public void testGetSize() {
+    void testGetSize() {
         for (int i = 0; i < COUNT; i++) {
             incomeTest.insert(trans);
         }
@@ -85,21 +85,21 @@ public class IncomeTest {
     }
 
     @Test
-    public void testGetTrans() throws NegativeAmt {
+    void testGetTrans() throws NegativeAmt {
         incomeTest.insert(new DayToDayTran(123.22,"new"));
         incomeTest.insert(trans);
         assertEquals(trans, incomeTest.getTrans(1));
     }
 
     @Test
-    public void testContains(){
+    void testContains(){
         assertFalse(incomeTest.contains(trans));
         incomeTest.insert(trans);
         assertTrue(incomeTest.contains(trans));
     }
 
     @Test
-    public void testContainsLots() throws NegativeAmt {
+    void testContainsLots() throws NegativeAmt {
         assertFalse(incomeTest.contains(trans));
         Transaction tranNew = new DayToDayTran(333, "TT");
         assertFalse(incomeTest.contains(tranNew));
@@ -110,7 +110,7 @@ public class IncomeTest {
     }
 
     @Test
-    public void testLoadData() throws IOException, NegativeAmt {
+    void testLoadData() throws IOException, NegativeAmt {
         DayTranList incomeLoad = new DayTranList();
         load(incomeLoad);
         assertEquals(incomeLoad.getTrans(0).getAmount(), 100);
@@ -120,7 +120,7 @@ public class IncomeTest {
     }
 
     @Test
-    public void testSaveData() throws IOException, NegativeAmt {
+    void testSaveData() throws IOException, NegativeAmt {
         DayTranList incomeSave = new DayTranList();
         Transaction tran = new DayToDayTran(456, "Test2");
         Transaction tranNew = new DayToDayTran(123, "Test1");
@@ -141,7 +141,7 @@ public class IncomeTest {
         assertEquals(incomeLoad.getTrans(1).getDesc(), "Test1");
     }
 
-    public void load(Loadable income) throws NegativeAmt, IOException {
+    void load(Loadable income) throws NegativeAmt, IOException {
         income.loadData("./data/Expense.txt");
     }
 

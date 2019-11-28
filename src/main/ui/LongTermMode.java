@@ -15,9 +15,9 @@ import java.util.Scanner;
 
 public class LongTermMode extends TransactionEntry {
     private Scanner scan = new Scanner(System.in).useDelimiter("\\n");
-    protected TranList debtList;
-    protected TranList investList;
-    protected Map<String, TranList> transactions = new HashMap<>();
+    TranList debtList;
+    TranList investList;
+    Map<String, TranList> transactions = new HashMap<>();
 
     public LongTermMode() throws IOException {
         investList = new LongTermList();
@@ -26,7 +26,9 @@ public class LongTermMode extends TransactionEntry {
         transactions.put("Debt", debtList);
     }
 
-    protected void load() throws IOException, NegativeAmt {
+    // MODIFIES: this
+    // EFFECTS: adds transactions from list into this
+    void load() throws IOException, NegativeAmt {
         investList = transactions.get("Investment");
         debtList = transactions.get("Debt");
         investList.loadData("./data/Invest.txt");
@@ -43,7 +45,7 @@ public class LongTermMode extends TransactionEntry {
     }
 
     // EFFECTS: displays the report of the LongTerm transactions by calling respective functions
-    void ltReport() {
+    private void ltReport() {
         specificReport("Investment");
         specificReport("Debt");
         System.out.println("\nPress any key to return to main menu.");
@@ -51,7 +53,7 @@ public class LongTermMode extends TransactionEntry {
     }
 
     // EFFECTS:depending on user input calls function that enters new Long term transaction, edits it or displays report
-    void ltNewEntry() throws FileNotFoundException, NegativeAmt {
+    private void ltNewEntry() throws FileNotFoundException, NegativeAmt {
         System.out.println("Press I to enter Investments or D to enter Debts or Q to quit.");
         String choice = scan.next();
         if (choice.equals("I") || choice.equals("i")) {
@@ -65,9 +67,10 @@ public class LongTermMode extends TransactionEntry {
         }
     }
 
-    // MODIFIES:investmentlist
-    // EFFECTS:sets up investment and takes user input from user. Then setups new transaction and puts in investmentlist
-    public void entry(String name, String desc, Double amount, Double rate, int term) throws NegativeAmt {
+    // REQUIRES: amount > 0, rate >0, term >0
+    // MODIFIES: this
+    // EFFECTS: Setups new transaction and puts in proper list
+    void entry(String name, String desc, Double amount, Double rate, int term) throws NegativeAmt {
         //setup(name);
         //double amount = amtEntry();
         //String desc = descEntry();
@@ -116,10 +119,10 @@ public class LongTermMode extends TransactionEntry {
         }
     }
 
-    // REQUIRES: there must be a trasaction of investment if it is to be deleted
-    // MODIFIES: the investmentlist
-    // EFFECTS: allows user to delete transaction
-    public void delete(String name, int row) throws OutOfBounds {
+    // REQUIRES: row number is within bounds
+    // MODIFIES: this
+    // EFFECTS: deletes selected transaction from list
+    void delete(String name, int row) throws OutOfBounds {
         //specificReport(name);
         //System.out.println("What row would you like to delete?");
         //int row = scan.nextInt();
@@ -131,7 +134,8 @@ public class LongTermMode extends TransactionEntry {
         //System.out.println("Row " + row + " has been deleted.");
     }
 
-    public void save() throws FileNotFoundException, UnsupportedEncodingException {
+    // EFFECTS: saves longterm transaction data into proper files
+    void save() throws FileNotFoundException, UnsupportedEncodingException {
         investList = transactions.get("Investment");
         debtList = transactions.get("Debt");
         investList.saveData("./data/Invest.txt");

@@ -13,8 +13,8 @@ import java.util.*;
 public class Program implements Version {
 
     private Scanner scan = new Scanner(System.in).useDelimiter("\\n");
-    public int systemChoice = 0;
-    public int mode;
+    private int systemChoice = 0;
+    private int mode;
     DayToDayMode dailyMode;
     LongTermMode longTermMode;
 
@@ -26,7 +26,7 @@ public class Program implements Version {
         PullWelcomeMsg pull = new PullWelcomeMsg();
     }
 
-    public void setSysChoice(int sys) {
+    void setSysChoice(int sys) {
         systemChoice = sys;
     }
 
@@ -100,9 +100,9 @@ public class Program implements Version {
         if (mode == 1) {
             dailyMode.newEntry();
         } else if (mode == 2) {
-            dailyMode.delEntry();
+            //dailyMode.delEntry();
         } else if (mode == 3) {
-            dailyMode.dayReport();
+            //dailyMode.dayReport();
         } else if (mode == 4) {
             return;
         } else {
@@ -113,11 +113,11 @@ public class Program implements Version {
     // EFFECTS: enters longTerm mode. Users allowed to work with LongTerm Transactions
     private void longTerm() throws FileNotFoundException, UnsupportedEncodingException, NegativeAmt, OutOfBounds {
         if (mode == 1) {
-            longTermMode.ltNewEntry();
+            //longTermMode.ltNewEntry();
         } else if (mode == 2) {
             longTermMode.ltDelEntry();
         } else if (mode == 3) {
-            longTermMode.ltReport();
+            //longTermMode.ltReport();
         } else if (mode == 4) {
             return;
         } else {

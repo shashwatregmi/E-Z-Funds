@@ -25,6 +25,8 @@ public class LongTermList extends TranList implements Savable, Loadable {
     }
 
     @Override
+    // REQUIRES: valid path be passed in.
+    // EFFECTS: writes transaction details into specified path file.
     public void saveData(String path) throws FileNotFoundException, UnsupportedEncodingException {
         PrintWriter writer = new PrintWriter(path);
         for (int i = 0; i < this.getSize(); i++) {
@@ -40,6 +42,9 @@ public class LongTermList extends TranList implements Savable, Loadable {
 
 
     //@Override
+    // REQUIRES: valid file path
+    // MODIFIES: this
+    // EFFECTS: reads file in path and parses each line. Saves each tran in Transaction list.
     public void loadData(String path) throws NegativeAmt, IOException {
         List<String> read = Files.readAllLines(Paths.get(path));
         for (String line : read) {
@@ -53,10 +58,8 @@ public class LongTermList extends TranList implements Savable, Loadable {
         }
     }
 
-
-
     // EFFECTS: returns the array list of Strings which has been split on ~~~.
-    public ArrayList<String> splitOnChar(String line) {
+    private ArrayList<String> splitOnChar(String line) {
         String[] splits = line.split("~~~");
         return new ArrayList<>(Arrays.asList(splits));
     }

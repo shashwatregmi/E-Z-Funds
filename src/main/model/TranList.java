@@ -10,9 +10,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 public abstract class TranList {
-    protected ArrayList<Transaction> tranList;
+    private ArrayList<Transaction> tranList;
 
-    public TranList() {
+    TranList() {
         tranList = new ArrayList<>();
     }
 
@@ -48,7 +48,6 @@ public abstract class TranList {
     // REQUIRES: the int i must be a valid index of the array
     // EFFECTS: returns the transaction at index i
     public Transaction getTrans(int i) {
-
         return tranList.get(i);
     }
 

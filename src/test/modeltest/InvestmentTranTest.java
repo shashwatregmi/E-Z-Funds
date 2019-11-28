@@ -18,39 +18,39 @@ public class InvestmentTranTest {
 
 
     @BeforeEach
-    public void runBefore() throws IOException, NegativeAmt {
+    void runBefore() throws IOException, NegativeAmt {
         longTermTran = new LongTermTran(AMOUNT, DESC, TERM, INTRATE);
     }
 
     @Test
-    public void testGetTransDetail() {
+    void testGetTransDetail() {
         assertEquals(("\n|| Description: " + DESC + "            Amount: " + AMOUNT
                         + "  Interest Rate:" + INTRATE + "  Term:" + TERM + " ||"),
                 longTermTran.getTransDetail());
     }
 
     @Test
-    public  void testGetAmount(){
+    void testGetAmount(){
         assertEquals(longTermTran.getAmount(1), AMOUNT * (INTRATE/100 + 1));
     }
 
     @Test
-    public void testGetNegAmount() {
+    void testGetNegAmount() {
         assertEquals(longTermTran.getAmount("s"), (AMOUNT * (INTRATE/100 + 1))*-1);
     }
 
     @Test
-    public void testGetTerm() {
+    void testGetTerm() {
         assertEquals(longTermTran.getTerm(), 30);
     }
 
     @Test
-    public void testGetIntRate() {
+    void testGetIntRate() {
         assertEquals(longTermTran.getInterestRate(), 2.99);
     }
 
     @Test
-    public void testGetTrans() {
+    void testGetTrans() {
         assertEquals(longTermTran, longTermTran.getTrans());
     }
 

@@ -16,18 +16,20 @@ import java.util.Scanner;
 
 public class DayToDayMode extends TransactionEntry {
     private Scanner scan = new Scanner(System.in).useDelimiter("\\n");
-    protected TranList incomeList;
-    protected TranList expenseList;
-    protected Map<String, TranList> transactions = new HashMap<>();
+    TranList incomeList;
+    TranList expenseList;
+    Map<String, TranList> transactions = new HashMap<>();
 
-    public DayToDayMode() throws IOException {
+    DayToDayMode() throws IOException {
         incomeList = new DayTranList();
         expenseList = new DayTranList();
         transactions.put("Expense", incomeList);
         transactions.put("Income", expenseList);
     }
 
-    protected void load() throws IOException, NegativeAmt {
+    // MODIFIES: this
+    // EFFECTS: adds transactions from list into this
+    void load() throws IOException, NegativeAmt {
         incomeList = transactions.get("Income");
         expenseList = transactions.get("Expense");
         incomeList.loadData("./data/Income.txt");
@@ -49,9 +51,9 @@ public class DayToDayMode extends TransactionEntry {
         }
     }
 
-    // MODIFIES: incomelist/expenselist
-    // EFFECTS: sets up income/expense and takes user input from user. Then setups new transaction and puts in proper
-    // list
+    // REQUIRES: amount > 0
+    // MODIFIES: this
+    // EFFECTS: Setups new transaction and puts in proper list
     public void entry(String name, String desc, Double amount) throws NegativeAmt {
         //setup(name);
         //double amount = amtEntry();
@@ -67,7 +69,7 @@ public class DayToDayMode extends TransactionEntry {
     // REQUIRES: there must be a trasaction of income/expense if it is to be deleted
     // MODIFIES: the incomelist or expenselist
     // EFFECTS: displays report and then allows user to delete transaction
-    void delEntry() throws OutOfBounds {
+    private void delEntry() throws OutOfBounds {
         System.out.println("Would you like to delete a income(I) or a expense(E)?");
         String choice = scan.next();
         if (choice.equals("I") || choice.equals("i")) {
@@ -79,10 +81,10 @@ public class DayToDayMode extends TransactionEntry {
         }
     }
 
-    // REQUIRES: there must be a transaction of income if it is to be deleted
-    // MODIFIES: the incomelist
-    // EFFECTS: allows user to delete transaction
-    public void delete(String name, int row) throws OutOfBounds {
+    // REQUIRES: row number is within bounds
+    // MODIFIES: this
+    // EFFECTS: deletes selected transaction from list
+    void delete(String name, int row) throws OutOfBounds {
         //specificReport(name);
         //System.out.println("What row would you like to delete?");
         //int row = scan.nextInt();
@@ -101,14 +103,15 @@ public class DayToDayMode extends TransactionEntry {
     }
 
     // EFFECTS: displays the report of the DaytoDay transactions by calling respective functions
-    void dayReport() {
+    private void dayReport() {
         specificReport("Income");
         specificReport("Expense");
         System.out.println("\nPress any key to return to main menu.");
         String choice = scan.next();
     }
 
-    protected void save() throws FileNotFoundException, UnsupportedEncodingException {
+    // EFFECTS: saves daytoday transaction data into proper files
+    void save() throws FileNotFoundException, UnsupportedEncodingException {
         incomeList = transactions.get("Income");
         expenseList = transactions.get("Expense");
         incomeList.saveData("./data/Income.txt");

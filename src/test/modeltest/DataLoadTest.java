@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class DataLoadTest {
 
     @Test
-    public void testPositive() throws IOException, NegativeAmt {
+    void testPositive() throws IOException, NegativeAmt {
         LongTermList investLoad = new LongTermList();
         try {
             load(investLoad);
@@ -21,7 +21,7 @@ public class DataLoadTest {
     }
 
     @Test
-    public void testNegative() throws IOException, NegativeAmt {
+    void testNegative() throws IOException, NegativeAmt {
         LongTermList debtLoad = new LongTermList();
         try {
             load(debtLoad);

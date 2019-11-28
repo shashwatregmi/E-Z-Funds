@@ -6,13 +6,8 @@ import network.PullWelcomeMsg;
 
 import java.awt.*;
 import java.io.File;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -61,7 +56,10 @@ public class Main extends JFrame implements ActionListener {
     private JRadioButton invest;
     private JRadioButton debt;
     private int radioIndex;
-
+    private boolean expSelect = true;
+    private boolean incomeSelect = true;
+    private boolean investSelect = true;
+    private boolean debtSelect = true;
 
     private Main() throws IOException, NegativeAmt {
         JFrame window = new JFrame("Personal Finance Manager");
@@ -109,15 +107,21 @@ public class Main extends JFrame implements ActionListener {
         debtList.setFont(new Font("News Gothic MT", Font.PLAIN, 12));
 
 
+
         incomeList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 incomeIndex = incomeList.getSelectedIndex();
                 delete.setEnabled(true);
                 newEnt.setEnabled(false);
-                if (incomeFlag) {
+                if (incomeFlag && incomeList.getSelectedIndex() >= 0) {
                     descField.setText(program.dailyMode.incomeList.getTrans(incomeIndex).getDesc());
                     amtField.setText(program.dailyMode.incomeList.getTrans(incomeIndex).getAmount().toString());
+                }
+                if (expSelect) {
+                    expenseList.clearSelection();
+                    expSelect = false;
+                    incomeSelect = true;
                 }
             }
         });
@@ -128,9 +132,14 @@ public class Main extends JFrame implements ActionListener {
                 expenseIndex = expenseList.getSelectedIndex();
                 delete.setEnabled(true);
                 newEnt.setEnabled(false);
-                if (expenseFlag) {
+                if (expenseFlag && expenseList.getSelectedIndex() >= 0) {
                     descField.setText(program.dailyMode.expenseList.getTrans(expenseIndex).getDesc());
                     amtField.setText(program.dailyMode.expenseList.getTrans(expenseIndex).getAmount().toString());
+                }
+                if (incomeSelect) {
+                    incomeList.clearSelection();
+                    incomeSelect = false;
+                    expSelect = true;
                 }
             }
         });
@@ -141,12 +150,17 @@ public class Main extends JFrame implements ActionListener {
                 investIndex = investList.getSelectedIndex();
                 delete.setEnabled(true);
                 newEnt.setEnabled(false);
-                if (investFlag) {
+                if (investFlag && investList.getSelectedIndex() >= 0) {
                     descField.setText(program.longTermMode.investList.getTrans(investIndex).getDesc());
                     amtField.setText(program.longTermMode.investList.getTrans(investIndex).getAmount().toString());
                     rateField.setText(
                             program.longTermMode.investList.getTrans(investIndex).getInterestRate().toString());
                     termField.setText((program.longTermMode.investList.getTrans(investIndex).getTerm()).toString());
+                }
+                if (debtSelect) {
+                    debtList.clearSelection();
+                    debtSelect = false;
+                    investSelect = true;
                 }
             }
         });
@@ -157,17 +171,21 @@ public class Main extends JFrame implements ActionListener {
                 debtIndex = debtList.getSelectedIndex();
                 delete.setEnabled(true);
                 newEnt.setEnabled(false);
-                if (debtFlag) {
+                if (debtFlag && debtList.getSelectedIndex() >= 0) {
                     descField.setText(program.longTermMode.debtList.getTrans(debtIndex).getDesc());
                     amtField.setText(program.longTermMode.debtList.getTrans(debtIndex).getAmount().toString());
                     rateField.setText(program.longTermMode.debtList.getTrans(debtIndex).getInterestRate().toString());
                     termField.setText((program.longTermMode.debtList.getTrans(debtIndex).getTerm()).toString());
                 }
+                if (investSelect) {
+                    investList.clearSelection();
+                    investSelect = false;
+                    debtSelect = true;
+                }
             }
         });
 
         ///Text Bottom
-
         income = new JRadioButton();
         expense = new JRadioButton();
         invest = new JRadioButton();
@@ -368,6 +386,8 @@ public class Main extends JFrame implements ActionListener {
             URL sound = new File("./data/delete.wav").toURI().toURL();
             java.applet.AudioClip clip = java.applet.Applet.newAudioClip(sound);
             clip.play();
+            JOptionPane.showMessageDialog(null, "Transaction has been deleted!",
+                    "Deleted", JOptionPane.WARNING_MESSAGE);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -651,7 +671,6 @@ public class Main extends JFrame implements ActionListener {
             middleBottom.setFont(new Font("News Gothic MT", Font.BOLD, 12));
         }
     }
-
 
     public static void main(String[] args) throws IOException, NegativeAmt {
         new Main();
