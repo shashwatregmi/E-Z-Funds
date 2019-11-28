@@ -6,7 +6,10 @@ import network.PullWelcomeMsg;
 
 import java.awt.*;
 import java.io.File;
-import com.apple.eawt.Application;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -69,13 +72,7 @@ public class Main extends JFrame implements ActionListener {
         JPanel bottom = new JPanel();
         JPanel superBottom = new JPanel();
         JPanel entryBottom = new JPanel();
-        // NEW ENTRY Image: Icon made by Kiranshastry from www.flaticon.com
-        // hhttps://www.flaticon.com/free-icon/money_845753
-        // CITE for icon reference:
-        // https://stackoverflow.com/questions/11253772/setting-the-default-application-icon-image-in-
-        // java-swing-on-os-x/11279556#11279556
-        Image image =  ImageIO.read(new File("./data/icon.png"));
-        Application.getApplication().setDockIconImage(image);
+
 
         GridBagLayout layout = new GridBagLayout();
         main.setLayout(layout);
