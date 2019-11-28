@@ -23,6 +23,7 @@ public class UnexpectedStreamTransaction extends Transaction {
                 + "  Source:" + source);
     }
 
+    // EFFECTS: returns source
     public String getSource() {
         return source;
     }
@@ -55,6 +56,9 @@ public class UnexpectedStreamTransaction extends Transaction {
         return Objects.hash(tran);
     }
 
+    // REQUIRES: amt > 0
+    // MODIFIES: this
+    // EFFECTS: if  contained in tran, removes dtran from it and calls removeupexpected on dtran as well.
     void removeUnexcepTran(double amt, String desc, DayToDayTran dtran) {
         if (tran.contains(dtran)) {
             tran.remove(dtran);

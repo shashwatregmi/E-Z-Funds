@@ -30,6 +30,8 @@ public class Program implements Version {
         systemChoice = sys;
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets mode equal to input
     public void setMode(int mode) {
         this.mode = mode;
     }

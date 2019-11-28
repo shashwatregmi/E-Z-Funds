@@ -25,6 +25,8 @@ public class DayToDayTran extends Transaction {
     }
 
 
+    //MODIFIES: this
+    //EFFECTS: adds transaction into unexpected list. calls add unexcep transaction to add it to list there.
     protected void addUnexpected(UnexpectedStreamTransaction us) {
         if (!unexpected.contains(us)) {
             unexpected.add(us);
@@ -49,6 +51,8 @@ public class DayToDayTran extends Transaction {
         return Objects.hash(unexpected);
     }
 
+    // MODIFIES: this
+    // EFFECTS: removes transaction from unexpected list. calls remove unexcep tran to remove from there too
     protected void removeUnexpected(UnexpectedStreamTransaction us) {
         if (!unexpected.contains(us)) {
             unexpected.add(us);

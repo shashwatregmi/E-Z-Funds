@@ -360,13 +360,13 @@ public class Main extends JFrame implements ActionListener {
         radioIndex = 3;
         expense.setSelected(false);
         income.setSelected(false);
-        invest.setSelected(false);
+        debt.setSelected(false);
     }
 
     private void clearDebt() {
         radioIndex = 4;
         expense.setSelected(false);
-        debt.setSelected(false);
+        invest.setSelected(false);
         income.setSelected(false);
     }
 
