@@ -113,7 +113,7 @@ public class Main extends JFrame implements ActionListener {
             public void valueChanged(ListSelectionEvent e) {
                 incomeIndex = incomeList.getSelectedIndex();
                 delete.setEnabled(true);
-                newEnt.setEnabled(false);
+                //newEnt.setEnabled(false);
                 if (incomeFlag && incomeList.getSelectedIndex() >= 0) {
                     descField.setText(program.dailyMode.incomeList.getTrans(incomeIndex).getDesc());
                     amtField.setText(program.dailyMode.incomeList.getTrans(incomeIndex).getAmount().toString());
@@ -131,7 +131,7 @@ public class Main extends JFrame implements ActionListener {
             public void valueChanged(ListSelectionEvent e) {
                 expenseIndex = expenseList.getSelectedIndex();
                 delete.setEnabled(true);
-                newEnt.setEnabled(false);
+                //newEnt.setEnabled(false);
                 if (expenseFlag && expenseList.getSelectedIndex() >= 0) {
                     descField.setText(program.dailyMode.expenseList.getTrans(expenseIndex).getDesc());
                     amtField.setText(program.dailyMode.expenseList.getTrans(expenseIndex).getAmount().toString());
@@ -149,7 +149,7 @@ public class Main extends JFrame implements ActionListener {
             public void valueChanged(ListSelectionEvent e) {
                 investIndex = investList.getSelectedIndex();
                 delete.setEnabled(true);
-                newEnt.setEnabled(false);
+                //newEnt.setEnabled(false);
                 if (investFlag && investList.getSelectedIndex() >= 0) {
                     descField.setText(program.longTermMode.investList.getTrans(investIndex).getDesc());
                     amtField.setText(program.longTermMode.investList.getTrans(investIndex).getAmount().toString());
@@ -170,7 +170,7 @@ public class Main extends JFrame implements ActionListener {
             public void valueChanged(ListSelectionEvent e) {
                 debtIndex = debtList.getSelectedIndex();
                 delete.setEnabled(true);
-                newEnt.setEnabled(false);
+                //newEnt.setEnabled(false);
                 if (debtFlag && debtList.getSelectedIndex() >= 0) {
                     descField.setText(program.longTermMode.debtList.getTrans(debtIndex).getDesc());
                     amtField.setText(program.longTermMode.debtList.getTrans(debtIndex).getAmount().toString());
