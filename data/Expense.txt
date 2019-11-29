@@ -1,5 +1,5 @@
-Gas~~255.0
 Car Bill~~657.0
 Misc.~~234.0
 AMEX~~878.0
 Food~~200.0
+Gas~~255.0

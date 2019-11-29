@@ -48,6 +48,7 @@ public class DayTranList extends TranList implements Savable, Loadable {
         }
     }
 
+    // REQUIRES: A valid line with ~~ present is passed in.
     // EFFECTS: returns the array list which has been split on ~~.
     private ArrayList<String> splitOnChar(String line) {
         String[] splits = line.split("~~");

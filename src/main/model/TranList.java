@@ -28,8 +28,12 @@ public abstract class TranList {
         tranList.add(trans);
     }
 
+    // REQUIRES: valid path must be entered
+    // EFFECTS: saves data onto path file
     public abstract void saveData(String path) throws FileNotFoundException, UnsupportedEncodingException;
 
+    // REQUIRES: valid path must be entered
+    // EFFECTS: loads data from path file
     public abstract void loadData(String path) throws FileNotFoundException, UnsupportedEncodingException,
             NegativeAmt, IOException;
 

@@ -62,6 +62,7 @@ public class Main extends JFrame implements ActionListener {
     private boolean debtSelect = true;
 
     private Main() throws IOException, NegativeAmt {
+        // Layout Reference: https://examples.javacodegeeks.com/desktop-java/swing/java-swing-layout-example/
         JFrame window = new JFrame("Personal Finance Manager");
         window.setDefaultCloseOperation(EXIT_ON_CLOSE);
         window.setSize(1200, 900);
@@ -110,6 +111,8 @@ public class Main extends JFrame implements ActionListener {
 
         incomeList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
+            //MODIFIES: this
+            //EFFECTS: when clicked updates the appropriate index for later use and sets values in text fields
             public void valueChanged(ListSelectionEvent e) {
                 incomeIndex = incomeList.getSelectedIndex();
                 delete.setEnabled(true);
@@ -128,6 +131,8 @@ public class Main extends JFrame implements ActionListener {
 
         expenseList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
+            //MODIFIES: this
+            //EFFECTS: when clicked updates the appropriate index for later use and sets values in text fields
             public void valueChanged(ListSelectionEvent e) {
                 expenseIndex = expenseList.getSelectedIndex();
                 delete.setEnabled(true);
@@ -146,6 +151,8 @@ public class Main extends JFrame implements ActionListener {
 
         investList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
+            //MODIFIES: this
+            //EFFECTS: when clicked updates the appropriate index for later use and sets values in text fields
             public void valueChanged(ListSelectionEvent e) {
                 investIndex = investList.getSelectedIndex();
                 delete.setEnabled(true);
@@ -167,6 +174,8 @@ public class Main extends JFrame implements ActionListener {
 
         debtList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
+            //MODIFIES: this
+            //EFFECTS: when clicked updates the appropriate index for later use and sets values in text fields
             public void valueChanged(ListSelectionEvent e) {
                 debtIndex = debtList.getSelectedIndex();
                 delete.setEnabled(true);
@@ -322,6 +331,9 @@ public class Main extends JFrame implements ActionListener {
         program.run();
     }
 
+    // MODIFIES: this
+    // EFFECTS: depending on action commands calls delete, new or save. Additionally, clears other radiobuttons such
+    // that multiple are not selected at once.
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("delClick")) {
             deleteChooser();
@@ -383,6 +395,9 @@ public class Main extends JFrame implements ActionListener {
             deleteChoice();
             // "UI Confirmation Alert, A3.wav" by InspectorJ (www.jshaw.co.uk) of Freesound.org
             // https://freesound.org/people/InspectorJ/sounds/403006/
+            // URL Cite: https://stackoverflow.com/questions/15526255/best-way-to-get-sound-
+            // on-button-press-for-a-java-calculator -- Michel Oliver's answer.
+
             URL sound = new File("./data/delete.wav").toURI().toURL();
             java.applet.AudioClip clip = java.applet.Applet.newAudioClip(sound);
             clip.play();
