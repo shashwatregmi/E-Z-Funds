@@ -1,3 +1,5 @@
-Test2~~456.0
-Test1~~123.0
-New Expense~~827.0
+Gas~~255.0
+Car Bill~~657.0
+Misc.~~234.0
+AMEX~~878.0
+Utilities~~762.0

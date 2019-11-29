@@ -17,8 +17,8 @@ public class LongTermTran extends Transaction {
     @Override
     public String getTransDetail() {
         notifyObservers(this);
-        return ("\n|| Description: " + desc + "            Amount: " + amount
-                + "  Interest Rate:" + interestRate + "  Term:" + term + " ||");
+        return ("\n->      Description: " + desc + "            Amount: " + amount
+                + "  Interest Rate:" + interestRate + "  Term:" + term);
     }
 
     // EFFECTS: returns amount with interest

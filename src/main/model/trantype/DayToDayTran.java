@@ -21,7 +21,7 @@ public class DayToDayTran extends Transaction {
     //EFFECTS: returns formatted string for this and calls notify observer to notify all observers.
     public String getTransDetail() {
         notifyObservers(this);
-        return ("\n|| Description: " + desc + "            Amount: " + amount + " ||");
+        return ("\n->      Description: " + desc + "            Amount: " + amount);
     }
 
 
