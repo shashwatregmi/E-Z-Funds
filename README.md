@@ -17,5 +17,5 @@ E-Z Funds allows users to track details of income, expenses as well as debts and
 **Demonstration of the user interface:**
 ![](data/image%203.png)
 
-**Sample data file containing _income__transactions_. User data is saved to and loaded from such files:**
+**Sample data file containing _income_ _transactions_. User data is saved to and loaded from such files:**
 ![](data/image4.png)
